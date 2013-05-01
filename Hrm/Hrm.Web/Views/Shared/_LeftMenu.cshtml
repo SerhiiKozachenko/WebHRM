@@ -1,0 +1,22 @@
+﻿@using Hrm.Web.Models.Menu
+@model LeftMenuItems
+
+@{
+    var profile = Model == LeftMenuItems.MyProfile ? "active" : string.Empty;
+    var skillMatrix = Model == LeftMenuItems.SkillMatrix ? "active" : string.Empty;
+}
+
+<div class="span2">
+    <!--Sidebar content-->
+    <ul class="nav nav-list well">
+        
+        <li class="nav-header">Menu</li>
+
+        <!-- Student, tutor, Advanced student, advanced tutor part -->
+        <li title="My Profie" class="@profile">@Html.ActionLink("My Profile", "Index","Profile")</li>
+        <li title="My Skill Matrix" class="@skillMatrix">@Html.ActionLink("My Skills", "Index","MySkills")</li>
+    </ul>
+</div>
+
+        
+   

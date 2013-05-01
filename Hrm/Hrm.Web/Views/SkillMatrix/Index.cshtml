@@ -1,0 +1,161 @@
+﻿@using Hrm.Web.Models.Menu
+@model Hrm.Web.Models.SkillMatrix.SkillMatrixModel
+@{
+    ViewBag.Title = "Skill matrix";
+}
+@section menu
+{
+    @Html.Partial("_TopMenu", TopMenuItems.MyProfile)
+}
+@{
+    bool isAnySkills = Model.HasLanguageSkills || Model.HasManagementSkills || Model.HasProgrammingSkills || Model.HasDesignSkills || Model.HasQualityAssuranceSkills;
+    string hidden = !isAnySkills ? "hidden" : string.Empty;
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        @{
+            Html.RenderPartial("_LeftMenu", LeftMenuItems.SkillMatrix);
+        }
+        <div class="span10">
+            <!--Body content-->
+            @using (Html.BeginForm("Index", "SkillMatrix", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="well">
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <fieldset>
+                                <legend><strong>My skills</strong> </legend>
+                                <div class="control-group">
+                                    <label class="checkbox">
+                                        @Html.CheckBoxFor(p => p.HasLanguageSkills)
+                                        Language skills
+                                    </label>
+                                    <label class="checkbox">
+                                        @Html.CheckBoxFor(p => p.HasManagementSkills)
+                                        Management skills
+                                    </label>
+                                    <label class="checkbox">
+                                        @Html.CheckBoxFor(p => p.HasProgrammingSkills)
+                                        Programming skills
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="span5">
+                            <fieldset>
+                                <legend>&nbsp;</legend>
+                                <div class="control-group">
+                                    <label class="checkbox">
+                                        @Html.CheckBoxFor(p => p.HasDesignSkills)
+                                        Design skills
+                                    </label>
+                                    <label class="checkbox">
+                                        @Html.CheckBoxFor(p => p.HasQualityAssuranceSkills)
+                                        Quality assurance skills
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn">Cancel</button>
+                    </div>
+                </div>
+               
+                <div class="well @hidden">
+                    <ul class="nav nav-tabs">
+                        @if (Model.HasLanguageSkills)
+                        {
+                            <li><a href="#language" data-toggle="tab">Language</a></li>
+                        }
+                        @if (Model.HasManagementSkills)
+                        {
+                            <li><a href="#management" data-toggle="tab">Management</a></li>
+                        }
+                        @if (Model.HasProgrammingSkills)
+                        {
+                            <li><a href="#programming" data-toggle="tab">Programming</a></li>
+                        }
+                        @if (Model.HasDesignSkills)
+                        {
+                            <li><a href="#design" data-toggle="tab">Design</a></li>
+                        }
+                        @if (Model.HasQualityAssuranceSkills)
+                        {
+                            <li><a href="#qa" data-toggle="tab">Quality assurance</a></li>
+                        }
+                    </ul>
+                    <div class="tab-content">
+                        @if (Model.HasLanguageSkills)
+                        {
+                            <div class="tab-pane" id="language">
+                                <div class="control-group">
+                                    @Html.LabelFor(p => p.LanguageSkills.English, "English", new { @class = "control-label" })
+                                    <div class="controls">
+                                        @Html.TextBoxFor(p => p.LanguageSkills.English)
+                                        @Html.ValidationMessageFor(p => p.LanguageSkills.English)
+                                    </div> 
+                                </div>
+                                
+                                <div class="control-group">
+                                    @Html.LabelFor(p => p.LanguageSkills.French, "French", new { @class = "control-label" })
+                                    <div class="controls">
+                                        @Html.TextBoxFor(p => p.LanguageSkills.French)
+                                        @Html.ValidationMessageFor(p => p.LanguageSkills.French)
+                                    </div> 
+                                </div>
+                                
+                                <div class="control-group">
+                                    @Html.LabelFor(p => p.LanguageSkills.German, "German", new { @class = "control-label" })
+                                    <div class="controls">
+                                        @Html.TextBoxFor(p => p.LanguageSkills.German)
+                                        @Html.ValidationMessageFor(p => p.LanguageSkills.German)
+                                    </div> 
+                                </div>
+                                
+                                <div class="control-group">
+                                    @Html.LabelFor(p => p.LanguageSkills.Chinese, "Chinese", new { @class = "control-label" })
+                                    <div class="controls">
+                                        @Html.TextBoxFor(p => p.LanguageSkills.Chinese)
+                                        @Html.ValidationMessageFor(p => p.LanguageSkills.Chinese)
+                                    </div> 
+                                </div>
+                                
+                                 <div class="control-group">
+                                     @Html.LabelFor(p => p.LanguageSkills.Other, "Other", new { @class = "control-label" })
+                                     <div class="controls">
+                                         @Html.TextBoxFor(p => p.LanguageSkills.Other)
+                                         @Html.ValidationMessageFor(p => p.LanguageSkills.Other)
+                                     </div> 
+                                </div>
+                            </div>
+                        }
+                        @if (Model.HasManagementSkills)
+                        {
+                            <div class="tab-pane" id="management">
+                            </div>
+                        }
+                        @if (Model.HasProgrammingSkills)
+                        {
+                            <div class="tab-pane" id="programming">
+                            </div>
+                        }
+                        @if (Model.HasDesignSkills)
+                        {
+                            <div class="tab-pane" id="design">
+                            </div>
+                        }
+                        @if (Model.HasQualityAssuranceSkills)
+                        {
+                            <div class="tab-pane" id="qa">
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

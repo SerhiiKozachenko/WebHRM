@@ -1,0 +1,31 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class xmlns="urn:nhibernate-mapping-2.2" name="Hrm.Core.Entities.Project, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="Projects">
+    <id name="Id" type="System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <column name="Id" />
+      <generator class="identity" />
+    </id>
+    <set name="UsersInProject" table="UsersInProjects">
+      <key>
+        <column name="Project_id" />
+      </key>
+      <many-to-many class="Hrm.Core.Entities.User, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <column name="User_id" />
+      </many-to-many>
+    </set>
+    <set name="Jobs">
+      <key>
+        <column name="Project_id" />
+      </key>
+      <one-to-many class="Hrm.Core.Entities.Job, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    </set>
+    <property name="Status" type="Hrm.Core.Enums.ProjectStatuses, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <column name="Status" />
+    </property>
+    <property name="Title" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <column name="Title" />
+    </property>
+    <property name="Description" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <column name="Description" />
+    </property>
+  </class>
+</hibernate-mapping>

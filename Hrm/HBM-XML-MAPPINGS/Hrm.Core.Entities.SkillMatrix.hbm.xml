@@ -1,0 +1,23 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class xmlns="urn:nhibernate-mapping-2.2" name="Hrm.Core.Entities.SkillMatrix, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="SkillMatrix">
+    <id name="Id" type="System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <column name="Id" />
+      <generator class="identity" />
+    </id>
+    <many-to-one cascade="all" class="Hrm.Core.Entities.Skills.LanguageSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" lazy="proxy" name="LanguageSkills">
+      <column name="LanguageSkills_id" />
+    </many-to-one>
+    <many-to-one cascade="all" class="Hrm.Core.Entities.Skills.ManagementSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" lazy="proxy" name="ManagementSkills">
+      <column name="ManagementSkills_id" />
+    </many-to-one>
+    <many-to-one cascade="all" class="Hrm.Core.Entities.Skills.ProgrammingSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" lazy="proxy" name="ProgrammingSkills">
+      <column name="ProgrammingSkills_id" />
+    </many-to-one>
+    <many-to-one cascade="all" class="Hrm.Core.Entities.Skills.DesignSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" lazy="proxy" name="DesignSkills">
+      <column name="DesignSkills_id" />
+    </many-to-one>
+    <many-to-one cascade="all" class="Hrm.Core.Entities.Skills.QualityAssuranceSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" lazy="proxy" name="QualityAssuranceSkills">
+      <column name="QualityAssuranceSkills_id" />
+    </many-to-one>
+  </class>
+</hibernate-mapping>

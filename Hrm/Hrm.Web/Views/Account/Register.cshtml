@@ -1,0 +1,80 @@
+﻿@model Hrm.Web.Models.Account.RegisterModel
+@{
+    ViewBag.Title = "Registration";
+}
+
+<div class="thumbnail">
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal well" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "Registration was unsuccessful. Please correct the errors and try again.")
+
+         <fieldset>
+            <legend>Registration</legend>
+
+            <div class="control-group">
+                @Html.LabelFor(p => p.Login, "Log in", new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(p => p.Login, new { placeholder = "User name" })
+                    @Html.ValidationMessageFor(p => p.Login)
+                </div>
+            </div>
+            
+            <div class="control-group">
+                @Html.LabelFor(p => p.Password, "Password", new { @class = "control-label" })
+                <div class="controls">
+                    @Html.PasswordFor(p => p.Password, new { placeholder = "Password" })
+                    @Html.ValidationMessageFor(p => p.Password)
+                </div>
+            </div>
+            
+             <div class="control-group">
+                 @Html.LabelFor(p => p.RepeatPassword, "Repeat password", new { @class = "control-label" })
+                 <div class="controls">
+                     @Html.PasswordFor(p => p.RepeatPassword, new { placeholder = "Repeat password" })
+                     @Html.ValidationMessageFor(p => p.RepeatPassword)
+                 </div>
+             </div>
+             
+             <div class="control-group">
+                @Html.LabelFor(p => p.Email, "Email", new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(p => p.Email, new { placeholder = "Email" })
+                    @Html.ValidationMessageFor(p => p.Email)
+                </div>
+            </div>
+             
+             <div class="control-group">
+                @Html.LabelFor(p => p.LastName, "Last name", new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(p => p.LastName, new { placeholder = "Last name" })
+                    @Html.ValidationMessageFor(p => p.LastName)
+                </div>
+            </div>
+            
+             <div class="control-group">
+                 @Html.LabelFor(p => p.FirstName, "First name", new { @class = "control-label" })
+                 <div class="controls">
+                     @Html.TextBoxFor(p => p.FirstName, new { placeholder = "First name" })
+                     @Html.ValidationMessageFor(p => p.FirstName)
+                 </div>
+             </div>
+             
+             <div class="control-group">
+                @Html.LabelFor(p => p.MiddleName, "Middle name", new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(p => p.MiddleName, new { placeholder = "Middle name" })
+                    @Html.ValidationMessageFor(p => p.MiddleName)
+                </div>
+            </div>
+            
+             <div class="form-actions">
+                 <button type="submit" class="btn btn-primary">Register</button>
+                <button type="reset" class="btn">Cancel</button>
+            </div>
+
+        </fieldset>
+    }
+    
+    @Html.ActionLink("Sign Up", "Login")
+</div>

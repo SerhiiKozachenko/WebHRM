@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{968CAC3B-105A-4186-8FCD-0C9F4271DF81}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Hrm.Core</RootNamespace>
+    <AssemblyName>Hrm.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\packages\Iesi.Collections.3.3.1.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entities\Base\BaseEntity.cs" />
+    <Compile Include="Entities\Department.cs" />
+    <Compile Include="Entities\Job.cs" />
+    <Compile Include="Entities\JobApplication.cs" />
+    <Compile Include="Entities\JobSkill.cs" />
+    <Compile Include="Entities\Profile.cs" />
+    <Compile Include="Entities\Project.cs" />
+    <Compile Include="Entities\SkillCategory.cs" />
+    <Compile Include="Entities\SkillMatrix.cs" />
+    <Compile Include="Entities\Skill.cs" />
+    <Compile Include="Entities\Skills\Base\BaseSkill.cs" />
+    <Compile Include="Entities\Skills\DesignSkill.cs" />
+    <Compile Include="Entities\Skills\LanguageSkill.cs" />
+    <Compile Include="Entities\Skills\ManagementSkill.cs" />
+    <Compile Include="Entities\Skills\ProgrammingSkill.cs" />
+    <Compile Include="Entities\Skills\QualityAssuranceSkill.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\UserSkill.cs" />
+    <Compile Include="Enums\JobApplicationStatuses.cs" />
+    <Compile Include="Enums\ProjectStatuses.cs" />
+    <Compile Include="Enums\Roles.cs" />
+    <Compile Include="Interfaces\Repositories\Base\IRepository.cs" />
+    <Compile Include="Interfaces\Services\IAuthService.cs" />
+    <Compile Include="Interfaces\Specifications\Base\ISpecification.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

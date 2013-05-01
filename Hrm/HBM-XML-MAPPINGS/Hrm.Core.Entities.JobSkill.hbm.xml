@@ -1,0 +1,17 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class xmlns="urn:nhibernate-mapping-2.2" name="Hrm.Core.Entities.JobSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="JobsSkills">
+    <id name="Id" type="System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <column name="Id" />
+      <generator class="identity" />
+    </id>
+    <property name="Estimate" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <column name="Estimate" />
+    </property>
+    <many-to-one class="Hrm.Core.Entities.SkillCategory, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" lazy="proxy" name="Category">
+      <column name="SkillCat_id" />
+    </many-to-one>
+    <many-to-one class="Hrm.Core.Entities.Skill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" lazy="proxy" name="Skill">
+      <column name="Skill_id" />
+    </many-to-one>
+  </class>
+</hibernate-mapping>

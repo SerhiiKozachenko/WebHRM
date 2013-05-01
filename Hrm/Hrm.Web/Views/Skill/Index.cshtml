@@ -1,0 +1,137 @@
+﻿@using Hrm.Web.Models.Menu
+@{
+    ViewBag.Title = "Skills";
+}
+@section links
+{
+    <link href="../../Content/kendo-ui/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/kendo-ui/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+}
+@section scripts
+{
+    <script src="../../Scripts/kendo-ui/kendo.web.min.js" type="text/javascript"></script>
+     <script type="text/x-kendo-template" id="toolbar-dropdown">
+        <div class="toolbar">
+            <label class="categories-label" for="department">Show skills by categories:</label>
+            <input type="search" id="categories" style="width: 150px"/>
+        </div>
+    </script>
+    <script>
+        function edit() {
+            var grid = $("#grid").data("kendoGrid");
+            grid.editRow(grid.select());
+        }
+
+        function add() {
+            var grid = $("#grid").data("kendoGrid");
+            grid.addRow();
+        }
+
+        function rem() {
+            var grid = $("#grid").data("kendoGrid");
+            grid.removeRow(grid.select());
+        }
+
+        function descriptionEditor(container, options) {
+            $('<textarea data-bind="value: ' + options.field + '" cols="20" rows="4" required></textarea>')
+                .appendTo(container);
+        }
+
+        $(function () {
+            $.ajax({
+                url: 'SkillCategory/GetAllSkillCategories',
+                success: function(categories) {
+                    var grid = $('#grid').kendoGrid({
+                        dataSource: {
+                            type: "json",
+                            serverPaging: true,
+                            serverSorting: true,
+                            serverFiltering: true,
+                            pageSize: 10,
+                            transport: {
+                                read: { url: "Skill/GetGridData", dataType: "json", type: 'GET' },
+                                update: { url: "Skill/UpdateGridData", dataType: "json", type: 'POST' },
+                                destroy: { url: "Skill/DeleteGridData", dataType: "json", type: 'DELETE' },
+                                create: { url: "Skill/CreateGridData", dataType: "json", type: 'PUT', complete: function (e) { $("#grid").data("kendoGrid").dataSource.read(); } }
+                            },
+                            schema: {
+                                model: {
+                                    id: "Id",
+                                    fields: {
+                                        Id: { editable: false },
+                                        Name: { type: 'string', validation: { required: true} },
+                                        Description: { type: 'string', validation: { required: true} },
+                                        SkillCategoryId: { field: 'SkillCategoryId', type: 'number', validation: { required: true} }
+                                    }
+                                },
+                                data: "Data",
+                                total: "TotalCount"
+                            }
+                        },
+                        height: '500',
+
+                        pageable: {
+                            refresh: true,
+                            pageSizes: true
+                        },
+                        sortable: true,
+                        filterable: true,
+
+                        editable: 'popup',
+                        toolbar: [
+                    { text: 'Add', template: '<button class="btn" onclick="add()"><i class="icon-file"></i> Add</button>' },
+                    { text: 'Edit', template: '<button class="btn" onclick="edit()"><i class="icon-edit"></i> Edit</button>' },
+                    { text: 'Remove', template: '<button class="btn" onclick="rem()"><i class="icon-trash"></i> Delete</button>' },
+                    { template: $("#toolbar-dropdown").html() }
+
+                ],
+                        selectable: true,
+
+                        columns: [
+                    { field: "Name", title: "Name", width: 150 },
+                    { field: "Description", title: "Description", width: 200, editor: descriptionEditor },
+                    { field: "SkillCategoryId", sortable: false, title: "Category", values: categories, width: 110 }
+                ]
+                    });
+                    var dropDown = grid.find("#categories").kendoDropDownList({
+                        dataTextField: "text",
+                        dataValueField: "value",
+                        autoBind: false,
+                        optionLabel: "All",
+                        dataSource: {
+                            type: "json",
+                            severFiltering: true,
+                            transport: {
+                                read: "SkillCategory/GetAllSkillCategories"
+                            }
+                        },
+                        change: function () {
+                            var value = this.value();
+                            if (value) {
+                                grid.data("kendoGrid").dataSource.filter({ field: "SkillCategoryId", operator: "eq", value: parseInt(value) });
+                            } else {
+                                grid.data("kendoGrid").dataSource.filter({});
+                            }
+                        }
+                    });
+                }
+            });
+            
+        });
+    </script>
+}
+@section menu
+{
+    @Html.Partial("_TopMenu", TopMenuItems.MyProfile)
+}
+<div class="container-fluid">
+    <div class="row-fluid">
+        @{
+            Html.RenderPartial("_ManagerLeftMenu", ManagerLeftMenuItems.Skills);
+        }
+        <div class="span10">
+            <!--Body content-->
+            <div id="grid"></div>
+        </div>
+    </div>
+</div>

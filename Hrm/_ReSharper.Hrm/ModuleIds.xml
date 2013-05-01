@@ -1,0 +1,6 @@
+<Modules>
+  <Module PersistentId="A2801A14-D22C-45D3-824A-8E28D0DE9472" ModuleId="Hrm.Web" />
+  <Module PersistentId="968CAC3B-105A-4186-8FCD-0C9F4271DF81" ModuleId="Hrm.Core" />
+  <Module PersistentId="C19DB27A-503B-408F-B964-EDA3A0A78E26" ModuleId="Hrm.Data" />
+  <Module PersistentId="84AE1AC8-BB8F-41C4-B4DA-B6A595ED6125" ModuleId="KendoWrapper" />
+</Modules>

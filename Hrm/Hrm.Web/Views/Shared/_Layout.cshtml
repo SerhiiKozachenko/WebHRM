@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title - Hrm</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        
+        <link href="../../Content/layout.css" rel="stylesheet" type="text/css" />
+        <link href="../../Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../../Content/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
+        @RenderSection("links", false)
+        
+        @Scripts.Render("~/jquery", "~/jquery-migrate", "~/jquery-validate", "~/bootstrap", "~/bootstrap-form-validation")
+        @RenderSection("scripts", false)
+
+    </head>
+    <body>
+       @RenderSection("menu",false)
+       
+        <div class="container main-content-max-width">
+            @RenderBody()
+        </div>
+        
+        <footer>
+        </footer>
+    </body>
+</html>

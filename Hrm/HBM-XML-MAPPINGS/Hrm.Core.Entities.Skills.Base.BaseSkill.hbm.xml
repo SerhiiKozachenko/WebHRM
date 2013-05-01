@@ -1,0 +1,11 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class xmlns="urn:nhibernate-mapping-2.2" name="Hrm.Core.Entities.Skills.Base.BaseSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="`BaseSkill`">
+    <id name="Id" type="System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <column name="Id" />
+      <generator class="identity" />
+    </id>
+    <property name="Other" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <column name="Other" />
+    </property>
+  </class>
+</hibernate-mapping>

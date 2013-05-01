@@ -1,0 +1,8 @@
+﻿body{
+    padding-top: 80px;
+	padding-bottom: 20px;
+	background: url(backgrounds/connect.png)
+}
+.main-content-max-width {
+    max-width: 940px;
+}

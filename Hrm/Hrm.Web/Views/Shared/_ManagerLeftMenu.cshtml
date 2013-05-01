@@ -1,0 +1,27 @@
+﻿@using Hrm.Web.Models.Menu
+@model ManagerLeftMenuItems
+
+@{
+    var profile = Model == ManagerLeftMenuItems.MyProfile ? "active" : string.Empty;
+    var departments = Model == ManagerLeftMenuItems.Departments ? "active" : string.Empty;
+    var jobs = Model == ManagerLeftMenuItems.Jobs ? "active" : string.Empty;
+    var skillsCategories = Model == ManagerLeftMenuItems.SkillsCategories ? "active" : string.Empty;
+    var skills = Model == ManagerLeftMenuItems.Skills ? "active" : string.Empty;
+}
+
+<div class="span2">
+    <!--Sidebar content-->
+    <ul class="nav nav-list well">
+        
+        <li class="nav-header">MY INFO</li>
+        <li title="My Profie" class="@profile">@Html.ActionLink("My Profile", "Index","Profile")</li>
+        
+        <li class="nav-header">MANAGEMENT</li>
+        <li title="Jobs" class="@jobs">@Html.ActionLink("Jobs", "Index", "Job")</li>
+
+        <li class="nav-header">DICTIONARIES</li>
+        <li title="Departments" class="@departments">@Html.ActionLink("Departments", "Index", "Department")</li>
+        <li title="Skill Types" class="@skillsCategories">@Html.ActionLink("Skill Types", "Index", "SkillCategory")</li>
+        <li title="Skills" class="@skills">@Html.ActionLink("Skills", "Index", "Skill")</li>
+    </ul>
+</div>

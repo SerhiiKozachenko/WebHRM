@@ -1,0 +1,66 @@
+﻿@using Hrm.Web.Models.Menu
+@{
+    ViewBag.Title = "Manage Jobs";
+}
+@section links
+{
+    <link href="../../Content/kendo-ui/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/kendo-ui/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/views/ManageJobs/manage-jobs.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/views/ManageJobs/grid-toolbar-fixes.css" rel="stylesheet" type="text/css" />
+}
+@section scripts
+{
+    <script src="../../Scripts/kendo-ui/kendo.web.min.js" type="text/javascript"></script>
+    <script src="../../Scripts/views/ManageJobs/kendo-ui-init.js" type="text/javascript"></script>
+    <script type="text/x-kendo-template" id="toolbar-dropdown">
+        <div class="toolbar">
+            <label class="department-label" for="department">Show jobs by department:</label>
+            <input type="search" id="department" style="width: 150px"/>
+        </div>
+    </script>
+    
+    <script type="text/x-kendo-template" id="detail-row">
+                <div class="tabstrip">
+                    <ul>
+                        <li class="k-state-active">
+                           Applications
+                        </li>
+                        <li>
+                            Description
+                        </li>
+                    </ul>
+                    <div>
+                        <div class="applications"></div>
+                    </div>
+                    <div>
+                        <div class='job-details'>
+                            <ul>
+                                <li><label>Title:</label>#= Title #</li>
+                                <li><label>Salary:</label>#= Salary #</li>
+                                <li><label>DepartmentId:</label>#= DepartmentId #</li>
+                                <li><label>Description:</label>#= Description #</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </script>
+}
+
+@section menu
+{
+    @Html.Partial("_ManagerTopMenu", ManagerTopMenuItems.MyProfile)
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+@{
+    Html.RenderPartial("_ManagerLeftMenu", ManagerLeftMenuItems.Jobs);
+}
+        <div class="span10">
+            <!--Body content-->
+            <div id="grid"></div>
+        </div>
+    </div>
+</div>

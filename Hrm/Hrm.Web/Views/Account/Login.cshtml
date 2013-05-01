@@ -1,0 +1,53 @@
+﻿@model Hrm.Web.Models.Account.LoginModel
+
+@{
+    ViewBag.Title = "Log in";
+}
+
+<div class="thumbnail">
+    
+    @using(Html.BeginForm("Login", "Account", FormMethod.Post, htmlAttributes: new {@class="form-horizontal well"}))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "Log in was unsuccessful. Please correct the errors and try again.")
+        
+        <fieldset>
+            <legend>Log in</legend>
+
+            <div class="control-group">
+                @Html.LabelFor(p => p.Login, "Log in", new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(p => p.Login, new { placeholder = "User name" })
+                    @Html.ValidationMessageFor(p => p.Login)
+                </div>
+            </div>
+            
+            
+            <div class="control-group">
+                @Html.LabelFor(p => p.Password, "Password", new { @class = "control-label" })
+                <div class="controls">
+                    @Html.PasswordFor(p => p.Password, new { placeholder = "Password" })
+                    @Html.ValidationMessageFor(p => p.Password)
+                </div>
+            </div>
+            
+            
+            <div class="control-group">
+                @Html.LabelFor(p => p.RememberMe, "Remember me?", new { @class = "control-label" })
+                <div class="controls">
+                    @Html.CheckBoxFor(p => p.RememberMe)
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Log in</button>
+                <button type="reset" class="btn">Cancel</button>
+            </div>
+
+        </fieldset>
+    }
+
+    @Html.ActionLink("Create an account", "Register")
+             
+</div>
+

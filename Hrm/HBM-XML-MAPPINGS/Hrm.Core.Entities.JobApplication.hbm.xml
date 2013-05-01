@@ -1,0 +1,23 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class xmlns="urn:nhibernate-mapping-2.2" name="Hrm.Core.Entities.JobApplication, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="JobApplications">
+    <id name="Id" type="System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <column name="Id" />
+      <generator class="identity" />
+    </id>
+    <property name="Status" type="Hrm.Core.Enums.JobApplicationStatuses, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <column name="Status" />
+    </property>
+    <property name="FilingDate" type="System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <column name="FilingDate" />
+    </property>
+    <property name="DesiredSalary" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <column name="DesiredSalary" />
+    </property>
+    <many-to-one class="Hrm.Core.Entities.Job, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Job">
+      <column name="Job_id" />
+    </many-to-one>
+    <many-to-one class="Hrm.Core.Entities.User, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="User">
+      <column name="User_id" />
+    </many-to-one>
+  </class>
+</hibernate-mapping>

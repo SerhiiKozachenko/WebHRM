@@ -1,0 +1,38 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class xmlns="urn:nhibernate-mapping-2.2" name="Hrm.Core.Entities.Job, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="Jobs">
+    <id name="Id" type="System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <column name="Id" />
+      <generator class="identity" />
+    </id>
+    <set name="Skills" table="JobsSkills">
+      <key>
+        <column name="Job_id" />
+      </key>
+      <one-to-many class="Hrm.Core.Entities.JobSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    </set>
+    <set name="Applications">
+      <key>
+        <column name="Job_id" />
+      </key>
+      <one-to-many class="Hrm.Core.Entities.JobApplication, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    </set>
+    <property name="Title" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <column name="Title" />
+    </property>
+    <property name="Description" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <column name="Description" />
+    </property>
+    <property name="Salary" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <column name="Salary" />
+    </property>
+    <many-to-one class="Hrm.Core.Entities.Department, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Department">
+      <column name="Department_id" />
+    </many-to-one>
+    <many-to-one class="Hrm.Core.Entities.Project, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Project">
+      <column name="Project_id" />
+    </many-to-one>
+    <many-to-one class="Hrm.Core.Entities.SkillMatrix, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="RequiredSkillMatrix">
+      <column name="RequiredSkillMatrix_id" />
+    </many-to-one>
+  </class>
+</hibernate-mapping>

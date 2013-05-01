@@ -1,0 +1,10 @@
+D:\Projects\WebHRM\Hrm\KendoWrapper\bin\Debug\KendoWrapper.dll
+D:\Projects\WebHRM\Hrm\KendoWrapper\bin\Debug\KendoWrapper.pdb
+D:\Projects\WebHRM\Hrm\KendoWrapper\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\WebHRM\Hrm\KendoWrapper\obj\Debug\KendoWrapper.dll
+D:\Projects\WebHRM\Hrm\KendoWrapper\obj\Debug\KendoWrapper.pdb
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\KendoWrapper\bin\Debug\KendoWrapper.dll
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\KendoWrapper\bin\Debug\KendoWrapper.pdb
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\KendoWrapper\obj\Debug\KendoWrapper.csprojResolveAssemblyReference.cache
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\KendoWrapper\obj\Debug\KendoWrapper.dll
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\KendoWrapper\obj\Debug\KendoWrapper.pdb

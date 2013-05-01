@@ -1,0 +1,19 @@
+﻿#grid .k-toolbar
+{
+    display: block;
+    min-height: 27px;
+    padding: 1.3em;
+}
+.department-label
+{
+    display: inline;
+    vertical-align: middle;
+    padding-right: .5em;
+}
+#department
+{
+    vertical-align: middle;
+}
+.toolbar {
+    float: right;
+}

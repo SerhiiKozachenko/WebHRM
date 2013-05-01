@@ -1,0 +1,66 @@
+﻿<RecentFiles>
+  <RecentFiles>
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Models/d:Menu/f:ManagerLeftMenuItems.cs" caret="141" fromTop="4" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Models/d:SkillCategory/f:SkillCategoryModel.cs" caret="90" fromTop="4" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:MySkills/f:Index.cshtml" caret="6818" fromTop="40" />
+    <File id="84AE1AC8-BB8F-41C4-B4DA-B6A595ED6125/d:Grid/d:Filtering/d:Filters/f:StartsWithFilter.cs" caret="983" fromTop="23" />
+    <File id="84AE1AC8-BB8F-41C4-B4DA-B6A595ED6125/d:Grid/d:Filtering/f:GridFilter.cs" caret="3144" fromTop="24" />
+    <File id="84AE1AC8-BB8F-41C4-B4DA-B6A595ED6125/d:Grid/d:Context/f:GridContext.cs" caret="4167" fromTop="28" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Controllers/f:MySkillsController.cs" caret="3579" fromTop="35" />
+    <File id="968CAC3B-105A-4186-8FCD-0C9F4271DF81/d:Entities/f:Job.cs" caret="418" fromTop="15" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Models/d:Job/f:JobModel.cs" caret="293" fromTop="12" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:App_Start/f:AutoMapperConfig.cs" caret="807" fromTop="17" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:ModelMappings/d:Profiles/f:SkillModelToSkillDomainMappingProfile.cs" caret="434" fromTop="11" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Skill/f:Index.cshtml" caret="4177" fromTop="36" />
+    <File id="C19DB27A-503B-408F-B964-EDA3A0A78E26/d:Mappings/d:Overrides/f:SkillCategoryMappingOverride.cs" caret="656" fromTop="17" />
+    <File id="C19DB27A-503B-408F-B964-EDA3A0A78E26/d:Mappings/d:Overrides/f:UserSkillMappingOverride.cs" caret="744" fromTop="18" />
+    <File id="968CAC3B-105A-4186-8FCD-0C9F4271DF81/d:Entities/f:Skill.cs" caret="446" fromTop="17" />
+    <File id="C19DB27A-503B-408F-B964-EDA3A0A78E26/d:Implementations/d:Repositories/d:Base/f:Repository.cs" caret="3813" fromTop="24" />
+    <File id="968CAC3B-105A-4186-8FCD-0C9F4271DF81/d:Entities/f:SkillCategory.cs" caret="427" fromTop="15" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Models/d:Skill/f:SkillModel.cs" caret="82" fromTop="4" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Controllers/f:SkillController.cs" caret="239" fromTop="7" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Controllers/f:SkillCategoryController.cs" caret="264" fromTop="10" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Controllers/f:DepartmentController.cs" caret="3445" fromTop="31" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Scripts/d:views/d:ManageJobs/f:kendo-ui-init.js" caret="0" fromTop="0" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Job/f:ManageJobs.cshtml" caret="674" fromTop="14" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:SkillCategory/f:Index.cshtml" caret="643" fromTop="9" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Shared/f:_ManagerLeftMenu.cshtml" caret="1275" fromTop="24" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Filters/f:TransactionAttribute.cs" caret="1391" fromTop="24" />
+    <File id="C19DB27A-503B-408F-B964-EDA3A0A78E26/d:Mappings/d:Overrides/f:SkillMappingOverride.cs" caret="299" fromTop="9" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Controllers/d:Base/f:BaseGridController.cs" caret="2312" fromTop="38" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Controllers/f:JobController.cs" caret="1175" fromTop="12" />
+    <File id="C19DB27A-503B-408F-B964-EDA3A0A78E26/f:PersistenceManager.cs" caret="529" fromTop="18" />
+  </RecentFiles>
+  <RecentEdits>
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Skill/f:Index.cshtml" caret="5969" fromTop="6" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Skill/f:Index.cshtml" caret="5563" fromTop="31" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Skill/f:Index.cshtml" caret="5563" fromTop="28" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Skill/f:Index.cshtml" caret="5822" fromTop="31" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Skill/f:Index.cshtml" caret="400" fromTop="12" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Skill/f:Index.cshtml" caret="641" fromTop="15" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Skill/f:Index.cshtml" caret="5563" fromTop="40" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Skill/f:Index.cshtml" caret="5563" fromTop="20" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Skill/f:Index.cshtml" caret="5563" fromTop="23" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Skill/f:Index.cshtml" caret="5513" fromTop="20" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Controllers/f:SkillController.cs" caret="381" fromTop="12" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Controllers/f:SkillController.cs" caret="0" fromTop="0" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Controllers/f:SkillCategoryController.cs" caret="672" fromTop="18" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Controllers/d:Base/f:BaseGridController.cs" caret="513" fromTop="16" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Skill/f:Index.cshtml" caret="4942" fromTop="15" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Skill/f:Index.cshtml" caret="1407" fromTop="9" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:App_Start/f:AutoMapperConfig.cs" caret="807" fromTop="17" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Skill/f:Index.cshtml" caret="1323" fromTop="8" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Skill/f:Index.cshtml" caret="1289" fromTop="9" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:Views/d:Skill/f:Index.cshtml" caret="4161" fromTop="36" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:ModelMappings/d:Profiles/f:SkillModelToSkillDomainMappingProfile.cs" caret="540" fromTop="13" />
+    <File id="A2801A14-D22C-45D3-824A-8E28D0DE9472/d:ModelMappings/d:Profiles/f:SkillModelToSkillDomainMappingProfile.cs" caret="894" fromTop="21" />
+    <File id="968CAC3B-105A-4186-8FCD-0C9F4271DF81/d:Entities/f:SkillCategory.cs" caret="390" fromTop="13" />
+    <File id="968CAC3B-105A-4186-8FCD-0C9F4271DF81/d:Entities/f:SkillCategory.cs" caret="547" fromTop="18" />
+    <File id="968CAC3B-105A-4186-8FCD-0C9F4271DF81/d:Entities/f:Skill.cs" caret="365" fromTop="13" />
+    <File id="968CAC3B-105A-4186-8FCD-0C9F4271DF81/d:Entities/f:Skill.cs" caret="446" fromTop="17" />
+    <File id="C19DB27A-503B-408F-B964-EDA3A0A78E26/d:Mappings/d:Overrides/f:SkillMappingOverride.cs" caret="761" fromTop="19" />
+    <File id="C19DB27A-503B-408F-B964-EDA3A0A78E26/d:Mappings/d:Overrides/f:UserSkillMappingOverride.cs" caret="744" fromTop="18" />
+    <File id="C19DB27A-503B-408F-B964-EDA3A0A78E26/d:Mappings/d:Overrides/f:SkillCategoryMappingOverride.cs" caret="656" fromTop="17" />
+    <File id="C19DB27A-503B-408F-B964-EDA3A0A78E26/f:PersistenceManager.cs" caret="529" fromTop="8" />
+  </RecentEdits>
+</RecentFiles>

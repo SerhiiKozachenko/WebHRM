@@ -1,0 +1,394 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class xmlns="urn:nhibernate-mapping-2.2" name="Hrm.Core.Entities.Base.BaseEntity, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="`BaseEntity`">
+    <id name="Id" type="System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <column name="Id" />
+      <generator class="identity" />
+    </id>
+    <joined-subclass name="Hrm.Core.Entities.Department, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="Departments">
+      <key>
+        <column name="BaseEntity_id" />
+      </key>
+      <set name="Jobs">
+        <key>
+          <column name="Department_id" />
+        </key>
+        <one-to-many class="Hrm.Core.Entities.Job, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+      </set>
+      <set name="UsersInDepartment" table="UsersInDepartments">
+        <key>
+          <column name="Department_id" />
+        </key>
+        <many-to-many class="Hrm.Core.Entities.User, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <column name="User_id" />
+        </many-to-many>
+      </set>
+      <property name="Title" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="Title" />
+      </property>
+      <property name="Description" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="Description" />
+      </property>
+    </joined-subclass>
+    <joined-subclass name="Hrm.Core.Entities.Job, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="Jobs">
+      <key>
+        <column name="BaseEntity_id" />
+      </key>
+      <set name="Applications">
+        <key>
+          <column name="Job_id" />
+        </key>
+        <one-to-many class="Hrm.Core.Entities.JobApplication, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+      </set>
+      <set name="JobSkills" table="JobsSkills">
+        <key>
+          <column name="Job_id" />
+        </key>
+        <one-to-many class="Hrm.Core.Entities.JobSkills, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+      </set>
+      <property name="Title" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="Title" />
+      </property>
+      <property name="Description" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="Description" />
+      </property>
+      <property name="Salary" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="Salary" />
+      </property>
+      <many-to-one class="Hrm.Core.Entities.Department, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Department">
+        <column name="Department_id" />
+      </many-to-one>
+      <many-to-one class="Hrm.Core.Entities.Project, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Project">
+        <column name="Project_id" />
+      </many-to-one>
+      <many-to-one class="Hrm.Core.Entities.SkillMatrix, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="RequiredSkillMatrix">
+        <column name="RequiredSkillMatrix_id" />
+      </many-to-one>
+    </joined-subclass>
+    <joined-subclass name="Hrm.Core.Entities.JobApplication, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="JobApplications">
+      <key>
+        <column name="BaseEntity_id" />
+      </key>
+      <property name="FilingDate" type="System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="FilingDate" />
+      </property>
+      <property name="DesiredSalary" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="DesiredSalary" />
+      </property>
+      <property name="Status" type="Hrm.Core.Enums.JobApplicationStatuses, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <column name="Status" />
+      </property>
+      <many-to-one class="Hrm.Core.Entities.Job, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Job">
+        <column name="Job_id" />
+      </many-to-one>
+      <many-to-one class="Hrm.Core.Entities.User, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="User">
+        <column name="User_id" />
+      </many-to-one>
+    </joined-subclass>
+    <joined-subclass name="Hrm.Core.Entities.Profile, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="Profiles">
+      <key>
+        <column name="BaseEntity_id" />
+      </key>
+      <property name="PhoneNumber" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="PhoneNumber" />
+      </property>
+      <property name="Skype" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="Skype" />
+      </property>
+      <property name="DateOfBirth" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="DateOfBirth" />
+      </property>
+      <property name="LastJobTitle" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="LastJobTitle" />
+      </property>
+      <property name="TotalWorkExperience" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="TotalWorkExperience" />
+      </property>
+      <property name="ResumePath" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="ResumePath" />
+      </property>
+      <many-to-one cascade="all" class="Hrm.Core.Entities.SkillMatrix, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" lazy="proxy" name="SkillMatrix">
+        <column name="SkillMatrix_id" />
+      </many-to-one>
+    </joined-subclass>
+    <joined-subclass name="Hrm.Core.Entities.Project, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="Projects">
+      <key>
+        <column name="BaseEntity_id" />
+      </key>
+      <set name="Jobs">
+        <key>
+          <column name="Project_id" />
+        </key>
+        <one-to-many class="Hrm.Core.Entities.Job, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+      </set>
+      <set name="UsersInProject" table="UsersInProjects">
+        <key>
+          <column name="Project_id" />
+        </key>
+        <many-to-many class="Hrm.Core.Entities.User, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <column name="User_id" />
+        </many-to-many>
+      </set>
+      <property name="Title" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="Title" />
+      </property>
+      <property name="Description" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="Description" />
+      </property>
+      <property name="Status" type="Hrm.Core.Enums.ProjectStatuses, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <column name="Status" />
+      </property>
+    </joined-subclass>
+    <joined-subclass name="Hrm.Core.Entities.SkillCategory, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="SkillCategories">
+      <key>
+        <column name="BaseEntity_id" />
+      </key>
+      <set name="SkillNames">
+        <key>
+          <column name="SkillCategory_id" />
+        </key>
+        <one-to-many class="Hrm.Core.Entities.SkillName, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+      </set>
+      <property name="CategoryName" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="CategoryName" />
+      </property>
+      <property name="Description" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="Description" />
+      </property>
+    </joined-subclass>
+    <joined-subclass name="Hrm.Core.Entities.SkillMatrix, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="SkillMatrix">
+      <key>
+        <column name="BaseEntity_id" />
+      </key>
+      <many-to-one cascade="all" class="Hrm.Core.Entities.Skills.LanguageSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" lazy="proxy" name="LanguageSkills">
+        <column name="LanguageSkills_id" />
+      </many-to-one>
+      <many-to-one cascade="all" class="Hrm.Core.Entities.Skills.ManagementSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" lazy="proxy" name="ManagementSkills">
+        <column name="ManagementSkills_id" />
+      </many-to-one>
+      <many-to-one cascade="all" class="Hrm.Core.Entities.Skills.ProgrammingSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" lazy="proxy" name="ProgrammingSkills">
+        <column name="ProgrammingSkills_id" />
+      </many-to-one>
+      <many-to-one cascade="all" class="Hrm.Core.Entities.Skills.DesignSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" lazy="proxy" name="DesignSkills">
+        <column name="DesignSkills_id" />
+      </many-to-one>
+      <many-to-one cascade="all" class="Hrm.Core.Entities.Skills.QualityAssuranceSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" lazy="proxy" name="QualityAssuranceSkills">
+        <column name="QualityAssuranceSkills_id" />
+      </many-to-one>
+    </joined-subclass>
+    <joined-subclass name="Hrm.Core.Entities.SkillName, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="SkillNames">
+      <key>
+        <column name="BaseEntity_id" />
+      </key>
+      <property name="Name" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="Name" />
+      </property>
+      <property name="Description" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="Description" />
+      </property>
+      <many-to-one class="Hrm.Core.Entities.SkillCategory, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="SkillCategory">
+        <column name="SkillCategory_id" />
+      </many-to-one>
+    </joined-subclass>
+    <joined-subclass name="Hrm.Core.Entities.Skills.Base.BaseSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <key>
+        <column name="BaseEntity_id" />
+      </key>
+      <property name="Other" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="Other" />
+      </property>
+      <joined-subclass name="Hrm.Core.Entities.Skills.DesignSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="DesignSkills">
+        <key>
+          <column name="BaseSkill_id" />
+        </key>
+        <property name="ThreeD" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="ThreeD" />
+        </property>
+        <property name="TwoD" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="TwoD" />
+        </property>
+        <property name="Typography" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="Typography" />
+        </property>
+        <property name="WebDesign" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="WebDesign" />
+        </property>
+        <property name="Photography" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="Photography" />
+        </property>
+      </joined-subclass>
+      <joined-subclass name="Hrm.Core.Entities.Skills.LanguageSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="LanguageSkills">
+        <key>
+          <column name="BaseSkill_id" />
+        </key>
+        <property name="English" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="English" />
+        </property>
+        <property name="French" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="French" />
+        </property>
+        <property name="German" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="German" />
+        </property>
+        <property name="Chinese" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="Chinese" />
+        </property>
+      </joined-subclass>
+      <joined-subclass name="Hrm.Core.Entities.Skills.ManagementSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="ManagementSkills">
+        <key>
+          <column name="BaseSkill_id" />
+        </key>
+        <property name="Negotiation" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="Negotiation" />
+        </property>
+        <property name="LeaderShip" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="LeaderShip" />
+        </property>
+        <property name="TeamBuilding" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="TeamBuilding" />
+        </property>
+        <property name="ProjectManagement" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="ProjectManagement" />
+        </property>
+        <property name="TimeManagement" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="TimeManagement" />
+        </property>
+        <property name="Presentation" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="Presentation" />
+        </property>
+        <property name="RUP" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="RUP" />
+        </property>
+        <property name="Scrum" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="Scrum" />
+        </property>
+        <property name="Agile" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="Agile" />
+        </property>
+        <property name="XP" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="XP" />
+        </property>
+      </joined-subclass>
+      <joined-subclass name="Hrm.Core.Entities.Skills.ProgrammingSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="ProgrammingSkills">
+        <key>
+          <column name="BaseSkill_id" />
+        </key>
+        <property name="WebDevelopment" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="WebDevelopment" />
+        </property>
+        <property name="DesktopDevelopment" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="DesktopDevelopment" />
+        </property>
+        <property name="DriverDevelopment" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="DriverDevelopment" />
+        </property>
+        <property name="MobileDevelopment" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="MobileDevelopment" />
+        </property>
+        <property name="TDD" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="TDD" />
+        </property>
+        <property name="Patterns" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="Patterns" />
+        </property>
+        <property name="Refactoring" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="Refactoring" />
+        </property>
+        <property name="UnitTests" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="UnitTests" />
+        </property>
+        <property name="Java" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="Java" />
+        </property>
+        <property name="Dotnet" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="Dotnet" />
+        </property>
+        <property name="C" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="C" />
+        </property>
+        <property name="PHP" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="PHP" />
+        </property>
+        <property name="Ruby" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="Ruby" />
+        </property>
+        <property name="Python" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="Python" />
+        </property>
+      </joined-subclass>
+      <joined-subclass name="Hrm.Core.Entities.Skills.QualityAssuranceSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="QualityAssuranceSkills">
+        <key>
+          <column name="BaseSkill_id" />
+        </key>
+        <property name="IntegrationTesting" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="IntegrationTesting" />
+        </property>
+        <property name="AutomationTesting" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="AutomationTesting" />
+        </property>
+        <property name="Documentation" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <column name="Documentation" />
+        </property>
+      </joined-subclass>
+    </joined-subclass>
+    <joined-subclass name="Hrm.Core.Entities.User, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="Users">
+      <key>
+        <column name="BaseEntity_id" />
+      </key>
+      <set name="Applications">
+        <key>
+          <column name="User_id" />
+        </key>
+        <one-to-many class="Hrm.Core.Entities.JobApplication, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+      </set>
+      <set name="Departments" table="UsersInDepartments">
+        <key>
+          <column name="User_id" />
+        </key>
+        <many-to-many class="Hrm.Core.Entities.Department, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <column name="Department_id" />
+        </many-to-many>
+      </set>
+      <set name="Projects" table="UsersInProjects">
+        <key>
+          <column name="User_id" />
+        </key>
+        <many-to-many class="Hrm.Core.Entities.Project, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <column name="Project_id" />
+        </many-to-many>
+      </set>
+      <set name="UserSkills" table="UsersSkills">
+        <key>
+          <column name="User_id" />
+        </key>
+        <one-to-many class="Hrm.Core.Entities.UserSkills, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+      </set>
+      <property name="Login" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="Login" />
+      </property>
+      <property name="Password" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="Password" />
+      </property>
+      <property name="Email" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="Email" />
+      </property>
+      <property name="LastName" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="LastName" />
+      </property>
+      <property name="FirstName" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="FirstName" />
+      </property>
+      <property name="MiddleName" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="MiddleName" />
+      </property>
+      <property name="IsConfirmed" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <column name="IsConfirmed" />
+      </property>
+      <property name="Role" type="Hrm.Core.Enums.Roles, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <column name="Role" />
+      </property>
+      <many-to-one cascade="all" class="Hrm.Core.Entities.Profile, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" lazy="proxy" name="Profile">
+        <column name="Profile_id" />
+      </many-to-one>
+    </joined-subclass>
+  </class>
+</hibernate-mapping>
