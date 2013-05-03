@@ -4,34 +4,34 @@
       <column name="Id" />
       <generator class="identity" />
     </id>
-    <set name="Departments" table="UsersInDepartments">
+    <bag name="Departments" table="UsersInDepartments">
       <key>
         <column name="User_id" />
       </key>
       <many-to-many class="Hrm.Core.Entities.Department, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <column name="Department_id" />
       </many-to-many>
-    </set>
-    <set name="Projects" table="UsersInProjects">
+    </bag>
+    <bag name="Projects" table="UsersInProjects">
       <key>
         <column name="User_id" />
       </key>
       <many-to-many class="Hrm.Core.Entities.Project, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <column name="Project_id" />
       </many-to-many>
-    </set>
-    <set name="Skills" table="UsersSkills">
+    </bag>
+    <bag name="Skills" table="UsersSkills">
       <key>
         <column name="User_id" />
       </key>
       <one-to-many class="Hrm.Core.Entities.UserSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-    </set>
-    <set name="Applications">
+    </bag>
+    <bag name="Applications">
       <key>
         <column name="User_id" />
       </key>
       <one-to-many class="Hrm.Core.Entities.JobApplication, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-    </set>
+    </bag>
     <property name="Role" type="Hrm.Core.Enums.Roles, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <column name="Role" />
     </property>

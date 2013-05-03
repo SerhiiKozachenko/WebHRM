@@ -1,5 +1,6 @@
 ﻿using Hrm.Core.Entities.Base;
 using Iesi.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Hrm.Core.Entities
 {
@@ -17,14 +18,14 @@ namespace Hrm.Core.Entities
 
         public virtual SkillMatrix RequiredSkillMatrix { get; set; }
 
-        public virtual ISet<JobApplication> Applications { get; set; }
+        public virtual ICollection<JobApplication> Applications { get; set; }
 
-        public virtual ISet<JobSkill> Skills { get; set; } 
+        public virtual ICollection<JobSkill> Skills { get; set; } 
 
         public Job()
         {
-            this.Applications = new HashedSet<JobApplication>();
-            this.Skills = new HashedSet<JobSkill>();
+            //this.Applications = new HashedSet<JobApplication>();
+            //this.Skills = new HashedSet<JobSkill>();
         }
     }
 }

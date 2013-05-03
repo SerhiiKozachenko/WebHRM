@@ -1,13 +1,12 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using Hrm.Core.Entities;
-using Hrm.Core.Enums;
-using Hrm.Core.Interfaces.Repositories.Base;
-using Hrm.Data.Implementations.Specifications.Common;
-using Hrm.Data.Implementations.Specifications.Users;
+using Hrm.Data.EF.Models;
+using Hrm.Data.EF.Models.Enums;
+using Hrm.Data.EF.Repositories.Contracts;
+using Hrm.Data.EF.Specifications.Implementations.Common;
+using Hrm.Data.EF.Specifications.Implementations.Users;
 using Hrm.Web.Controllers.Base;
-using Hrm.Web.Filters;
 using Hrm.Web.Models.Job;
 using KendoWrapper.Grid.Context;
 
@@ -60,12 +59,11 @@ namespace Hrm.Web.Controllers
                 }
             }
 
-            var jobs = query.Skip(ctx.Skip).Take(ctx.Take).Select(Mapper.Map<JobModel>);
+            var jobs = query.OrderBy(x=>x.Id).Skip(ctx.Skip).Take(ctx.Take).ToList().Select(Mapper.Map<JobModel>);
 
             return Json(new { Jobs = jobs, TotalCount = totalCount }, JsonRequestBehavior.AllowGet);
         }
 
-        [Transaction]
         [HttpPost]
         public void UpdateGridData(JobModel model)
         {
@@ -78,7 +76,6 @@ namespace Hrm.Web.Controllers
             }
         }
 
-        [Transaction]
         [HttpDelete]
         public void DeleteGridData(JobModel model)
         {
@@ -89,7 +86,6 @@ namespace Hrm.Web.Controllers
             }
         }
 
-        [Transaction]
         [HttpPut]
         public void CreateGridData(JobModel model)
         {

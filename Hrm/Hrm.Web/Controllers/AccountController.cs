@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using AutoMapper;
-using Hrm.Core.Entities;
-using Hrm.Core.Interfaces.Services;
+using Hrm.Data.EF.Models;
+using Hrm.Data.EF.Services.Contracts;
 using Hrm.Web.Models.Account;
 
 namespace Hrm.Web.Controllers

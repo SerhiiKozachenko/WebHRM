@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hrm.Web", "Hrm.Web\Hrm.Web.csproj", "{A2801A14-D22C-45D3-824A-8E28D0DE9472}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hrm.Tests", "Hrm.Tests\Hrm.Tests.csproj", "{4DA1EDD8-70B6-43EC-9EAC-2A49BA67A800}"
@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{067A86
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KendoWrapper", "KendoWrapper\KendoWrapper.csproj", "{84AE1AC8-BB8F-41C4-B4DA-B6A595ED6125}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hrm.Data.EF", "Hrm.Data.EF\Hrm.Data.EF.csproj", "{1617AA81-90FF-449D-A924-E4C830171D6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{84AE1AC8-BB8F-41C4-B4DA-B6A595ED6125}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84AE1AC8-BB8F-41C4-B4DA-B6A595ED6125}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84AE1AC8-BB8F-41C4-B4DA-B6A595ED6125}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1617AA81-90FF-449D-A924-E4C830171D6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1617AA81-90FF-449D-A924-E4C830171D6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1617AA81-90FF-449D-A924-E4C830171D6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1617AA81-90FF-449D-A924-E4C830171D6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,5 @@
 ﻿using System;
-using Hrm.Core.Enums;
+using Hrm.Data.EF.Models.Enums;
 
 namespace Hrm.Web.Models.JobApplication
 {

@@ -1,8 +1,7 @@
-﻿using System;
-using AutoMapper;
-using Hrm.Core.Entities;
-using Hrm.Core.Interfaces.Repositories.Base;
-using Hrm.Data.Implementations.Specifications.Common;
+﻿using AutoMapper;
+using Hrm.Data.EF.Models;
+using Hrm.Data.EF.Repositories.Contracts;
+using Hrm.Data.EF.Specifications.Implementations.Common;
 using Hrm.Web.Models.Skill;
 using Microsoft.Practices.ServiceLocation;
 using Profile = AutoMapper.Profile;
@@ -21,9 +20,9 @@ namespace Hrm.Web.ModelMappings.Profiles
 
         private void MapSkillCategory(SkillModel skillModel, Skill skill)
         {
-            var skillCatRepo = ServiceLocator.Current.GetInstance<IRepository<SkillCategory>>();
-            var skillCat = skillCatRepo.FindOne(new ByIdSpecify<SkillCategory>(skillModel.SkillCategoryId));
-            skill.SkillCategory = skillCat;
+            //var skillCatRepo = ServiceLocator.Current.GetInstance<IRepository<SkillCategory>>();
+            //var skillCat = skillCatRepo.FindOne(new ByIdSpecify<SkillCategory>(skillModel.SkillCategoryId));
+            //skill.SkillCategory = skillCat;
         }
     }
 }

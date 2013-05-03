@@ -1,18 +1,18 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using Hrm.Core.Entities;
-using Hrm.Core.Entities.Base;
-using Hrm.Core.Interfaces.Repositories.Base;
-using Hrm.Data.Implementations.Specifications.Common;
-using Hrm.Web.Filters;
+using Hrm.Data.EF.Models;
+using Hrm.Data.EF.Models.Base;
+using Hrm.Data.EF.Repositories.Contracts;
+using Hrm.Data.EF.Specifications.Implementations.Common;
 using Hrm.Web.Models.Base;
 using KendoWrapper.Grid.Context;
 
 namespace Hrm.Web.Controllers.Base
 {
-    public abstract class BaseGridController<TModel, TEntity> : BaseController 
-        where TEntity : BaseEntity where TModel : BaseModel
+    public abstract class BaseGridController<TModel, TEntity> : BaseController
+        where TEntity : BaseModel<long>
+        where TModel : BaseModel
     {
         protected readonly IRepository<TEntity> repo;
 
@@ -52,12 +52,11 @@ namespace Hrm.Web.Controllers.Base
                 }
             }
 
-            var data = query.Skip(ctx.Skip).Take(ctx.Take).ToList().Select(Mapper.Map<TEntity, TModel>);
+            var data = query.OrderBy(x=>x.Id).Skip(ctx.Skip).Take(ctx.Take).ToList().Select(Mapper.Map<TEntity, TModel>);
 
             return Json(new { Data = data, TotalCount = totalCount }, JsonRequestBehavior.AllowGet);
         }
 
-        [Transaction]
         [HttpPost]
         public virtual void UpdateGridData(TModel model)
         {
@@ -70,7 +69,6 @@ namespace Hrm.Web.Controllers.Base
             }
         }
 
-        [Transaction]
         [HttpDelete]
         public virtual void DeleteGridData(TModel model)
         {
@@ -81,7 +79,6 @@ namespace Hrm.Web.Controllers.Base
             }
         }
 
-        [Transaction]
         [HttpPut]
         public virtual void CreateGridData(TModel model)
         {

@@ -1,6 +1,7 @@
 ﻿using Hrm.Core.Entities.Base;
 using Hrm.Core.Enums;
 using Iesi.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Hrm.Core.Entities
 {
@@ -12,14 +13,14 @@ namespace Hrm.Core.Entities
 
         public virtual ProjectStatuses Status { get; set; }
 
-        public virtual ISet<Job> Jobs { get; set; } 
+        public virtual ICollection<Job> Jobs { get; set; }
 
-        public virtual ISet<User> UsersInProject { get; set; }
+        public virtual ICollection<User> UsersInProject { get; set; }
 
         public Project()
         {
-            this.Jobs = new HashedSet<Job>();
-            this.UsersInProject = new HashedSet<User>();
+            //this.Jobs = new HashedSet<Job>();
+            //this.UsersInProject = new HashedSet<User>();
         }
     }
 }

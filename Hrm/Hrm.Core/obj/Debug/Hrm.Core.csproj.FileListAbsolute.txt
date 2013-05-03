@@ -9,6 +9,6 @@ D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Core\bin\Debug\Hrm.Core.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Core\bin\Debug\Hrm.Core.pdb
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Core\bin\Debug\Iesi.Collections.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Core\bin\Debug\Iesi.Collections.xml
-D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Core\obj\Debug\Hrm.Core.csprojResolveAssemblyReference.cache
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Core\obj\Debug\Hrm.Core.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Core\obj\Debug\Hrm.Core.pdb
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Core\obj\Debug\Hrm.Core.csprojResolveAssemblyReference.cache

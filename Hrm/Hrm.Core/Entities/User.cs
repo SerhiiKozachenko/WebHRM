@@ -1,6 +1,7 @@
 ﻿using Hrm.Core.Entities.Base;
 using Hrm.Core.Enums;
 using Iesi.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Hrm.Core.Entities
 {
@@ -24,20 +25,20 @@ namespace Hrm.Core.Entities
 
         public virtual Profile Profile { get; set; }
 
-        public virtual ISet<JobApplication> Applications { get; set; }
+        public virtual ICollection<JobApplication> Applications { get; set; }
 
-        public virtual ISet<Project> Projects { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
 
-        public virtual ISet<Department> Departments { get; set; }
+        public virtual ICollection<Department> Departments { get; set; }
 
-        public virtual ISet<UserSkill> Skills { get; set; } 
+        public virtual ICollection<UserSkill> Skills { get; set; } 
 
         public User()
         {
-            this.Applications = new HashedSet<JobApplication>();
-            this.Projects = new HashedSet<Project>();
-            this.Departments = new HashedSet<Department>();
-            this.Skills = new HashedSet<UserSkill>();
+            //this.Applications = new HashedSet<JobApplication>();
+            //this.Projects = new HashedSet<Project>();
+            //this.Departments = new HashedSet<Department>();
+            //this.Skills = new HashedSet<UserSkill>();
         }
     }
 }

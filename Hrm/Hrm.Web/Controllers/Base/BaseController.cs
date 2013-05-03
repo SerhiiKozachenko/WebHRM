@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
-using Hrm.Core.Entities;
-using Hrm.Core.Interfaces.Repositories.Base;
+using Hrm.Data.EF.Models;
+using Hrm.Data.EF.Repositories.Contracts;
 
 namespace Hrm.Web.Controllers.Base
 {

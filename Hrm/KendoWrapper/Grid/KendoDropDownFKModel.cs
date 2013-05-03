@@ -1,8 +1,8 @@
 ﻿namespace KendoWrapper.Grid
 {
-    public class KendoDropDownFKModel
+    public class KendoDropDownFKModel<T>
     {
-        public object value { get; set; }
+        public T value { get; set; }
 
         public string text { get; set; }
     }

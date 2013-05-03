@@ -112,8 +112,6 @@ D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\DotNetOpenAuth.OpenId.RelyingPar
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\EntityFramework.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\FluentValidation.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\FluentValidation.Mvc.dll
-D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\Hrm.Core.dll
-D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\Hrm.Data.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\Iesi.Collections.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\Jurassic.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\KendoWrapper.dll
@@ -138,9 +136,6 @@ D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\WebActivator.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\WebGrease.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\WebMatrix.Data.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\WebMatrix.WebData.dll
-D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\FluentNHibernate.dll
-D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\Hrm.Core.pdb
-D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\Hrm.Data.pdb
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\KendoWrapper.pdb
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\AutoMapper.xml
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\Castle.Core.xml
@@ -174,7 +169,6 @@ D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\DotNetOpenAuth.OAuth.Consumer.xm
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\DotNetOpenAuth.OAuth.xml
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\DotNetOpenAuth.OpenId.xml
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\DotNetOpenAuth.OpenId.RelyingParty.xml
-D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\FluentNHibernate.xml
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\de\FluentValidation.resources.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\es\FluentValidation.resources.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\fr\FluentValidation.resources.dll
@@ -188,3 +182,5 @@ D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\tr\FluentValidation.resources.dl
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\obj\Debug\Hrm.Web.csprojResolveAssemblyReference.cache
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\obj\Debug\Hrm.Web.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\obj\Debug\Hrm.Web.pdb
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\Hrm.Data.EF.dll
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\Hrm.Data.EF.pdb

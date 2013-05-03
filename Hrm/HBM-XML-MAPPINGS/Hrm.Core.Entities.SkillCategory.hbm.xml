@@ -4,18 +4,18 @@
       <column name="Id" />
       <generator class="identity" />
     </id>
-    <set cascade="all" name="Skills" table="SkillNames">
+    <bag cascade="all" name="Skills" table="SkillNames">
       <key>
         <column name="SkillCategory_id" />
       </key>
       <one-to-many class="Hrm.Core.Entities.Skill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-    </set>
-    <set cascade="delete-orphan" name="UsersSkills">
+    </bag>
+    <bag cascade="delete-orphan" name="UsersSkills">
       <key>
         <column name="SkillCategory_id" />
       </key>
       <one-to-many class="Hrm.Core.Entities.UserSkill, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-    </set>
+    </bag>
     <property name="CategoryName" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
       <column name="CategoryName" />
     </property>

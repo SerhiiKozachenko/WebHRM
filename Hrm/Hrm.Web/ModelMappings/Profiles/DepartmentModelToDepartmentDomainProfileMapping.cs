@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Hrm.Core.Entities;
+using Hrm.Data.EF.Models;
 using Hrm.Web.Models.Department;
 using Profile = AutoMapper.Profile;
 

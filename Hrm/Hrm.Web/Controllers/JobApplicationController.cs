@@ -1,10 +1,9 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using Hrm.Core.Entities;
-using Hrm.Core.Interfaces.Repositories.Base;
+using Hrm.Data.EF.Models;
+using Hrm.Data.EF.Repositories.Contracts;
 using Hrm.Web.Controllers.Base;
-using Hrm.Web.Models.Job;
 using Hrm.Web.Models.JobApplication;
 using KendoWrapper.Grid.Context;
 

@@ -1,5 +1,6 @@
 ﻿using Hrm.Core.Entities.Base;
 using Iesi.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Hrm.Core.Entities
 {
@@ -9,14 +10,14 @@ namespace Hrm.Core.Entities
 
         public virtual string Description { get; set; }
 
-        public virtual ISet<Skill> Skills { get; set; }
+        public virtual ICollection<Skill> Skills { get; set; }
 
-        public virtual ISet<UserSkill> UsersSkills { get; set; } 
+        public virtual ICollection<UserSkill> UsersSkills { get; set; } 
 
         public SkillCategory()
         {
-            this.Skills = new HashedSet<Skill>();
-            this.UsersSkills = new HashedSet<UserSkill>();
+            //this.Skills = new HashedSet<Skill>();
+            //this.UsersSkills = new HashedSet<UserSkill>();
         }
     }
 }

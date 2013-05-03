@@ -4,13 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
-using Hrm.Core.Entities;
-using Hrm.Core.Interfaces.Repositories.Base;
-using Hrm.Data.Implementations.Specifications.Users;
+using Hrm.Data.EF.Models;
+using Hrm.Data.EF.Repositories.Contracts;
+using Hrm.Data.EF.Specifications.Implementations.Users;
 using Hrm.Web.Controllers.Base;
-using Hrm.Web.Filters;
 using Hrm.Web.Models.Profile;
-using Profile = Hrm.Core.Entities.Profile;
+using Profile = Hrm.Data.EF.Models.Profile;
 
 namespace Hrm.Web.Controllers
 {
@@ -41,7 +40,6 @@ namespace Hrm.Web.Controllers
         }
 
         [HttpPost]
-        [Transaction]
         [ValidateAntiForgeryToken]
         public ActionResult Index(ProfileModel model)
         {
@@ -77,7 +75,6 @@ namespace Hrm.Web.Controllers
             return View(model);
         }
 
-        [Transaction]
         public ActionResult RemoveResume()
         {
             var curUser = this.usersRepo.FindOne(new UserByLoginSpecify(User.Identity.Name));

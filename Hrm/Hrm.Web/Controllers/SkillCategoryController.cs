@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Hrm.Core.Entities;
-using Hrm.Core.Interfaces.Repositories.Base;
+using Hrm.Data.EF.Models;
+using Hrm.Data.EF.Repositories.Contracts;
 using Hrm.Web.Controllers.Base;
 using Hrm.Web.Models.SkillCategory;
 using KendoWrapper.Grid;
@@ -16,7 +16,7 @@ namespace Hrm.Web.Controllers
 
         public JsonResult GetAllSkillCategories()
         {
-            var model = base.repo.Select(x => new KendoDropDownFKModel { value = x.Id, text = x.CategoryName });
+            var model = base.repo.Select(x => new KendoDropDownFKModel<long> { value = x.Id, text = x.Name });
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }

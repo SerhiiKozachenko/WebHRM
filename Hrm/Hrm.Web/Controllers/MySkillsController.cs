@@ -1,12 +1,11 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using Hrm.Core.Entities;
-using Hrm.Core.Interfaces.Repositories.Base;
-using Hrm.Data.Implementations.Specifications.Common;
-using Hrm.Data.Implementations.Specifications.Users;
+using Hrm.Data.EF.Models;
+using Hrm.Data.EF.Repositories.Contracts;
+using Hrm.Data.EF.Specifications.Implementations.Common;
+using Hrm.Data.EF.Specifications.Implementations.Users;
 using Hrm.Web.Controllers.Base;
-using Hrm.Web.Filters;
 using Hrm.Web.Models.MySkills;
 using KendoWrapper.Grid;
 using KendoWrapper.Grid.Context;
@@ -35,7 +34,7 @@ namespace Hrm.Web.Controllers
         {
             var curUser = this.usersRepo.FindOne(new UserByLoginSpecify(User.Identity.Name));
             Mapper.CreateMap<SkillCategory, MySkillCategoryModel>();
-            var mySkillsCats = curUser.Skills.Select(x => x.SkillCategory).Distinct().Select(Mapper.Map<MySkillCategoryModel>);
+            var mySkillsCats = curUser.UsersSkills.Select(x => x.SkillCategory).Distinct().Select(Mapper.Map<MySkillCategoryModel>);
 
             return this.Json(new {MySkillsCats = mySkillsCats, TotalCount = mySkillsCats.Count()}, JsonRequestBehavior.AllowGet);
         }
@@ -43,7 +42,7 @@ namespace Hrm.Web.Controllers
         public JsonResult GetDetailedRowGridData(GridContext ctx)
         {
             var curUser = this.usersRepo.FindOne(new UserByLoginSpecify(User.Identity.Name));
-            var mySkills = curUser.Skills.AsQueryable();
+            var mySkills = curUser.UsersSkills.AsQueryable();
             
             if (ctx.HasFilters)
             {
@@ -56,35 +55,36 @@ namespace Hrm.Web.Controllers
         public JsonResult GetSkillCategoriesForAdd()
         {
             var curUser = this.usersRepo.FindOne(new UserByLoginSpecify(User.Identity.Name));
-            var mySkillsCats = curUser.Skills.Select(x => x.SkillCategory).Distinct();
-            var skillCatsForAdd = this.skillCategoriesRepo.ToList().Except(mySkillsCats).Select(x => new KendoDropDownFKModel{value = x.Id, text = x.CategoryName});
+            var mySkillsCats = curUser.UsersSkills.Select(x => x.SkillCategory).Distinct();
+            var skillCatsForAdd = this.skillCategoriesRepo.ToList().Except(mySkillsCats).Select(x => new KendoDropDownFKModel<long>{value = x.Id, text = x.Name});
 
             return Json(skillCatsForAdd, JsonRequestBehavior.AllowGet);
         }
 
-        [Transaction]
         [HttpPost]
         public void UpdateGridData(MySkillModel model)
         {
-            var curUser = this.usersRepo.FindOne(new UserByLoginSpecify(User.Identity.Name));
-            var userSkillToUpdate = curUser.Skills.Single(x => x.Id.Equals(model.Id));
+            //var curUser = this.usersRepo.FindOne(new UserByLoginSpecify(User.Identity.Name));
+            //var userSkillToUpdate = curUser.UsersSkills.Single(x => x.Id.Equals(model.Id));
+            //userSkillToUpdate.Estimate = model.Estimate;
+            //this.userSkillsRepo.SaveOrUpdate(userSkillToUpdate);
+
+            var userSkillToUpdate = this.userSkillsRepo.FindOne(new ByIdSpecify<UserSkill>(model.Id));
             userSkillToUpdate.Estimate = model.Estimate;
             this.userSkillsRepo.SaveOrUpdate(userSkillToUpdate);
         }
 
-        [Transaction]
         [HttpDelete]
         public void DeleteGridData(MySkillCategoryModel model)
         {
             var curUser = this.usersRepo.FindOne(new UserByLoginSpecify(User.Identity.Name));
-            var userSkillsToRem = curUser.Skills.Where(x => x.SkillCategory.Id.Equals(model.Id));
+            var userSkillsToRem = curUser.UsersSkills.Where(x => x.SkillCategory.Id.Equals(model.Id));
             foreach (var skillsToRem in userSkillsToRem)
             {
                 this.userSkillsRepo.Delete(skillsToRem);
             }
         }
 
-        [Transaction]
         [HttpPut]
         public void CreateGridData(long skillsCatId)
         {
@@ -94,9 +94,9 @@ namespace Hrm.Web.Controllers
             {
                 this.userSkillsRepo.SaveOrUpdate(new UserSkill
                 {
-                    User = curUser,
-                    SkillCategory = skillsCat,
-                    Skill = skill
+                    UserId = curUser.Id,
+                    SkillCategoryId = skillsCat.Id,
+                    SkillId = skill.Id
                 });
             }
         }

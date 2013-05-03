@@ -9,7 +9,6 @@ namespace Hrm.Web.App_Start
         {
             Mapper.Initialize(x =>
             {
-                x.AddProfile<SkillMatrixModelToSkillMatrixDomainMappingProfile>();
                 x.AddProfile<DepartmentModelToDepartmentDomainProfileMapping>();
                 x.AddProfile<JobModelToJobDomainProfileMapping>();
                 x.AddProfile<JobApplicationModelToJobApplicationDomainProfileMapping>();

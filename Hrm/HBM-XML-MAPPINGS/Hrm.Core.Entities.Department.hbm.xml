@@ -4,20 +4,20 @@
       <column name="Id" />
       <generator class="identity" />
     </id>
-    <set name="UsersInDepartment" table="UsersInDepartments">
+    <bag name="UsersInDepartment" table="UsersInDepartments">
       <key>
         <column name="Department_id" />
       </key>
       <many-to-many class="Hrm.Core.Entities.User, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <column name="User_id" />
       </many-to-many>
-    </set>
-    <set name="Jobs">
+    </bag>
+    <bag name="Jobs">
       <key>
         <column name="Department_id" />
       </key>
       <one-to-many class="Hrm.Core.Entities.Job, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-    </set>
+    </bag>
     <property name="Title" type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
       <column name="Title" />
     </property>

@@ -1,13 +1,12 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using Hrm.Core.Entities;
-using Hrm.Core.Enums;
-using Hrm.Core.Interfaces.Repositories.Base;
-using Hrm.Data.Implementations.Specifications.Common;
-using Hrm.Data.Implementations.Specifications.Users;
+using Hrm.Data.EF.Models;
+using Hrm.Data.EF.Models.Enums;
+using Hrm.Data.EF.Repositories.Contracts;
+using Hrm.Data.EF.Specifications.Implementations.Common;
+using Hrm.Data.EF.Specifications.Implementations.Users;
 using Hrm.Web.Controllers.Base;
-using Hrm.Web.Filters;
 using Hrm.Web.Models.Department;
 using KendoWrapper.Grid;
 using KendoWrapper.Grid.Context;
@@ -61,12 +60,11 @@ namespace Hrm.Web.Controllers
                 }
             }
 
-            var departments = query.Skip(ctx.Skip).Take(ctx.Take).Select(Mapper.Map<DepartmentModel>);
+            var departments = query.OrderBy(x=>x.Id).Skip(ctx.Skip).Take(ctx.Take).Select(Mapper.Map<DepartmentModel>);
 
             return Json(new { Departments = departments, TotalCount = totalCount }, JsonRequestBehavior.AllowGet);
         }
 
-        [Transaction]
         [HttpPost]
         public void UpdateGridData(DepartmentModel model)
         {
@@ -79,7 +77,6 @@ namespace Hrm.Web.Controllers
             }
         }
 
-        [Transaction]
         [HttpDelete]
         public void DeleteGridData(DepartmentModel model)
         {
@@ -90,7 +87,6 @@ namespace Hrm.Web.Controllers
             }
         }
 
-        [Transaction]
         [HttpPut]
         public void CreateGridData(DepartmentModel model)
         {
@@ -103,7 +99,7 @@ namespace Hrm.Web.Controllers
 
         public JsonResult GetAllDepartmentsFKDropDownModel()
         {
-            var model = this.departmentsRepo.Select(x => new KendoDropDownFKModel {value = x.Id, text = x.Title});
+            var model = this.departmentsRepo.Select(x => new KendoDropDownFKModel<long> {value = x.Id, text = x.Title});
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }

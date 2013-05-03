@@ -1,8 +1,8 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Hrm.Core.Interfaces.Services;
-using Hrm.Data.Implementations.Services;
+using Hrm.Data.EF.Services;
+using Hrm.Data.EF.Services.Contracts;
 
 namespace Hrm.Web.Infrastructure.Installers
 {

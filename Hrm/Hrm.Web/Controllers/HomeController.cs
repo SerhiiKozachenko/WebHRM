@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
-using Hrm.Core.Entities;
-using Hrm.Core.Enums;
-using Hrm.Core.Interfaces.Repositories.Base;
-using Hrm.Data.Implementations.Specifications.Users;
+using Hrm.Data.EF.Models;
+using Hrm.Data.EF.Models.Enums;
+using Hrm.Data.EF.Repositories.Contracts;
+using Hrm.Data.EF.Specifications.Implementations.Users;
 using Hrm.Web.Controllers.Base;
 
 namespace Hrm.Web.Controllers
@@ -15,6 +15,10 @@ namespace Hrm.Web.Controllers
 
         public ActionResult Index()
         {
+            var rep = new Hrm.Data.EF.Repositories.Base.Repository<User>();
+            var df = rep.FindOne(new UserByLoginSpecify(User.Identity.Name));
+
+
             var curUser = this.usersRepo.FindOne(new UserByLoginSpecify(User.Identity.Name));
 
             if (curUser.Role.HasFlag(Roles.Manager))

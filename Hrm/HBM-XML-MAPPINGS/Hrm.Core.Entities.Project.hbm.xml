@@ -4,20 +4,20 @@
       <column name="Id" />
       <generator class="identity" />
     </id>
-    <set name="UsersInProject" table="UsersInProjects">
+    <bag name="UsersInProject" table="UsersInProjects">
       <key>
         <column name="Project_id" />
       </key>
       <many-to-many class="Hrm.Core.Entities.User, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <column name="User_id" />
       </many-to-many>
-    </set>
-    <set name="Jobs">
+    </bag>
+    <bag name="Jobs">
       <key>
         <column name="Project_id" />
       </key>
       <one-to-many class="Hrm.Core.Entities.Job, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-    </set>
+    </bag>
     <property name="Status" type="Hrm.Core.Enums.ProjectStatuses, Hrm.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <column name="Status" />
     </property>
