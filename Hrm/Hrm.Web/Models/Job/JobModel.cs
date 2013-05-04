@@ -8,10 +8,8 @@
 
         public string Description { get; set; }
 
-        public int? Salary { get; set; }
+        public int Salary { get; set; }
 
         public long DepartmentId { get; set; }
-
-        public long? SkillMatrixId { get; set; }
     }
 }

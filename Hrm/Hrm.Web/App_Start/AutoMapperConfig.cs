@@ -15,6 +15,8 @@ namespace Hrm.Web.App_Start
                 x.AddProfile<MySkillModelToUserSkillsDomainMappingProfile>();
                 x.AddProfile<SkillCategoryModelToSkillCategoryDomainMappingProfile>();
                 x.AddProfile<SkillModelToSkillDomainMappingProfile>();
+                x.AddProfile<ProjectFormalizeNameProfile>();
+                x.AddProfile<ProjectModelProfile>();
             });
         }
     }

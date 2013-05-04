@@ -224,6 +224,8 @@
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\MySkillsController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\ProjectFormalizeNameController.cs" />
     <Compile Include="Controllers\SkillCategoryController.cs" />
     <Compile Include="Controllers\SkillController.cs" />
     <Compile Include="Global.asax.cs">
@@ -239,6 +241,8 @@
     <Compile Include="ModelMappings\Profiles\JobApplicationModelToJobApplicationDomainProfileMapping.cs" />
     <Compile Include="ModelMappings\Profiles\JobModelToJobDomainProfileMapping.cs" />
     <Compile Include="ModelMappings\Profiles\MySkillModelToUserSkillsDomainMappingProfile.cs" />
+    <Compile Include="ModelMappings\Profiles\ProjectFormalizeNameProfile.cs" />
+    <Compile Include="ModelMappings\Profiles\ProjectModelProfile.cs" />
     <Compile Include="ModelMappings\Profiles\SkillCategoryModelToSkillCategoryDomainMappingProfile.cs" />
     <Compile Include="ModelMappings\Profiles\SkillModelToSkillDomainMappingProfile.cs" />
     <Compile Include="Models\Account\LoginModel.cs" />
@@ -254,6 +258,8 @@
     <Compile Include="Models\MySkills\MySkillCategoryModel.cs" />
     <Compile Include="Models\MySkills\MySkillModel.cs" />
     <Compile Include="Models\Profile\ProfileModel.cs" />
+    <Compile Include="Models\ProjectFormalizeName\ProjectFormalizeNameModel.cs" />
+    <Compile Include="Models\Project\ProjectModel.cs" />
     <Compile Include="Models\SkillCategory\SkillCategoryModel.cs" />
     <Compile Include="Models\SkillMatrix\SkillMatrixModel.cs" />
     <Compile Include="Models\SkillMatrix\Skills.cs" />
@@ -806,6 +812,8 @@
     <Content Include="Views\Skill\Index.cshtml" />
     <Content Include="Views\MySkills\Index.cshtml" />
     <Content Include="Views\SkillCategory\Index.cshtml" />
+    <Content Include="Views\ProjectFormalizeName\Index.cshtml" />
+    <Content Include="Views\Project\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

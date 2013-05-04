@@ -1,0 +1,132 @@
+﻿@using Hrm.Web.Models.Menu
+@{
+    ViewBag.Title = "Projects";
+}
+@section links
+{
+    <link href="../../Content/kendo-ui/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/kendo-ui/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+}
+@section scripts
+{
+    <script src="../../Scripts/kendo-ui/kendo.web.min.js" type="text/javascript"></script>
+    <script>
+        function descriptionEditor(container, options) {
+            $('<textarea data-bind="value: ' + options.field + '" cols="20" rows="4" required></textarea>')
+            .appendTo(container);
+        }
+
+        function edit() {
+            var grid = $("#grid").data("kendoGrid");
+            grid.editRow(grid.select());
+        }
+
+        function add() {
+            var grid = $("#grid").data("kendoGrid");
+            grid.addRow();
+        }
+
+        function rem() {
+            var grid = $("#grid").data("kendoGrid");
+            grid.removeRow(grid.select());
+        }
+
+        $(function () {
+            $.ajax({
+                url: 'ProjectFormalizeName/GetAllProjectFormalizeNamesFKDropDownModel',
+                success: function (formalizeNames) {
+                    var grid = $("#grid").kendoGrid({
+                        dataSource: {
+                            type: "json",
+                            serverPaging: true,
+                            serverSorting: true,
+                            serverFiltering: true,
+                            pageSize: 10,
+                            transport: {
+                                read: { url: "Project/GetGridData", dataType: "json", type: 'GET' },
+                                update: { url: "Project/UpdateGridData", dataType: "json", type: 'POST' },
+                                destroy: { url: "Project/DeleteGridData", dataType: "json", type: 'DELETE' },
+                                create: { url: "Project/CreateGridData", dataType: "json", type: 'PUT', complete: function (e) { $("#grid").data("kendoGrid").dataSource.read(); } }
+                            },
+                            schema: {
+                                model: {
+                                    id: "Id",
+                                    fields: {
+                                        Id: { editable: false },
+                                        Title: { type: 'string', validation: { required: true } },
+                                        Description: { type: 'string', validation: { required: true } },
+                                        Status: { type: 'number', validation: { min: 0 } },
+                                        ProjectFormalizeNameId: { field: 'ProjectFormalizeNameId', type: 'number', validation: { required: true } }
+                                    }
+                                },
+                                data: "Data",
+                                total: "TotalCount"
+                            }
+                        },
+                        height: '500',
+
+                        pageable: {
+                            refresh: true,
+                            pageSizes: true
+                        },
+                        sortable: true,
+                        filterable: true,
+
+                        editable: 'popup',
+                        toolbar: [
+                            { text: 'Add', template: '<button class="btn" onclick="add()"><i class="icon-file"></i> Add</button>' },
+                            { text: 'Edit', template: '<button class="btn" onclick="edit()"><i class="icon-edit"></i> Edit</button>' },
+                            { text: 'Remove', template: '<button class="btn" onclick="rem()"><i class="icon-trash"></i> Delete</button>' }
+
+                        ],
+                        selectable: true,
+                        columns: [
+                            { field: "Title", title: "Title", width: 150 },
+                            { field: "Description", title: "Description", width: 200, editor: descriptionEditor },
+                            { field: "Status", title: "Status", width: 100, format: "{0:c}" },
+                            { field: "ProjectFormalizeNameId", sortable: false, title: "Formalize Name", values: formalizeNames, width: 110 }
+                        ]
+                    });
+                    //var dropDown = grid.find("#formalizeNames").kendoDropDownList({
+                    //    dataTextField: "text",
+                    //    dataValueField: "value",
+                    //    autoBind: false,
+                    //    optionLabel: "All",
+                    //    dataSource: {
+                    //        type: "json",
+                    //        severFiltering: true,
+                    //        transport: {
+                    //            read: 'ProjectFormalizeName/GetAllProjectFormalizeNamesFKDropDownModel',
+                    //        }
+                    //    },
+                    //    change: function () {
+                    //        var value = this.value();
+                    //        if (value) {
+                    //            grid.data("kendoGrid").dataSource.filter({ field: "ProjectFormalizeNameId", operator: "eq", value: parseInt(value) });
+                    //        } else {
+                    //            grid.data("kendoGrid").dataSource.filter({});
+                    //        }
+                    //    }
+                    //});
+                }
+            });
+        });
+    </script>
+}
+
+@section menu
+{
+    @Html.Partial("_ManagerTopMenu", ManagerTopMenuItems.MyProfile)
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+@{
+    Html.RenderPartial("_ManagerLeftMenu", ManagerLeftMenuItems.Projects);
+}
+        <div class="span9">
+            <!--Body content-->
+            <div id="grid"></div>
+        </div>
+    </div>
+</div>

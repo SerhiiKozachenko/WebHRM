@@ -15,7 +15,7 @@ namespace Hrm.Web.Models.JobApplication
 
         public DateTime FilingDate { get; set; }
 
-        public int? DesiredSalary { get; set; }
+        public int DesiredSalary { get; set; }
 
         public JobApplicationStatuses Status { get; set; }
     }

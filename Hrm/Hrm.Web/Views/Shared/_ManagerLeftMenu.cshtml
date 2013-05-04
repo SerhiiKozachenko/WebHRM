@@ -7,9 +7,11 @@
     var jobs = Model == ManagerLeftMenuItems.Jobs ? "active" : string.Empty;
     var skillsCategories = Model == ManagerLeftMenuItems.SkillsCategories ? "active" : string.Empty;
     var skills = Model == ManagerLeftMenuItems.Skills ? "active" : string.Empty;
+    var formalize = Model == ManagerLeftMenuItems.ProjectFormalizeNames ? "active" : string.Empty;
+    var projects = Model == ManagerLeftMenuItems.Projects ? "active" : string.Empty;
 }
 
-<div class="span2">
+<div class="span3">
     <!--Sidebar content-->
     <ul class="nav nav-list well">
         
@@ -23,5 +25,7 @@
         <li title="Departments" class="@departments">@Html.ActionLink("Departments", "Index", "Department")</li>
         <li title="Skill Types" class="@skillsCategories">@Html.ActionLink("Skill Types", "Index", "SkillCategory")</li>
         <li title="Skills" class="@skills">@Html.ActionLink("Skills", "Index", "Skill")</li>
+        <li title="Formalize Names" class="@formalize">@Html.ActionLink("Formalize Names", "Index", "ProjectFormalizeName")</li>
+        <li title="Projects" class="@projects">@Html.ActionLink("Projects", "Index", "Project")</li>
     </ul>
 </div>
