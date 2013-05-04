@@ -2,6 +2,6 @@
 {
     public enum ManagerLeftMenuItems
     {
-        MyProfile, Departments, Jobs, SkillsCategories, Skills, ProjectFormalizeNames, Projects
+        MyProfile, Departments, Jobs, SkillsCategories, Skills, ProjectFormalizeNames, Projects, TestCategories, Tests
     }
 }

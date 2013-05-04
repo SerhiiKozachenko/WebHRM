@@ -32,6 +32,8 @@ namespace Hrm.Data.EF.Models
 
         public virtual ICollection<Department> Departments { get; set; }
 
-        public virtual ICollection<UserSkill> UsersSkills { get; set; } 
+        public virtual ICollection<UserSkill> UsersSkills { get; set; }
+
+        public virtual ICollection<TestResult> TestResults { get; set; } 
     }
 }

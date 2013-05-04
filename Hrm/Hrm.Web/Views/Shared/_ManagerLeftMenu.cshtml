@@ -9,6 +9,8 @@
     var skills = Model == ManagerLeftMenuItems.Skills ? "active" : string.Empty;
     var formalize = Model == ManagerLeftMenuItems.ProjectFormalizeNames ? "active" : string.Empty;
     var projects = Model == ManagerLeftMenuItems.Projects ? "active" : string.Empty;
+    var testCategories = Model == ManagerLeftMenuItems.TestCategories ? "active" : string.Empty;
+    var tests = Model == ManagerLeftMenuItems.Tests ? "active" : string.Empty;
 }
 
 <div class="span3">
@@ -27,5 +29,7 @@
         <li title="Skills" class="@skills">@Html.ActionLink("Skills", "Index", "Skill")</li>
         <li title="Formalize Names" class="@formalize">@Html.ActionLink("Formalize Names", "Index", "ProjectFormalizeName")</li>
         <li title="Projects" class="@projects">@Html.ActionLink("Projects", "Index", "Project")</li>
+        <li title="Test Categories" class="@testCategories">@Html.ActionLink("Test Categories", "Index", "TestCategory")</li>
+        <li title="Tests" class="@tests">@Html.ActionLink("Tests", "Index", "Test")</li>
     </ul>
 </div>

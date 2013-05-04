@@ -1,0 +1,203 @@
+﻿@model Hrm.Data.EF.Models.Test
+
+@{
+    ViewBag.Title = "Редактирование теста";
+}
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <script src="../../Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+}
+
+<div class="row-fluid">
+    <div class="span6">
+        <div id="TestInfoDiv">
+            
+            @Html.Partial("_PartialChangedTest",Model)
+        </div>
+    </div>
+    
+    
+    
+    <div class="span6">
+        
+        @Ajax.ActionLink("+ Добавить вопрос", "AddQuestionEdit", null, new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, OnBegin = "ClickAddQuestionBtn", OnSuccess = "LoadedAddQuestionForm" }, new { id = "ShowAddQuestionForm" })
+        <div id="AddQuestionForm" class="hide">
+            <!-- Here will be partialView with add question Form -->
+        </div>
+        <div id="EditQuestionForm">
+            <!-- Here will be partialView with edit selected question Form -->
+        </div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    
+ 
+    function ClickAddQuestionBtn() {
+        $('#ShowAddQuestionForm').slideUp('fast', function () {
+            $('#EditQuestionForm').slideUp('fast', function () {
+                $('#AddQuestionForm').slideDown('fast');
+                $('#EditQuestionForm').empty();
+            });
+
+        });
+    }
+
+    function LoadedAddQuestionForm(result) {
+        $('#AddQuestionForm').empty();
+        $('#AddQuestionForm').html(result);
+
+    }
+
+
+    var lastEditQuestionId = 0;
+
+    var NameDescValid = true;
+
+    //Ajax loading form for edit selected question
+    function QuestionEdit(id) {
+        
+        //Ajax call to return partialView with edit question Form
+        $.ajax({
+            url: '/test/EditQuestion',
+            cache: 'none',
+            type: 'post',
+            data: 'id=' + id,
+            success: function (result, status, xhr) {
+                $('#AddQuestionForm').slideUp('fast', function () {
+                    $('#AddQuestionForm').empty();
+                    $('#ShowAddQuestionForm').slideDown('fast', function () {
+                        $('#EditQuestionForm').empty();
+                        $('#EditQuestionForm').html(result);
+                        $('#EditQuestionForm').slideDown('fast');
+
+                        //setting last question edit for collapse show them after
+                        lastEditQuestionId = id;
+                    });
+                });
+
+
+            }
+        });
+    }
+
+
+    //Ajax delete question
+
+    function QuestionRemove(id) {
+        $.ajax({
+            url: '/test/RemoveQuestion',
+            type: 'post',
+            data: 'id=' + id,
+            success: function (result) {
+                if (result.isValid == false) {
+                    alert('Ошибка!');
+                } else {
+                    $('#' + id).slideUp('middle', function () {
+                        $('#EditQuestionForm').empty();
+                        $('#TestInfoDiv').empty();
+                        $('#TestInfoDiv').html(result);
+                    });
+                }
+            }
+        });
+    }
+
+    //Change name and description
+    function NameDescEdit() {
+        $('#NameDescDivShow').slideUp('middle', function() {
+            $('#NameDescDivEdit').slideDown('middle',function () {
+                AnotherEditDisable();
+            });
+        });
+        
+    }
+    
+    function AnotherEditDisable() {
+        $('[name=editBtn]').each(function () {
+            $(this).addClass('hide');
+        });
+
+    }
+
+    function AnotherEditEnable() {
+        $('[name=editBtn]').each(function () {
+            $(this).removeClass('hide');
+        });
+    }
+
+    function NameDescSave() {
+        if($('#Name').val()!='') {
+            NameDescValid = true;
+
+            if ($('#Description').val() != '') {
+                NameDescValid = true;
+            } else {
+                $('#NameDescDivEdit').removeClass('alert-info');
+                $('#NameDescDivEdit').addClass('alert-danger');
+                $('#DescValidError').removeClass('hide');
+                NameDescValid = false;
+            }
+
+        } else {
+            $('#NameDescDivEdit').removeClass('alert-info');
+            $('#NameDescDivEdit').addClass('alert-danger');
+            $('#NameValidError').removeClass('hide');
+            NameDescValid = false;
+
+            if ($('#Description').val() == '') {
+                $('#NameDescDivEdit').removeClass('alert-info');
+                $('#NameDescDivEdit').addClass('alert-danger');
+                $('#DescValidError').removeClass('hide');
+                NameDescValid = false;
+            }
+        }
+
+       
+        
+        if(NameDescValid) {
+            //All data valid
+            //Changing style
+            $('#NameValidError').addClass('hide');
+            $('#DescValidError').addClass('hide');
+            $('#NameDescDivEdit').removeClass('alert-danger');
+            $('#NameDescDivEdit').addClass('alert-info');
+            //begin ajax
+            $.ajax({
+                url: '/Test/ChangeNameDesc',
+                type: 'Post',
+                //                data: 'name=' + $('#Name').val() + '&Description=' + $('#Description').val(),
+                data: { Name: $('#Name').val(), Description: $('#Description').val(), Id: $('#testId').attr('name') },
+                success: function (result, status, xhr) {
+                    if (result.isValid) {
+                        //Changing spans to new values
+
+                        $('#NameSpan').text($('#Name').val());
+                        $('#DescSpan').text($('#Description').val());
+                        //Changing to show style
+                        $('#NameDescDivEdit').slideUp('middle', function () {
+                            $('#NameDescDivShow').slideDown('middle',function () {
+                                AnotherEditEnable();
+                            });
+                        });
+                       
+                    } else {
+                        alert('Ошибка!');
+                    }
+                }
+            });
+
+        } else {
+            return false;
+        }
+
+    }
+</script>
+
+
+

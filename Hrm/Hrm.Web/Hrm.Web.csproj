@@ -230,6 +230,8 @@
     <Compile Include="Controllers\SelectionController.cs" />
     <Compile Include="Controllers\SkillCategoryController.cs" />
     <Compile Include="Controllers\SkillController.cs" />
+    <Compile Include="Controllers\TestCategoryController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -248,6 +250,8 @@
     <Compile Include="ModelMappings\Profiles\ProjectModelProfile.cs" />
     <Compile Include="ModelMappings\Profiles\SkillCategoryModelToSkillCategoryDomainMappingProfile.cs" />
     <Compile Include="ModelMappings\Profiles\SkillModelToSkillDomainMappingProfile.cs" />
+    <Compile Include="ModelMappings\Profiles\TestCategoryModelProfile.cs" />
+    <Compile Include="ModelMappings\Profiles\TestModelProfile.cs" />
     <Compile Include="Models\Account\LoginModel.cs" />
     <Compile Include="Models\Account\RegisterModel.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
@@ -276,6 +280,11 @@
     <Compile Include="Models\SkillMatrix\SkillsModels\ProgrammingSkillModel.cs" />
     <Compile Include="Models\SkillMatrix\SkillsModels\QualityAssuranceSkillModel.cs" />
     <Compile Include="Models\Skill\SkillModel.cs" />
+    <Compile Include="Models\TestCategory\TestCategoryModel.cs" />
+    <Compile Include="Models\Test\ChangeNameDescModel.cs" />
+    <Compile Include="Models\Test\CreateQuestionsModel.cs" />
+    <Compile Include="Models\Test\EditQuestionModel.cs" />
+    <Compile Include="Models\Test\TestModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validations\RegisterModelValidator.cs" />
   </ItemGroup>
@@ -822,6 +831,12 @@
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Selection\Index.cshtml" />
     <Content Include="Views\JobSkill\Index.cshtml" />
+    <Content Include="Views\TestCategory\Index.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Test\Edit.cshtml" />
+    <Content Include="Views\Test\_PartialChangedTest.cshtml" />
+    <Content Include="Views\Test\_PartialAddQuestionEditForm.cshtml" />
+    <Content Include="Views\Test\_PartialEditQuestionForm.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

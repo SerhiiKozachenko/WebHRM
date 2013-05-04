@@ -59,6 +59,7 @@
     <Compile Include="DbInitializer.cs" />
     <Compile Include="Enums\SortOrder.cs" />
     <Compile Include="HrmContext.cs" />
+    <Compile Include="Mappings\AnswerMap.cs" />
     <Compile Include="Mappings\BaseModelMap.cs" />
     <Compile Include="Mappings\DepartmentMap.cs" />
     <Compile Include="Mappings\JobApplicationMap.cs" />
@@ -66,8 +67,14 @@
     <Compile Include="Mappings\JobSkillMap.cs" />
     <Compile Include="Mappings\ProfileMap.cs" />
     <Compile Include="Mappings\ProjectMap.cs" />
+    <Compile Include="Mappings\QuestionMap.cs" />
+    <Compile Include="Mappings\ResultAnswerMap.cs" />
+    <Compile Include="Mappings\ResultQuestionMap.cs" />
     <Compile Include="Mappings\SkillCategoryMap.cs" />
     <Compile Include="Mappings\SkillMap.cs" />
+    <Compile Include="Mappings\TestCategoryMap.cs" />
+    <Compile Include="Mappings\TestMap.cs" />
+    <Compile Include="Mappings\TestResultMap.cs" />
     <Compile Include="Mappings\UserMap.cs" />
     <Compile Include="Mappings\UserSkillMap.cs" />
     <Compile Include="Migrations\201305032232560_Initial.cs" />
@@ -75,6 +82,7 @@
       <DependentUpon>201305032232560_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Enums\JobApplicationStatuses.cs" />
@@ -86,8 +94,14 @@
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectFormalizeName.cs" />
+    <Compile Include="Models\Question.cs" />
+    <Compile Include="Models\ResultAnswer.cs" />
+    <Compile Include="Models\ResultQuestion.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\SkillCategory.cs" />
+    <Compile Include="Models\Test.cs" />
+    <Compile Include="Models\TestCategory.cs" />
+    <Compile Include="Models\TestResult.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserSkill.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

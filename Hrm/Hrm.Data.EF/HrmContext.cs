@@ -22,6 +22,13 @@ namespace Hrm.Data.EF
         public DbSet<SkillCategory> SkillCategory { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserSkill> UserSkills { get; set; }
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<ResultAnswer> ResultAnswers { get; set; }
+        public DbSet<ResultQuestion> ResultQuestions { get; set; }
+        public DbSet<TestCategory> TestCategories { get; set; }
+        public DbSet<Test> Tests { get; set; }
+        public DbSet<TestResult> TestResults { get; set; } 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -35,6 +42,13 @@ namespace Hrm.Data.EF
             modelBuilder.Configurations.Add(new SkillMap());
             modelBuilder.Configurations.Add(new UserMap());
             modelBuilder.Configurations.Add(new UserSkillMap());
+            modelBuilder.Configurations.Add(new AnswerMap());
+            modelBuilder.Configurations.Add(new QuestionMap());
+            modelBuilder.Configurations.Add(new ResultAnswerMap());
+            modelBuilder.Configurations.Add(new ResultQuestionMap());
+            modelBuilder.Configurations.Add(new TestCategoryMap());
+            modelBuilder.Configurations.Add(new TestMap());
+            modelBuilder.Configurations.Add(new TestResultMap());
         }
     }
 }

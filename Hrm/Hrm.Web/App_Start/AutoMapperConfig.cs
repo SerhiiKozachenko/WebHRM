@@ -18,6 +18,8 @@ namespace Hrm.Web.App_Start
                 x.AddProfile<ProjectFormalizeNameProfile>();
                 x.AddProfile<ProjectModelProfile>();
                 x.AddProfile<JobSkillModelProfile>();
+                x.AddProfile<TestCategoryModelProfile>();
+                x.AddProfile<TestModelProfile>();
             });
         }
     }

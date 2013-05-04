@@ -1,0 +1,296 @@
+﻿@model Hrm.Web.Models.Test.CreateQuestionsModel
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+
+@using (Ajax.BeginForm("SaveAddQuestionEdit", "Test", new AjaxOptions { HttpMethod = "Post" }, new { @id = "AddQuestionEditForm" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        
+        <legend>Добавить вопрос</legend>
+        
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.Question)
+            </div>
+            <div class="controls">
+                @Html.TextAreaFor(model => model.Question, 3, 3, null)
+                @Html.ValidationMessageFor(model => model.Question, null, new { @class = "val-msg" })
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.TimeToAnswer)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.TimeToAnswer)
+                @Html.ValidationMessageFor(model => model.TimeToAnswer, null, new { @class = "val-msg" })
+            </div>
+        </div>
+
+        <legend>Варианты ответов:</legend>
+        <div id="Answers">
+            
+            @{
+                int index = 0;
+                foreach (var answer in Model.Answers)
+                {
+                    <div id="AnswerContainer[@index]">
+                        <div class="control-group">
+                            <div class="control-label">
+                                Вариант @index :
+                            </div>
+                            <div class="controls">    
+                                @Html.TextAreaFor(model => model.Answers[index].Answer, 3, 3, new { @readonly="true" })
+                                @Html.ValidationMessage("Answers[" + index + "].Answer", new { @class = "validation-star" })
+                                &nbsp;
+                                
+                                <br/>
+                                
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    index++;
+                }
+            }
+
+        </div>
+        
+        
+
+        <div class="form-actions">
+            <input type="submit" value="Сохранить" class="btn btn-primary" />
+            <div class="btn" onclick='AddAnswer()'>Добавить вариант ответа</div>
+        </div>
+    </fieldset>
+}
+
+<script type="text/javascript">
+
+
+    //Answers count
+    var AnswersCount = '@Model.Answers.Count';
+
+    //StoredQuestions count
+    var StoredQuestionsCount = 0;
+
+    //StoredAnswersCount
+    var StoredAnswersCount = 0;
+
+    function checkBoxIsChecked() {
+        var count = $(':checkbox:checked').length;
+        if (count < 1 || count > 1) {
+            alert('Выберите правильный ответ!');
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function RecalculateNamesAndIds(number) {
+        var prevNumber = number - 1;
+
+        $('#AnswerContainer\\[' + number + '\\]').attr('id', 'AnswerContainer[' + prevNumber + ']');
+
+        $('#Answers_' + number + '__Answer').attr('id', 'Answers_' + prevNumber + '__Answer').attr('name', 'Answers[' + prevNumber + '].Answer');
+
+        //Update validation rule for new elemnt
+        $('[data-valmsg-for="Answers[' + number + '].Answer"]').attr('data-valmsg-for', 'Answers[' + prevNumber + '].Answer');
+
+        $('#Answers_' + number + '__IsCorrect').attr('id', 'Answers_' + prevNumber + '__IsCorrect').attr('name', 'Answers[' + prevNumber + '].IsCorrect');
+
+        $('#' + number).attr('id', prevNumber);
+
+        $('#AnswerContainer\\[' + prevNumber + '\\] > .control-group').find('.control-label')[0].textContent = 'Вариант ' + prevNumber + ':';
+
+    }
+
+
+    //This is for user can choose only 1 answer
+    //Clear all chekboxes
+    $(document).ready(function () {
+        $('input:checkbox').change(function () {
+            $('input:checkbox').removeAttr('checked');
+        });
+
+        //Ajax Question create form
+        $('#AddQuestionEditForm').submit(function () {
+
+            if (checkBoxIsChecked() == true) {
+                if ($(this).valid()) {
+                    $.ajax({
+                        url: this.action,
+                        type: this.method,
+                        data: $(this).serialize() + '&testId=' + $('#testId').attr('name'),
+
+                        success: function (result, status, xhr) {
+                            if (result.isValid == false) {
+                                alert('Ошибка!');
+                            } else {
+                                //All data has been saved
+                                //Placed PartialView with changed test
+
+                                $('#TestInfoDiv').empty();
+                                $('#TestInfoDiv').html(result);
+
+                                //Clearing form
+                                $('#Question').val('');
+                                $('#TimeToAnswer').val('');
+
+                                //reseting answercounting  global var
+                                AnswersCount = 1;
+                                var length = $('#Answers').children().size();
+                                for (var i = 0; i < length; i++) {
+                                    //!Default answer
+                                    if (i != 0) {
+                                        //removing extra answers
+                                        $('#AnswerContainer\\[' + i + '\\]').remove();
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+                return false;
+            } else {
+                return false;
+            }
+        });
+
+
+
+    });
+
+
+
+    //Add new text-box and checkbox to answers
+    function AddAnswer() {
+
+        //Div answer container
+        var answerContainer = document.createElement('div');
+        $(answerContainer).attr('id', 'AnswerContainer[' + AnswersCount + ']');
+
+        //Div class=control-group
+        var controlGroup = document.createElement('div');
+        $(controlGroup).attr('class', 'control-group');
+
+        //Div class=control-label
+        var controlLabel = document.createElement('div');
+        $(controlLabel).attr('class', 'control-label');
+        controlLabel.textContent = 'Вариант ' + AnswersCount + ':';
+
+        //Div class=controls
+        var controlsDiv = document.createElement('div');
+        $(controlsDiv).attr('class', 'controls');
+
+        //Div class=editor-field
+        var editorField = document.createElement('div');
+        $(editorField).attr('class', 'editor-field');
+
+        //Text box for answer
+        var input = document.createElement('textarea');
+        //$(input).attr('class', 'text-box single-line valid');
+        $(input).attr('id', 'Answers_' + AnswersCount + '__Answer');
+        $(input).attr('name', 'Answers[' + AnswersCount + '].Answer');
+        //$(input).attr('type', 'textarea');
+        $(input).attr('cols', '3');
+        $(input).attr('rows', '3');
+
+
+        //Validation span
+        var span = document.createElement('span');
+        $(span).attr('class', 'field-validation-valid validation-star');
+        $(span).attr('data-valmsg-for', 'Answers[' + AnswersCount + '].Answer');
+        $(span).attr('data-valmsg-replace', 'true');
+
+        //Checkbox for correct answer
+        var inputCheckBox = document.createElement('input');
+        $(inputCheckBox).attr('class', 'check-box');
+        $(inputCheckBox).attr('type', 'checkbox');
+        $(inputCheckBox).attr('id', 'Answers_' + AnswersCount + '__IsCorrect');
+        $(inputCheckBox).attr('name', 'Answers[' + AnswersCount + '].IsCorrect');
+        $(inputCheckBox).attr('value', 'true');
+
+
+        //Hidden checkbox
+        var inputCheckBoxH = document.createElement('input');
+        $(inputCheckBoxH).attr('type', 'hidden');
+        $(inputCheckBoxH).attr('value', 'false');
+        $(inputCheckBoxH).attr('name', 'Answers[' + AnswersCount + '].IsCorrect');
+
+        //Adding created elements to the DOM
+        editorField.appendChild(input);
+        editorField.appendChild(span);
+
+        //nbsp span element
+        var nbsp = document.createElement('span');
+        nbsp.innerHTML = '&nbsp;&nbsp;&nbsp;';
+
+        //Remove button
+        var remBtn = document.createElement('div');
+        $(remBtn).attr('class', 'btn btn-mini');
+        $(remBtn).attr('name', 'removeAns');
+        $(remBtn).attr('id', AnswersCount);
+        remBtn.textContent = 'Удалить';
+
+        //Adding created elements to the DOM
+        editorField.appendChild(nbsp);
+        editorField.appendChild(inputCheckBox);
+
+        controlsDiv.appendChild(editorField);
+        controlsDiv.appendChild(remBtn);
+
+
+        controlGroup.appendChild(controlLabel);
+        controlGroup.appendChild(controlsDiv);
+
+        answerContainer.appendChild(controlGroup);
+
+        $('#Answers').append(answerContainer);
+
+        //Add validation rule for new elemnt
+        $(input).rules('add', {
+            required: true,
+            messages: {
+                required: '*'
+            }
+        });
+
+
+        //Inc answers count
+        AnswersCount++;
+
+
+        //This is for user can choose only 1 answer
+        //After all cleared, set curent element checked
+        $('input:checkbox').change(function () {
+            $('input:checkbox').removeAttr('checked');
+            $(this).attr('checked', 'checked');
+        });
+
+        $(remBtn).click(function () {
+            //Remove answer logic
+            //only from client
+            $('#AnswerContainer\\[' + this.id + '\\]').remove();
+
+            //Recalculate answer count
+            var startNum = parseInt(this.id) + 1;
+
+            for (var i = startNum; i < AnswersCount; i++) {
+                RecalculateNamesAndIds(i);
+            }
+
+            AnswersCount--;
+
+        });
+
+    } //End  AddAnswer function
+
+</script>
+
+
