@@ -4,7 +4,7 @@
     min-height: 27px;
     padding: 1.3em;
 }
-.department-label
+.department-label,.project-label
 {
     display: inline;
     vertical-align: middle;

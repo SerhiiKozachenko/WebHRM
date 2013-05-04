@@ -18,6 +18,22 @@
             <label class="department-label" for="department">Show jobs by department:</label>
             <input type="search" id="department" style="width: 150px"/>
         </div>
+        <br/>
+        <br/>
+        <div class="toolbar">
+            <label class="project-label" for="project">Show jobs by project:</label>
+            <input type="search" id="project" style="width: 150px"/>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <div class="toolbar">
+            <button onclick="toSelection()" class='btn btn-primary'>To Selection </button>
+        </div>
+        
+        <div class="toolbar pull-left">
+            <button onclick="setRequiredSkills()" class='btn btn-primary'>Set Required Skills</button>
+        </div>
     </script>
     
     <script type="text/x-kendo-template" id="detail-row">
@@ -46,6 +62,24 @@
                 </div>
 
             </script>
+    
+    <script>
+        function toSelection() {
+            var grid = $("#grid").data("kendoGrid");
+            var sel = grid.dataItem(grid.select());
+            if (sel != undefined) {
+                window.location = 'Selection/Index/' + sel.Id;
+            }
+        }
+        
+        function setRequiredSkills() {
+            var grid = $("#grid").data("kendoGrid");
+            var sel = grid.dataItem(grid.select());
+            if (sel != undefined) {
+                window.location = 'JobSkill/Index/' + sel.Id;
+            }
+        }
+    </script>
 }
 
 @section menu

@@ -11,5 +11,7 @@
         public int Salary { get; set; }
 
         public long DepartmentId { get; set; }
+
+        public long ProjectId { get; set; }
     }
 }

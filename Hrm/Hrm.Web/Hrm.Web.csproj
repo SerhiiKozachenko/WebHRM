@@ -222,10 +222,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobApplicationController.cs" />
     <Compile Include="Controllers\JobController.cs" />
+    <Compile Include="Controllers\JobSkillController.cs" />
     <Compile Include="Controllers\MySkillsController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\ProjectFormalizeNameController.cs" />
+    <Compile Include="Controllers\SelectionController.cs" />
     <Compile Include="Controllers\SkillCategoryController.cs" />
     <Compile Include="Controllers\SkillController.cs" />
     <Compile Include="Global.asax.cs">
@@ -240,6 +242,7 @@
     <Compile Include="ModelMappings\Profiles\DepartmentModelToDepartmentDomainProfileMapping.cs" />
     <Compile Include="ModelMappings\Profiles\JobApplicationModelToJobApplicationDomainProfileMapping.cs" />
     <Compile Include="ModelMappings\Profiles\JobModelToJobDomainProfileMapping.cs" />
+    <Compile Include="ModelMappings\Profiles\JobSkillModelProfile.cs" />
     <Compile Include="ModelMappings\Profiles\MySkillModelToUserSkillsDomainMappingProfile.cs" />
     <Compile Include="ModelMappings\Profiles\ProjectFormalizeNameProfile.cs" />
     <Compile Include="ModelMappings\Profiles\ProjectModelProfile.cs" />
@@ -250,6 +253,8 @@
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\Department\DepartmentModel.cs" />
     <Compile Include="Models\JobApplication\JobApplicationModel.cs" />
+    <Compile Include="Models\JobSkill\JobSkillCategoryModel.cs" />
+    <Compile Include="Models\JobSkill\JobSkillModel.cs" />
     <Compile Include="Models\Job\JobModel.cs" />
     <Compile Include="Models\Menu\LeftMenuItems.cs" />
     <Compile Include="Models\Menu\ManagerLeftMenuItems.cs" />
@@ -260,6 +265,7 @@
     <Compile Include="Models\Profile\ProfileModel.cs" />
     <Compile Include="Models\ProjectFormalizeName\ProjectFormalizeNameModel.cs" />
     <Compile Include="Models\Project\ProjectModel.cs" />
+    <Compile Include="Models\Selection\ChartSeriesModel.cs" />
     <Compile Include="Models\SkillCategory\SkillCategoryModel.cs" />
     <Compile Include="Models\SkillMatrix\SkillMatrixModel.cs" />
     <Compile Include="Models\SkillMatrix\Skills.cs" />
@@ -814,6 +820,8 @@
     <Content Include="Views\SkillCategory\Index.cshtml" />
     <Content Include="Views\ProjectFormalizeName\Index.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
+    <Content Include="Views\Selection\Index.cshtml" />
+    <Content Include="Views\JobSkill\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

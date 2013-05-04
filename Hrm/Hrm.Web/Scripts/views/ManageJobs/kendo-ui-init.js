@@ -73,85 +73,117 @@ function detailInit(e) {
 $(function () {
 $.ajax({
     url: 'Department/GetAllDepartmentsFKDropDownModel',
-    success: function(departments) {
-        var grid = $("#grid").kendoGrid({
-            dataSource: {
-                type: "json",
-                serverPaging: true,
-                serverSorting: true,
-                serverFiltering: true,
-                pageSize: 10,
-                transport: {
-                    read: { url: "Job/GetGridData", dataType: "json", type: 'GET' },
-                    update: { url: "Job/UpdateGridData", dataType: "json", type: 'POST' },
-                    destroy: { url: "Job/DeleteGridData", dataType: "json", type: 'DELETE' },
-                    create: { url: "Job/CreateGridData", dataType: "json", type: 'PUT', complete: function (e) { $("#grid").data("kendoGrid").dataSource.read(); } }
-                },
-                schema: {
-                    model: {
-                        id: "Id",
-                        fields: {
-                            Id: { editable: false },
-                            Title: { type: 'string', validation: { required: true } },
-                            Description: { type: 'string', validation: { required: true } },
-                            Salary: { type: 'number', validation: { min: 0} },
-                            Status: { type: 'number', validation: { min: 0} },
-                            DepartmentId: { field: 'DepartmentId', type: 'number', validation: { required: true } }
+    success: function (departments) {
+
+        $.ajax({
+            url: 'Project/GetAllProjectsFKDropDownModel',
+            success: function(projects) {
+
+                var grid = $("#grid").kendoGrid({
+                    dataSource: {
+                        type: "json",
+                        serverPaging: true,
+                        serverSorting: true,
+                        serverFiltering: true,
+                        pageSize: 10,
+                        transport: {
+                            read: { url: "Job/GetGridData", dataType: "json", type: 'GET' },
+                            update: { url: "Job/UpdateGridData", dataType: "json", type: 'POST' },
+                            destroy: { url: "Job/DeleteGridData", dataType: "json", type: 'DELETE' },
+                            create: { url: "Job/CreateGridData", dataType: "json", type: 'PUT', complete: function(e) { $("#grid").data("kendoGrid").dataSource.read(); } }
+                        },
+                        schema: {
+                            model: {
+                                id: "Id",
+                                fields: {
+                                    Id: { editable: false },
+                                    Title: { type: 'string', validation: { required: true } },
+                                    Description: { type: 'string', validation: { required: true } },
+                                    Salary: { type: 'number', validation: { min: 0 } },
+                                    Status: { type: 'number', validation: { min: 0 } },
+                                    DepartmentId: { field: 'DepartmentId', type: 'number', validation: { required: true } },
+                                    ProjectId: { field: 'ProjectId', type: 'number', validation: { required: true } }
+                                }
+                            },
+                            data: "Jobs",
+                            total: "TotalCount"
                         }
                     },
-                    data: "Jobs",
-                    total: "TotalCount"
-                }
-            },
-            height: '500',
+                    height: '500',
 
-            pageable: {
-                refresh: true,
-                pageSizes: true
-            },
-            sortable: true,
-            filterable: true,
+                    pageable: {
+                        refresh: true,
+                        pageSizes: true
+                    },
+                    sortable: true,
+                    filterable: true,
 
-            editable: 'popup',
-            toolbar: [
-                { text: 'Add', template: '<button class="btn" onclick="add()"><i class="icon-file"></i> Add</button>' },
-                { text: 'Edit', template: '<button class="btn" onclick="edit()"><i class="icon-edit"></i> Edit</button>' },
-                { text: 'Remove', template: '<button class="btn" onclick="rem()"><i class="icon-trash"></i> Delete</button>' },
-                { template: $("#toolbar-dropdown").html() }
-                            
-            ],
-            selectable: true,
-            detailTemplate: kendo.template($("#detail-row").html()),
-            detailInit: detailInit,
-            
-            columns: [
-                { field: "Title", title: "Title", width: 150 },
-                { field: "Description", title: "Description", width: 200, editor: descriptionEditor },
-                { field: "Salary", title: "Salary", width: 100, format: "{0:c}" },
-                { field: "DepartmentId", sortable: false, title: "Department", values: departments, width: 110 }
-            ]
-        });
-        var dropDown = grid.find("#department").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            autoBind: false,
-            optionLabel: "All",
-            dataSource: {
-                type: "json",
-                severFiltering: true,
-                transport: {
-                    read: "Department/GetAllDepartmentsFKDropDownModel"
-                }
-            },
-            change: function () {
-                var value = this.value();
-                if (value) {
-                    grid.data("kendoGrid").dataSource.filter({ field: "DepartmentId", operator: "eq", value: parseInt(value) });
-                } else {
-                    grid.data("kendoGrid").dataSource.filter({});
-                }
+                    editable: 'popup',
+                    toolbar: [
+                        { text: 'Add', template: '<button class="btn" onclick="add()"><i class="icon-file"></i> Add</button>' },
+                        { text: 'Edit', template: '<button class="btn" onclick="edit()"><i class="icon-edit"></i> Edit</button>' },
+                        { text: 'Remove', template: '<button class="btn" onclick="rem()"><i class="icon-trash"></i> Delete</button>' },
+                        { template: $("#toolbar-dropdown").html() }
+                    ],
+                    selectable: true,
+                    detailTemplate: kendo.template($("#detail-row").html()),
+                    detailInit: detailInit,
+
+                    columns: [
+                        { field: "Title", title: "Title", width: 150 },
+                        { field: "Description", title: "Description", width: 200, editor: descriptionEditor },
+                        { field: "Salary", title: "Salary", width: 100, format: "{0:c}" },
+                        { field: "Status", title: "Status", width: 100 },
+                        { field: "DepartmentId", sortable: false, title: "Department", values: departments, width: 110 },
+                        { field: "ProjectId", sortable: false, title: "Project", values: projects, width: 110 }
+                    ]
+                });
+                var dropDown = grid.find("#department").kendoDropDownList({
+                    dataTextField: "text",
+                    dataValueField: "value",
+                    autoBind: false,
+                    optionLabel: "All",
+                    dataSource: {
+                        type: "json",
+                        severFiltering: true,
+                        transport: {
+                            read: "Department/GetAllDepartmentsFKDropDownModel"
+                        }
+                    },
+                    change: function() {
+                        var value = this.value();
+                        if (value) {
+                            grid.data("kendoGrid").dataSource.filter({ field: "DepartmentId", operator: "eq", value: parseInt(value) });
+                        } else {
+                            grid.data("kendoGrid").dataSource.filter({});
+                        }
+                    }
+                });
+                
+                var dropDownProjects = grid.find("#project").kendoDropDownList({
+                    dataTextField: "text",
+                    dataValueField: "value",
+                    autoBind: false,
+                    optionLabel: "All",
+                    dataSource: {
+                        type: "json",
+                        severFiltering: true,
+                        transport: {
+                            read: "Project/GetAllProjectsFKDropDownModel"
+                        }
+                    },
+                    change: function () {
+                        var value = this.value();
+                        if (value) {
+                            grid.data("kendoGrid").dataSource.filter({ field: "ProjectId", operator: "eq", value: parseInt(value) });
+                        } else {
+                            grid.data("kendoGrid").dataSource.filter({});
+                        }
+                    }
+                });
             }
         });
+
     }
 });
 });

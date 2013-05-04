@@ -26,7 +26,7 @@ namespace Hrm.Web.Controllers
 
         public JsonResult GetGridData(GridContext ctx)
         {
-            IQueryable<JobApplication> query = this.jobAppRepo;
+            IQueryable<JobApplication> query = this.jobAppRepo.OrderBy(x => x.Id);
             var totalCount = query.Count();
 
             if (ctx.HasFilters)
@@ -49,7 +49,7 @@ namespace Hrm.Web.Controllers
                 }
             }
 
-            var jobApplications = query.Skip(ctx.Skip).Take(ctx.Take).Select(Mapper.Map<JobApplicationModel>);
+            var jobApplications = query.Skip(ctx.Skip).Take(ctx.Take).ToList().Select(Mapper.Map<JobApplicationModel>);
 
             return Json(new { JobApplications = jobApplications, TotalCount = totalCount }, JsonRequestBehavior.AllowGet);
         }
