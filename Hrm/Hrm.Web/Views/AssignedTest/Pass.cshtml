@@ -1,0 +1,234 @@
+﻿@using Hrm.Web.Models.Menu
+@model Hrm.Web.Models.AssignedTest.PassTestModel
+@{
+    ViewBag.Title = "Pass Test";
+}
+<script src="../../Scripts/jquery.countdown.js" type="text/javascript"></script>
+<link href="../../Content/timer.css" rel="stylesheet" type="text/css" />
+
+@section menu
+{
+    @Html.Partial("_TopMenu", TopMenuItems.MyProfile)
+}
+<div class="row-fluid">
+@{
+    Html.RenderPartial("_LeftMenu", LeftMenuItems.AssignedTests);
+}
+
+    <div class="span9">
+@using (Html.BeginForm("PassResult", "AssignedTest", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset class="thumbnail">
+        <legend>Прохождение теста №@Model.Id</legend>
+        <br />
+        
+        <!-- Timer -->
+        <div id="timer">
+            <h4>Время на ответ :</h4>
+            <br/>
+            <div id="counter"></div>
+            <div class="desc">
+                <div>Минуты</div>
+                <div>Секунды</div>
+            </div>
+        </div>
+        <!-- End Timer -->
+        
+        
+        <div id="finishLabel" class="alert alert-info hide"> Для завершения нажмите кнопку "Готово".</div>
+        <br/>
+        <br/>
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Name)
+        @{
+            int index = 1;
+            int aindex = 1;
+            foreach (var question in Model.Questions)
+            {   
+                <!-- Hide all but first question -->
+                if (index == 1)
+                {
+                    <div id="QuestionContainer[@index]">
+                                <!--Question -->
+                        
+                                <div class="control-group">
+                                    
+                                        <h3 class="pull-left">
+                                            Вопрос @index : @question.QuestionValue</h3>
+                                  
+                                    <div class="controls">
+                                        @Html.HiddenFor(model => model.Questions[index-1].Id)
+                                        @Html.HiddenFor(model => model.Questions[index-1].QuestionValue)
+                                        @Html.HiddenFor(model => model.Questions[index-1].TimeToAnswer)
+                                        <br />
+                                    </div>
+                                </div>
+                                <!-- End question -->
+                                <!--Answers -->
+                                @{
+                           
+                    foreach (var answer in question.Answers)
+                    {
+                               
+                                        <div id="AnswerContainer[@aindex]">
+                                            <div class="control-group">
+                                                <div class="control-label">
+                                                    <span>Вариант @aindex :</span>
+                                                </div>
+                                                <div class="controls">
+                                                    @Html.CheckBoxFor(model => model.Questions[index-1].Answers[aindex-1].IsChoisen,new {onclick="Choice("+index+",this)"})
+                                                    &nbsp;&nbsp;&nbsp;<span class="choice">@answer.AnswerValue</span>
+                                                    @Html.HiddenFor(model => model.Questions[index-1].Answers[aindex-1].Id)
+                                                    @Html.HiddenFor(model => model.Questions[index-1].Answers[aindex-1].AnswerValue)
+                                                    @Html.HiddenFor(model => model.Questions[index-1].Answers[aindex-1].IsCorrect)
+                                                    <br />
+                                                </div>
+                                            </div>
+                                        </div>
+                        aindex++;
+                    }
+                                }
+                                <!--End answers -->
+                            </div>
+                    index++;
+                }
+                else 
+                {
+                    <div id="QuestionContainer[@index]" class="hide" >
+                        <!--Question -->
+                        <div class="control-group">
+                            <h3 class="pull-left">
+                                            Вопрос @index : @question.QuestionValue</h3>
+                            <div class="controls">
+                                @Html.HiddenFor(model => model.Questions[index-1].Id)
+                                @Html.HiddenFor(model => model.Questions[index-1].QuestionValue)
+                                @Html.HiddenFor(model => model.Questions[index-1].TimeToAnswer)
+                                <br />
+                            </div>
+                        </div>
+                        <!-- End question -->
+                        <!--Answers -->
+                        @{
+
+                    aindex = 1;
+                    foreach (var answer in question.Answers)
+                    {
+                               
+                                                <div id="AnswerContainer[@aindex]">
+                                                    <div class="control-group">
+                                                        <div class="control-label">
+                                                            <span>Вариант @aindex :</span>
+                                                        </div>
+                                                        <div class="controls">
+                                                            @Html.CheckBoxFor(model => model.Questions[index-1].Answers[aindex-1].IsChoisen,new {onclick="Choice("+index+",this)"})
+                                                            &nbsp;&nbsp;&nbsp; <span class="choice">@answer.AnswerValue</span>
+                                                            @Html.HiddenFor(model => model.Questions[index-1].Answers[aindex-1].Id)
+                                                            @Html.HiddenFor(model => model.Questions[index-1].Answers[aindex-1].AnswerValue)
+                                                            @Html.HiddenFor(model => model.Questions[index-1].Answers[aindex-1].IsCorrect)
+                                                            <br />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        aindex++;
+                    }
+                        }   
+                        <!--End answers -->
+                    </div>
+                    index++;
+                }
+
+            }
+        }
+        <div class="form-actions">
+            <input type="submit" value="Готово" class="btn btn-primary hide pull-right" id="finishBtn"/>
+            <input class="btn hide pull-right" id="nextBtn" value="Далее" type="button" onclick="Next()"/>
+        </div>
+    </fieldset>
+}
+        
+         </div>
+</div>
+    <script type="text/javascript">
+    
+    
+
+
+    var totalQuestionsCount = '@Model.Questions.Count';
+    //because we start from 1
+    totalQuestionsCount++;
+    
+    var startIndex = 1;
+
+    //for hidden field with timeToAnswer property
+    var timerIndex = 1;
+    
+    var startTime = '@Model.Questions[0].TimeToAnswer';
+
+
+
+    $('#counter').countdown({
+        image: '/Content/timer/digits.png',
+        startTime: '0' + startTime + ':00',
+        timerEnd: function () {
+            var realIndex = startIndex - 1;
+            $('#QuestionContainer\\[' + startIndex + '\\] Input[Type="checkbox"]').removeAttr('checked');
+            $('#Questions_' + realIndex + '__Answers_0__IsChoisen').attr('checked', 'checked');
+            Next();
+        },
+        format: 'mm:ss'
+    });
+
+    
+
+    function Choice(questionId,element) {
+        $('#QuestionContainer\\[' + questionId + '\\] Input[Type="checkbox"]').removeAttr('checked');
+        $(element).attr('checked', 'checked');
+
+        //Show next button
+        $('#nextBtn').fadeIn('normal');
+    }
+    
+    function Next() {
+        //Hide answered div
+        $('#QuestionContainer\\[' + startIndex + '\\]').addClass('hide');
+        //Remove style=display :block
+        $('#QuestionContainer\\[' + startIndex + '\\]').removeAttr('style');
+        startIndex++;
+        $('#QuestionContainer\\[' + startIndex + '\\]').removeClass('hide');
+        $('#QuestionContainer\\[' + startIndex + '\\]').fadeIn('middle');
+
+        //Hide next btn
+        $('#nextBtn').fadeOut('fast');
+        
+        //get hidden timeToAnswer property and setup new timer
+        startTime = $('#Questions_' + timerIndex + '__TimeToAnswer').val();
+        $('#counter').empty();
+
+        
+
+        //Show finish btn
+        if (startIndex == totalQuestionsCount) {
+            $('#finishBtn').fadeIn('middle');
+            $('#finishLabel').fadeIn('middle');
+            $('#timer').empty();
+        } else {
+
+        $('#counter').countdown({
+            image: '/Content/timer/digits.png',
+            startTime: '0' + startTime + ':00',
+            timerEnd: function () {
+                var realIndex = startIndex - 1;
+                $('#QuestionContainer\\[' + startIndex + '\\] Input[Type="checkbox"]').removeAttr('checked');
+                $('#Questions_' + realIndex + '__Answers_0__IsChoisen').attr('checked', 'checked');
+                Next();
+            },
+            format: 'mm:ss'
+        });
+
+            timerIndex++;
+        }
+        
+    }
+
+</script>

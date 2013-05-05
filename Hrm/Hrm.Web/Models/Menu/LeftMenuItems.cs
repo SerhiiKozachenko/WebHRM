@@ -2,6 +2,6 @@
 {
     public enum LeftMenuItems
     {
-        MyProfile, SkillMatrix, SearchJob
+        MyProfile, SkillMatrix, SearchJob, AssignedTests
     }
 }

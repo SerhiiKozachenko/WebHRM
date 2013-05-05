@@ -1,0 +1,85 @@
+﻿@using Hrm.Web.Models.Menu
+@{
+    ViewBag.Title = "Assigned Tests";
+}
+@section links
+{
+    <link href="../../Content/kendo-ui/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/kendo-ui/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+}
+@section scripts
+{
+    <script src="../../Scripts/kendo-ui/kendo.web.min.js" type="text/javascript"></script>
+    
+    <script>
+        function startTest() {
+            var grid = $("#grid").data("kendoGrid");
+            var sel = grid.dataItem(grid.select());
+            if (sel != undefined) {
+                window.location = 'AssignedTest/Pass/' + sel.Id;
+            }
+        }
+
+        $(function () {
+           
+                    var grid = $('#grid').kendoGrid({
+                        dataSource: {
+                            type: "json",
+                            serverPaging: true,
+                            serverSorting: true,
+                            serverFiltering: true,
+                            pageSize: 10,
+                            transport: {
+                                read: { url: "AssignedTest/GetGridData", dataType: "json", type: 'GET' }
+                            },
+                            schema: {
+                                model: {
+                                    id: "Id",
+                                    fields: {
+                                        Id: { editable: false },
+                                        Name: { type: 'string', validation: { required: true} },
+                                        Description: { type: 'string', validation: { required: true} }
+                                    }
+                                },
+                                data: "Data",
+                                total: "TotalCount"
+                            }
+                        },
+                        height: '500',
+
+                        pageable: {
+                            refresh: true,
+                            pageSizes: true
+                        },
+                        sortable: true,
+                        filterable: true,
+
+                        editable: 'popup',
+                       
+                        selectable: true,
+
+                        columns: [
+                            { field: "Name", title: "Name", width: 150 },
+                            { field: "Description", title: "Description"},
+                            { text: 'Start', template: '<button class="btn" onclick="startTest()"><i class="icon-pencil"></i> Start</button>', width: 100 }
+                        ]
+                    });
+            
+        });
+    </script>
+}
+@section menu
+{
+    @Html.Partial("_TopMenu", TopMenuItems.MyProfile)
+}
+<div class="container-fluid">
+    <div class="row-fluid">
+        @{
+            Html.RenderPartial("_LeftMenu", LeftMenuItems.AssignedTests);
+        }
+        <div class="span9">
+            <!--Body content-->
+            <div id="grid"></div>
+        </div>
+    </div>
+</div>

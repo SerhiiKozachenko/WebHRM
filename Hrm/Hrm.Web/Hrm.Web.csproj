@@ -216,6 +216,7 @@
     <Compile Include="App_Start\WindsorConfig.cs" />
     <Compile Include="Bundling\CoffeeBundleTransform.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AssignedTestController.cs" />
     <Compile Include="Controllers\Base\BaseController.cs" />
     <Compile Include="Controllers\Base\BaseGridController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
@@ -259,6 +260,8 @@
     <Compile Include="ModelMappings\Profiles\TestModelProfile.cs" />
     <Compile Include="Models\Account\LoginModel.cs" />
     <Compile Include="Models\Account\RegisterModel.cs" />
+    <Compile Include="Models\AssignedTest\AssignedTestModel.cs" />
+    <Compile Include="Models\AssignedTest\PassTestModel.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\Department\DepartmentModel.cs" />
     <Compile Include="Models\JobApplication\JobApplicationModel.cs" />
@@ -348,6 +351,8 @@
     <Content Include="Content\kendo-ui\textures\transparency.png" />
     <Content Include="Content\kendo-ui\textures\transtexture.png" />
     <Content Include="Content\layout.css" />
+    <Content Include="Content\timer.css" />
+    <Content Include="Content\timer\digits.png" />
     <Content Include="Content\views\ManageJobs\manage-jobs.css" />
     <Content Include="Content\views\Profile\profile.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -409,6 +414,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\jquery.countdown.js" />
     <Content Include="Scripts\underscore-min.js" />
     <Content Include="Scripts\helpers\boostrap-form-validation.js">
       <DependentUpon>boostrap-form-validation.coffee</DependentUpon>
@@ -850,6 +856,9 @@
     <Content Include="Views\Selection\TestAssigning.cshtml" />
     <Content Include="Views\SearchJob\Index.cshtml" />
     <Content Include="Views\SearchJob\ApplyJob.cshtml" />
+    <Content Include="Views\AssignedTest\Index.cshtml" />
+    <Content Include="Views\AssignedTest\Pass.cshtml" />
+    <Content Include="Views\AssignedTest\PassResult.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

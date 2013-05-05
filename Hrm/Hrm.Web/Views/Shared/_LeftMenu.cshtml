@@ -5,6 +5,7 @@
     var profile = Model == LeftMenuItems.MyProfile ? "active" : string.Empty;
     var skillMatrix = Model == LeftMenuItems.SkillMatrix ? "active" : string.Empty;
     var searchJob = Model == LeftMenuItems.SearchJob ? "active" : string.Empty;
+    var assignedTests = Model == LeftMenuItems.AssignedTests ? "active" : string.Empty;
 }
 
 <div class="span2">
@@ -16,6 +17,7 @@
         <li title="My Profie" class="@profile">@Html.ActionLink("My Profile", "Index","Profile")</li>
         <li title="My Skill Matrix" class="@skillMatrix">@Html.ActionLink("My Skills", "Index","MySkills")</li>
         <li title="Search Job" class="@searchJob">@Html.ActionLink("Search Job", "Index","SearchJob")</li>
+        <li title="Assigned Tests" class="@assignedTests">@Html.ActionLink("Assigned Tests", "Index","AssignedTest")</li>
     </ul>
 </div>
 

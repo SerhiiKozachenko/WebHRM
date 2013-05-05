@@ -1,0 +1,39 @@
+﻿@using Hrm.Web.Models.Menu
+@{
+    ViewBag.Title = "PassResult";
+}
+@section menu
+{
+    @Html.Partial("_TopMenu", TopMenuItems.MyProfile)
+}
+<div class="row-fluid">
+@{
+    Html.RenderPartial("_LeftMenu", LeftMenuItems.AssignedTests);
+}
+
+    <div class="span9">
+@if(ViewBag.correctAnswers>ViewBag.totalQuestios/2)
+{
+    <div class="alert alert-success">
+        <h2>Ваш результат :</h2>
+        <p>
+            Количество правильных ответов @ViewBag.correctAnswers из @ViewBag.totalQuestios
+        </p>
+    </div>
+}
+else
+{
+     <div class="alert alert-error">
+        <h2>Ваш результат :</h2>
+         <p>
+             Количество правильных ответов @ViewBag.correctAnswers из @ViewBag.totalQuestios
+         </p>
+         
+         @Html.ActionLink("Go to Assigned Tests list", "Index", "AssignedTest")
+     </div>
+}
+        </div>
+</div>
+
+
+
