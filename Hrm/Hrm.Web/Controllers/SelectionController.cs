@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using AutoMapper;
 using Hrm.Data.EF;
 using Hrm.Data.EF.Models;
 using Hrm.Data.EF.Repositories.Contracts;
 using Hrm.Data.EF.Specifications.Implementations.Common;
 using Hrm.Web.Models.Selection;
+using KendoWrapper.Grid.Context;
 
 namespace Hrm.Web.Controllers
 {
@@ -20,6 +22,12 @@ namespace Hrm.Web.Controllers
             get { return long.Parse(Session["JobId"].ToString()); }
             set { Session["JobId"] = value; }
         }
+
+        private IList<long> CurrentSelectedCandidatesIds
+        {
+            get { return Session["SelectedCandidatesIds"] as List<long>; }
+            set { Session["SelectedCandidatesIds"] = value; }
+        } 
 
         public SelectionController(IRepository<Job> jobsRepo, IRepository<User> usersRepo)
         {
@@ -99,11 +107,65 @@ namespace Hrm.Web.Controllers
 
                 ctx.SaveChanges();
             }
+
+            this.CurrentSelectedCandidatesIds = selected;
         }
 
         public ActionResult TestAssigning()
         {
-            return null;
+            return View();
+        }
+
+        public JsonResult GetGridData(GridContext ctx)
+        {
+            IQueryable<User> query = this.usersRepo.Where(x => this.CurrentSelectedCandidatesIds.Contains(x.Id));
+            var totalCount = query.Count();
+
+            if (ctx.HasFilters)
+            {
+                query = ctx.ApplyFilters(query);
+                totalCount = query.Count();
+            }
+
+            if (ctx.HasSorting)
+            {
+                switch (ctx.SortOrder)
+                {
+                    case SortOrder.Asc:
+                        query = this.usersRepo.SortByAsc(ctx.SortColumn, query);
+                        break;
+
+                    case SortOrder.Desc:
+                        query = this.usersRepo.SortByDesc(ctx.SortColumn, query);
+                        break;
+                }
+            }
+
+            var data = query.OrderBy(x => x.Id).Skip(ctx.Skip).Take(ctx.Take).ToList().Select(Mapper.Map<User, SelectedCandidateModel>);
+
+            return Json(new { Data = data, TotalCount = totalCount }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetAssignedTests(GridContext ctx)
+        {
+            var userId = ctx.Filters.Select(x => x.Filter1).Single(x => x.Field.Equals("UserId")).Value;
+            var user = this.usersRepo.FindOne(new ByIdSpecify<User>(long.Parse(userId)));
+
+            var data = user.AssignedTests.Select(Mapper.Map<Test, AssignedTestModel>);
+
+            return Json(new {Data = data, TotalCount = data.Count()}, JsonRequestBehavior.AllowGet);
+        }
+
+        public void AssignTestToUser(long testId, long userId)
+        {
+            using (var ctx = new HrmContext())
+            {
+                var user = ctx.Users.Single(x => x.Id == userId);
+                var test = ctx.Tests.Single(x => x.Id == testId);
+                user.AssignedTests.Add(test);
+
+                ctx.SaveChanges();
+            }
         }
     }
 }

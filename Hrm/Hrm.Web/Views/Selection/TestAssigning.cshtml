@@ -1,0 +1,226 @@
+﻿@using Hrm.Web.Models.Menu
+@{
+    ViewBag.Title = "Test Assigning";
+}
+@section links
+{
+    <link href="../../Content/kendo-ui/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/kendo-ui/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+}
+@section scripts
+{
+    <script src="../../Scripts/kendo-ui/kendo.web.min.js" type="text/javascript"></script>
+    
+    <script type="text/x-kendo-template" id="toolbar">
+        <div class="toolbar">
+            <label class="testCat-label" for="testCat">Test Category:</label>
+            <input type="search" id="testCat" style="width: 150px"/>
+        </div>
+        <div id='testToolbar' class="toolbar hide">
+            <label class="test-label" for="testCat">Test :</label>
+            <input type="search" id="test" style="width: 150px"/>
+        </div>
+        
+        <div id='assignToolbar' class="toolbar hide">
+            <button onclick='assignTestToUser()' class='btn btn-primary'>Assign</button>
+        </div>
+    </script>
+
+    <script>
+
+        function assignTestToUser() {
+            var grid = $("#grid").data("kendoGrid");
+            var userId = grid.dataItem(grid.select()).Id;
+            var dropdownlist = $("#test").data("kendoDropDownList");
+            var testId = dropdownlist.value();
+            if (testId != undefined && userId != undefined) {
+                $.ajax({
+                    url: '/Selection/AssignTestToUser?testId=' + testId + '&userId=' + userId
+                }).success(function() {
+                    grid.dataSource.read();
+                });
+            }
+        }
+
+        function add() {
+            var skillsCatId = $("#skills").data("kendoDropDownList").value();
+            if (skillsCatId) {
+                $.ajax({
+                    url: 'MySkills/CreateGridData',
+                    dataType: "json",
+                    type: 'PUT',
+                    data: { skillsCatId: skillsCatId },
+                    success: function() {
+                        $("#grid").data("kendoGrid").dataSource.read();
+                        $("#skills").data("kendoDropDownList").dataSource.read();
+                    }
+                });
+            }
+        }
+
+        function rem() {
+            var grid = $("#grid").data("kendoGrid");
+            grid.removeRow(grid.select());
+        }
+
+        $(function() {
+            $.ajax({
+                url: '../TestCategory/GetAllTestCategories',
+                success: function(categories) {
+
+                    var grid = $('#grid').kendoGrid({
+                        dataSource: {
+                            type: "json",
+                            serverPaging: true,
+                            serverSorting: true,
+                            serverFiltering: true,
+                            pageSize: 10,
+                            transport: {
+                                read: { url: "/Selection/GetGridData", dataType: "json", type: 'GET' }
+                            },
+                            schema: {
+                                model: {
+                                    id: "Id",
+                                    fields: {
+                                        Id: { editable: false },
+                                        LastName: { type: 'string', validation: { required: true }, editable: false },
+                                        FirstName: { type: 'string', validation: { required: true }, editable: false },
+                                        MiddleName: { type: 'string', validation: { required: true }, editable: false }
+                                    }
+                                },
+                                data: "Data",
+                                total: "TotalCount"
+                            }
+                        },
+                        height: '500',
+
+                        pageable: {
+                            refresh: true,
+                            pageSizes: true
+                        },
+                        sortable: true,
+                        filterable: true,
+                        selectable: true,
+                        detailTemplate: kendo.template($("#detail-row").html()),
+                        detailInit: detailInit,
+                        toolbar: [
+                            { template: $("#toolbar").html() }
+                        ],
+
+                        columns: [
+                            { field: "LastName", title: "Last Name", width: 150 },
+                            { field: "FirstName", title: "First Name", width: 150 },
+                            { field: "MiddleName", title: "Middle Name", width: 150 }
+                        ]
+                    });
+
+                    var dropDown = grid.find("#testCat").kendoDropDownList({
+                        dataTextField: "text",
+                        dataValueField: "value",
+                        autoBind: false,
+                        optionLabel: "Choose...",
+                        dataSource: {
+                            type: "json",
+                            severFiltering: true,
+                            transport: {
+                                read: "../TestCategory/GetAllTestCategories"
+                            }
+                        },
+                        change: function() {
+                            var value = this.value();
+                            if (value) {
+                                $('#testToolbar').show();
+                                grid.find("#test").kendoDropDownList({
+                                    dataTextField: "text",
+                                    dataValueField: "value",
+                                    autoBind: false,
+                                    optionLabel: "Choose...",
+                                    dataSource: {
+                                        type: "json",
+                                        severFiltering: true,
+                                        transport: {
+                                            read: "../TestCategory/GetAllTestsInCategory/" + value
+                                        }
+                                    },
+                                    change: function() {
+                                        var val = this.value();
+                                        if (val) {
+                                            $('#assignToolbar').show();
+
+                                        } else {
+                                            $('#assignToolbar').hide();
+                                        }
+                                    }
+                                })
+                            } else {
+                                $('#testToolbar').hide();
+                            }
+                        }
+                    });
+
+                    function detailInit(e) {
+                        var detailRow = e.detailRow;
+
+                        detailRow.find(".tests").kendoGrid({
+                            dataSource: {
+                                type: "json",
+                                transport: {
+                                    read: { url: "/Selection/GetAssignedTests", dataType: "json", type: 'GET' }
+                                },
+                                schema: {
+                                    model: {
+                                        id: "Id",
+                                        fields: {
+                                            Id: { editable: false },
+                                            Name: { type: 'string', validation: { required: true }, editable: false },
+                                            Description: { type: 'string', validation: { required: true }, editable: false },
+                                            CategoryId: { field: 'CategoryId', type: 'number', validation: { required: true } }
+                                        }
+                                    },
+                                    data: "Data",
+                                    total: "TotalCount"
+                                },
+                                serverPaging: true,
+                                serverSorting: true,
+                                serverFiltering: true,
+                                pageSize: 5,
+                                filter: { field: "UserId", operator: "eq", value: e.data.Id }
+                            },
+
+                            scrollable: false,
+                            sortable: true,
+                            pageable: true,
+                            columns: [
+                                { field: "Name", title: "Skill", width: "200px" },
+                                { field: "Description", title: "Description" },
+                                { field: "CategoryId", sortable: false, title: "Category", values: categories, width: 110 },
+                            ]
+                        });
+                    }
+                }
+            });
+        });
+        
+    </script>
+    
+    <script type="text/x-kendo-template" id="detail-row">     
+        <div>
+            <div class="tests"></div>
+        </div>
+    </script>
+}
+@section menu
+{
+    @Html.Partial("_ManagerTopMenu", ManagerTopMenuItems.MyProfile)
+}
+<div class="container-fluid">
+    <div class="row-fluid">
+        @{
+            Html.RenderPartial("_ManagerLeftMenu", ManagerLeftMenuItems.Jobs);
+        }
+        <div class="span9">
+            <!--Body content-->
+            <div id="grid"></div>
+        </div>
+    </div>
+</div>

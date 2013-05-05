@@ -241,6 +241,7 @@
     <Compile Include="Infrastructure\Installers\ServicesInstaller.cs" />
     <Compile Include="Infrastructure\Plumbing\WindsorControllerFactory.cs" />
     <Compile Include="Infrastructure\Plumbing\WindsorServiceLocator.cs" />
+    <Compile Include="ModelMappings\Profiles\AssignedTestModelProfile.cs" />
     <Compile Include="ModelMappings\Profiles\DepartmentModelToDepartmentDomainProfileMapping.cs" />
     <Compile Include="ModelMappings\Profiles\JobApplicationModelToJobApplicationDomainProfileMapping.cs" />
     <Compile Include="ModelMappings\Profiles\JobModelToJobDomainProfileMapping.cs" />
@@ -248,6 +249,7 @@
     <Compile Include="ModelMappings\Profiles\MySkillModelToUserSkillsDomainMappingProfile.cs" />
     <Compile Include="ModelMappings\Profiles\ProjectFormalizeNameProfile.cs" />
     <Compile Include="ModelMappings\Profiles\ProjectModelProfile.cs" />
+    <Compile Include="ModelMappings\Profiles\SelectedCandidateModelProfile.cs" />
     <Compile Include="ModelMappings\Profiles\SkillCategoryModelToSkillCategoryDomainMappingProfile.cs" />
     <Compile Include="ModelMappings\Profiles\SkillModelToSkillDomainMappingProfile.cs" />
     <Compile Include="ModelMappings\Profiles\TestCategoryModelProfile.cs" />
@@ -269,7 +271,9 @@
     <Compile Include="Models\Profile\ProfileModel.cs" />
     <Compile Include="Models\ProjectFormalizeName\ProjectFormalizeNameModel.cs" />
     <Compile Include="Models\Project\ProjectModel.cs" />
+    <Compile Include="Models\Selection\AssignedTestModel.cs" />
     <Compile Include="Models\Selection\ChartSeriesModel.cs" />
+    <Compile Include="Models\Selection\SelectedCandidateModel.cs" />
     <Compile Include="Models\SkillCategory\SkillCategoryModel.cs" />
     <Compile Include="Models\SkillMatrix\SkillMatrixModel.cs" />
     <Compile Include="Models\SkillMatrix\Skills.cs" />
@@ -838,6 +842,7 @@
     <Content Include="Views\Test\_PartialChangedTest.cshtml" />
     <Content Include="Views\Test\_PartialAddQuestionEditForm.cshtml" />
     <Content Include="Views\Test\_PartialEditQuestionForm.cshtml" />
+    <Content Include="Views\Selection\TestAssigning.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

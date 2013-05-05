@@ -20,6 +20,8 @@ namespace Hrm.Web.App_Start
                 x.AddProfile<JobSkillModelProfile>();
                 x.AddProfile<TestCategoryModelProfile>();
                 x.AddProfile<TestModelProfile>();
+                x.AddProfile<SelectedCandidateModelProfile>();
+                x.AddProfile<AssignedTestModelProfile>();
             });
         }
     }
