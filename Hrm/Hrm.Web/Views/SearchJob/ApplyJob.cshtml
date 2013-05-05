@@ -1,0 +1,97 @@
+﻿@using Hrm.Web.Models.Menu
+@model Hrm.Web.Models.SearchJob.ApplyJobModel
+@{
+    ViewBag.Title = "Apply Job";
+}
+@section links
+{
+    <link href="../../Content/kendo-ui/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/kendo-ui/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/views/Profile/profile.css" rel="stylesheet" type="text/css" />
+}
+@section scripts
+{
+    <script src="../../Scripts/kendo-ui/kendo.web.min.js" type="text/javascript"></script>
+    <script>
+        $(function() {
+            $("#DesiredSalaryNumeric").kendoNumericTextBox();
+        });
+    </script>
+}
+@section menu
+{
+    @Html.Partial("_TopMenu", TopMenuItems.MyProfile)
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+       @{
+        Html.RenderPartial("_LeftMenu", LeftMenuItems.SearchJob);
+        }
+        <div class="span9">
+            <!--Body content-->
+            @using (Html.BeginForm("ApplyJob", "SearchJob", FormMethod.Post, new { @class = "form-horizontal well"}))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "Registration was unsuccessful. Please correct the errors and try again.")
+
+                 <fieldset>
+                    <legend>Job Details</legend>
+                     @Html.HiddenFor(m=>m.JobId)
+                     @Html.HiddenFor(m=>m.UserId)
+                    <div class="control-group">
+                        @Html.LabelFor(p => p.JobTitle, "Title", new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(p => p.JobTitle, new { placeholder = "Title", @class = "span5", @disabled = "disabled" })
+                        </div>
+                    </div>
+            
+                    <div class="control-group">
+                        @Html.LabelFor(p => p.JobDescription, "Description", new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextAreaFor(p => p.JobDescription, 4, 4, new { placeholder = "Desc", @class = "span5", @disabled = "disabled" })
+                        </div>
+                    </div>
+            
+                    <div class="control-group">
+                         @Html.LabelFor(p => p.Salary, "Salary", new { @class = "control-label" })
+                         <div class="controls">
+                             @Html.TextBoxFor(p => p.Salary, new { placeholder = "Salary", @class = "span5", @disabled = "disabled" })
+                         </div>
+                     </div>
+             
+                     <div class="control-group">
+                         @Html.LabelFor(p => p.Department, "Department", new { @class = "control-label" })
+                         <div class="controls">
+                             @Html.TextBoxFor(p => p.Department, new { placeholder = "Department", @class = "span5", @disabled = "disabled" })
+                         </div>
+                     </div>
+             
+                     <div class="control-group">
+                         @Html.LabelFor(p => p.Project, "Project", new { @class = "control-label" })
+                         <div class="controls">
+                             @Html.TextBoxFor(p => p.Project, new { placeholder = "Project", @class = "span5", @disabled = "disabled" })
+                         </div>
+                     </div>
+            
+                    <div class="control-group">
+                         @Html.LabelFor(p => p.DesiredSalary, "Desired Salary", new { @class = "control-label" })
+                         <div class="controls">
+                             @Html.TextBoxFor(p => p.DesiredSalary, new { placeholder = "DesiredSalary", id = "DesiredSalaryNumeric", type = "numeric", min = 0, @class = "span5" })
+                             @Html.ValidationMessageFor(p => p.DesiredSalary)
+                         </div>
+                     </div>
+                     
+                     
+                     <div class="form-actions">
+                         <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="reset" class="btn">Cancel</button>
+                    </div>
+
+                </fieldset>
+            }
+            
+        </div>
+    </div>
+</div>
+

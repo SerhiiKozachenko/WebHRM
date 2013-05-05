@@ -1,0 +1,167 @@
+﻿@using Hrm.Web.Models.Menu
+@{
+    ViewBag.Title = "Search Job";
+}
+@section links
+{
+    <link href="../../Content/kendo-ui/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/kendo-ui/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/views/ManageJobs/grid-toolbar-fixes.css" rel="stylesheet" type="text/css" />
+}
+@section scripts
+{
+    <script src="../../Scripts/kendo-ui/kendo.web.min.js" type="text/javascript"></script>
+    
+    <script type="text/x-kendo-template" id="toolbar-dropdown">
+        <div class="toolbar">
+            <label class="department-label" for="department">Show jobs by department:</label>
+            <input type="search" id="department" style="width: 150px"/>
+        </div>
+        <br/>
+        <br/>
+        <div class="toolbar">
+            <label class="project-label" for="project">Show jobs by project:</label>
+            <input type="search" id="project" style="width: 150px"/>
+        </div>
+        <br/>
+        <br/>
+        <div class="toolbar">
+            <button onclick='applyJob()' class='btn btn-primary'>Apply</button>
+        </div>
+    </script>
+
+    <script>
+        function applyJob() {
+            var grid = $("#grid").data("kendoGrid");
+            var sel = grid.dataItem(grid.select());
+            if (sel != undefined) {
+                window.location = 'SearchJob/ApplyJob/' + sel.Id;
+            }
+        }
+
+        $(function () {
+            $.ajax({
+                url: 'Department/GetAllDepartmentsFKDropDownModel',
+                success: function (departments) {
+
+                    $.ajax({
+                        url: 'ProjectFormalizeName/GetAllProjectFormalizeNamesFKDropDownModel',
+                        success: function (projects) {
+
+                            var grid = $("#grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    serverPaging: true,
+                                    serverSorting: true,
+                                    serverFiltering: true,
+                                    pageSize: 10,
+                                    transport: {
+                                        read: { url: "SearchJob/GetGridData", dataType: "json", type: 'GET' }
+                                    },
+                                    schema: {
+                                        model: {
+                                            id: "Id",
+                                            fields: {
+                                                Id: { editable: false },
+                                                Title: { type: 'string', validation: { required: true } },
+                                                Description: { type: 'string', validation: { required: true } },
+                                                Salary: { type: 'number', validation: { min: 0 } },
+                                                Status: { type: 'number', validation: { min: 0 } },
+                                                DepartmentId: { field: 'DepartmentId', type: 'number', validation: { required: true } },
+                                                ProjectFormalizeNameId: { field: 'ProjectFormalizeNameId', type: 'number', validation: { required: true } }
+                                            }
+                                        },
+                                        data: "Jobs",
+                                        total: "TotalCount"
+                                    }
+                                },
+                                height: '500',
+
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: true
+                                },
+                                sortable: true,
+                                filterable: true,
+
+                                toolbar: [
+                                    { template: $("#toolbar-dropdown").html() }
+                                ],
+                                selectable: true,
+
+                                columns: [
+                                    { field: "Title", title: "Title", width: 150 },
+                                    { field: "Description", title: "Description", width: 200 },
+                                    { field: "Salary", title: "Salary", width: 100, format: "{0:c}" },
+                                    { field: "Status", title: "Status", width: 100 },
+                                    { field: "DepartmentId", sortable: false, title: "Department", values: departments, width: 110 },
+                                    { field: "ProjectFormalizeNameId", sortable: false, title: "Project", values: projects, width: 110 }
+                                ]
+                            });
+                            var dropDown = grid.find("#department").kendoDropDownList({
+                                dataTextField: "text",
+                                dataValueField: "value",
+                                autoBind: false,
+                                optionLabel: "All",
+                                dataSource: {
+                                    type: "json",
+                                    severFiltering: true,
+                                    transport: {
+                                        read: "Department/GetAllDepartmentsFKDropDownModel"
+                                    }
+                                },
+                                change: function () {
+                                    var value = this.value();
+                                    if (value) {
+                                        grid.data("kendoGrid").dataSource.filter({ field: "DepartmentId", operator: "eq", value: parseInt(value) });
+                                    } else {
+                                        grid.data("kendoGrid").dataSource.filter({});
+                                    }
+                                }
+                            });
+
+                            var dropDownProjects = grid.find("#project").kendoDropDownList({
+                                dataTextField: "text",
+                                dataValueField: "value",
+                                autoBind: false,
+                                optionLabel: "All",
+                                dataSource: {
+                                    type: "json",
+                                    severFiltering: true,
+                                    transport: {
+                                        read: "ProjectFormalizeName/GetAllProjectFormalizeNamesFKDropDownModel"
+                                    }
+                                },
+                                change: function () {
+                                    var value = this.value();
+                                    if (value) {
+                                        grid.data("kendoGrid").dataSource.filter({ field: "ProjectFormalizeNameId", operator: "eq", value: parseInt(value) });
+                                    } else {
+                                        grid.data("kendoGrid").dataSource.filter({});
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+                }
+            });
+        });
+    </script>
+}
+@section menu
+{
+    @Html.Partial("_TopMenu", TopMenuItems.MyProfile)
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+    @{
+        Html.RenderPartial("_LeftMenu", LeftMenuItems.SearchJob);
+    }
+        <div class="span9">
+            <!--Body content-->
+            <div id="grid"></div>
+        </div>
+    </div>
+</div>
