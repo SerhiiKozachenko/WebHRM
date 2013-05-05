@@ -32,7 +32,7 @@ namespace KendoWrapper.Grid.Context
 
         public FilterLogic FilterLogic { get; set; }
 
-        public IEnumerable<FilterSet> Filters { get; set; }
+        public IList<FilterSet> Filters { get; set; }
 
         public GridContext()
         {

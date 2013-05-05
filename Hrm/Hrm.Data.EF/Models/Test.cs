@@ -15,6 +15,8 @@ namespace Hrm.Data.EF.Models
 
         public virtual ICollection<Question> Questions { get; set; }
 
-        public virtual ICollection<TestResult> TestResults { get; set; } 
+        public virtual ICollection<TestResult> TestResults { get; set; }
+
+        public virtual ICollection<User> Users { get; set; } 
     }
 }

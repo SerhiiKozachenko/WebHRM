@@ -17,6 +17,8 @@ namespace Hrm.Data.EF.Repositories.Contracts
         /// <param name="entity">The entity instance.</param>
         void Delete(TEntity entity);
 
+        void SaveChanges();
+
         IQueryable<TEntity> Find(ISpecification<TEntity> specification);
 
         TEntity FindOne(ISpecification<TEntity> specification);

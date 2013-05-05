@@ -51,6 +51,12 @@ namespace Hrm.Data.EF.Mappings
                 .Map(v => v.ToTable("UsersInProjects")
                     .MapLeftKey("User_id")
                     .MapRightKey("Project_id"));
+
+            this.HasMany(t=>t.AssignedTests)
+                .WithMany(m=>m.Users)
+                .Map(v=>v.ToTable("CandidateTest")
+                    .MapLeftKey("User_id")
+                    .MapRightKey("Test_id"));
         }
     }
 }

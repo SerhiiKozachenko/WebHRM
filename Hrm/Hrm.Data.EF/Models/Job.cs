@@ -21,6 +21,8 @@ namespace Hrm.Data.EF.Models
 
         public virtual ICollection<JobApplication> JobApplications { get; set; }
 
-        public virtual ICollection<JobSkill> JobSkills { get; set; } 
+        public virtual ICollection<JobSkill> JobSkills { get; set; }
+
+        public virtual ICollection<User> SelectedCandidates { get; set; }
     }
 }

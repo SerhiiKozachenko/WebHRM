@@ -1,4 +1,5 @@
-﻿@model Hrm.Data.EF.Models.Test
+﻿@using Hrm.Web.Models.Menu
+@model Hrm.Data.EF.Models.Test
 
 @{
     ViewBag.Title = "Редактирование теста";
@@ -9,9 +10,16 @@
     <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
     <script src="../../Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
 }
+@section menu
+{
+    @Html.Partial("_ManagerTopMenu", ManagerTopMenuItems.MyProfile)
+}
 
 <div class="row-fluid">
-    <div class="span6">
+@{
+    Html.RenderPartial("_ManagerLeftMenu", ManagerLeftMenuItems.Tests);
+}
+    <div class="span3">
         <div id="TestInfoDiv">
             
             @Html.Partial("_PartialChangedTest",Model)

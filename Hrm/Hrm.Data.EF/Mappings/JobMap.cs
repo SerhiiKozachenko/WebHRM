@@ -30,6 +30,12 @@ namespace Hrm.Data.EF.Mappings
             this.HasRequired(t => t.Project)
                 .WithMany(c => c.Jobs)
                 .HasForeignKey(f => f.ProjectId);
+
+            this.HasMany(m => m.SelectedCandidates)
+                .WithMany(m => m.Jobs)
+                .Map(v => v.ToTable("SelectedCandidates")
+                           .MapLeftKey("Job_id")
+                           .MapRightKey("User_id"));
         }
     }
 }

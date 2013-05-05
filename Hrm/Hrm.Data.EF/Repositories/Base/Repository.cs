@@ -126,6 +126,11 @@ namespace Hrm.Data.EF.Repositories.Base
             this.ctx.SaveChanges();
         }
 
+        public void SaveChanges()
+        {
+            this.ctx.SaveChanges();
+        }
+
         public IQueryable<TEntity> Find(ISpecification<TEntity> specification)
         {
             return this.CurrentQuery.Where(specification.IsSatisfiedBy());

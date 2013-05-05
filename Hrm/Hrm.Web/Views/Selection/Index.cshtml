@@ -12,6 +12,7 @@
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
     <script src="../../Scripts/kendo-ui/kendo.web.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/underscore-min.js"></script>
     
     <script type="text/x-kendo-template" id="toolbar">
         <div id="addSkillsToolbar" class="toolbar">
@@ -20,6 +21,13 @@
         </div>
     </script>
     
+    
+    <script type="text/x-kendo-template" id="candidatesToolbar">
+        <div class="toolbar">
+            <button class='btn btn-primary' onclick='selectAndTestAssign()'>Select and Go to the test assigning </button>
+        </div>
+    </script>
+
     <script type="text/x-kendo-template" id="detail-row">     
         <div>
             <div class="skills"></div>
@@ -27,6 +35,27 @@
     </script>
 
     <script>
+        function selectAndTestAssign() {
+            var grid = $("#candidatesGrid").data("kendoGrid");
+            var rows = grid.select();
+            var selected = [];
+            rows.each(function() {
+                selected.push(grid.dataItem($(this)).UserId);
+            });
+
+            if (selected.length > 0) {
+                $.ajax({
+                    url: '../SaveSelectedCandidates',
+                    dataType: "json",
+                    type: 'POST',
+                    traditional: true,
+                    data: { selected: selected }
+                }).success(function() {
+                    window.location = 'Selection/TestAssigning';
+                });
+            }
+        }
+
         function add() {
             var skillsCatId = $("#skills").data("kendoDropDownList").value();
             if (skillsCatId) {
@@ -35,7 +64,7 @@
                     dataType: "json",
                     type: 'PUT',
                     data: { skillsCatId: skillsCatId },
-                    success: function () {
+                    success: function() {
                         $("#grid").data("kendoGrid").dataSource.read();
                         $("#skills").data("kendoDropDownList").dataSource.read();
                     }
@@ -49,7 +78,7 @@
         }
 
 
-        $(function () {
+        $(function() {
             // Init by categories chart
             $.ajax({
                 url: '../GetJobProfileByCategoriesChartData',
@@ -69,7 +98,7 @@
                             }
                         });
                     });
-                    
+
                     var categories = byCatChartData.SkillCatNames,
                         name = 'Job Profile Required Skills',
                         data = chartData;
@@ -108,7 +137,7 @@
                                 cursor: 'pointer',
                                 point: {
                                     events: {
-                                        click: function () {
+                                        click: function() {
                                             var drilldown = this.drilldown;
                                             if (drilldown) { // drill down
                                                 setChart(drilldown.name, drilldown.categories, drilldown.data, drilldown.color);
@@ -124,14 +153,14 @@
                                     style: {
                                         fontWeight: 'bold'
                                     },
-                                    formatter: function () {
+                                    formatter: function() {
                                         return this.y + ' points';
                                     }
                                 }
                             }
                         },
                         tooltip: {
-                            formatter: function () {
+                            formatter: function() {
                                 var point = this.point,
                                     s = this.x + ':<b>' + this.y + '  points</b><br/>';
                                 if (point.drilldown) {
@@ -155,12 +184,12 @@
 
                 }
             });
-            
+
             // Init by skills chart
             $.ajax({
                 url: '../GetJobProfileBySkillsChartData',
-                success: function (bySkillChartData) {
-                    
+                success: function(bySkillChartData) {
+
 
                     $('#bySkill').highcharts({
                         chart: {
@@ -202,7 +231,7 @@
                     });
                 }
             });
-            
+
             // Init job profile table
             var jobProfileGrid = $('#jobProfileGrid').kendoGrid({
                 dataSource: {
@@ -227,8 +256,7 @@
                         data: "JobSkillCats",
                         total: "TotalCount"
                     }
-                },
-                
+                },                
 
                 pageable: {
                     refresh: true,
@@ -251,7 +279,7 @@
                     { field: "Description", title: "Description", width: 200 }
                 ]
             });
-            
+
             var dropDown = jobProfileGrid.find("#skills").kendoDropDownList({
                 dataTextField: "text",
                 dataValueField: "value",
@@ -264,7 +292,7 @@
                         read: "../../JobSkill/GetSkillCategoriesForAdd"
                     }
                 },
-                change: function () {
+                change: function() {
                     var value = this.value();
                     if (value) {
 
@@ -272,7 +300,7 @@
                     }
                 }
             });
-            
+
 
             var candidatesGrid = $('#candidatesGrid').kendoGrid({
                 dataSource: {
@@ -302,22 +330,48 @@
                     filter: { field: "JobId", operator: "eq", value: '@Session["JobId"]' }
                 },
                 editable: 'inline',
+                selectable: "multiple",
                 scrollable: false,
                 sortable: true,
                 pageable: true,
                 columns: [
-                                    { field: "LastName", title: "Last name", width: "110px" },
-                                    { field: "FirstName", title: "First name", width: "110px" },
-                                    { field: "MiddleName", title: "Middle name", width: "110px" },
-                                    { field: "FilingDate", title: "Filing date", width: "110px", template: '#= kendo.toString(FilingDate, "dd/MM/yyyy" ) #' },
-                                    { field: "DesiredSalary", title: "Desired salary" },
-                                    { field: "Status", title: "Status" },
-                                    { command: ["destroy"], title: "&nbsp;" }
-                ]
+                    { field: "LastName", title: "Last name", width: "110px" },
+                    { field: "FirstName", title: "First name", width: "110px" },
+                    { field: "MiddleName", title: "Middle name", width: "110px" },
+                    { field: "FilingDate", title: "Filing date", width: "110px", template: '#= kendo.toString(FilingDate, "dd/MM/yyyy" ) #' },
+                    { field: "DesiredSalary", title: "Desired salary" },
+                    { field: "Status", title: "Status" },
+                    { command: ["destroy"], title: "&nbsp;" }
+                ],
+                toolbar: [
+                    { template: $("#candidatesToolbar").html() }
+                ],
             });
         });
-        
+
+        function showCandidates() {
+            debugger
+            var all = $('#allOption')[0];
+            var hasAllReqSkillsAndNotLowerOption = $('#hasAllReqSkillsAndNotLowerOption')[0];
+            var hasAllReqSkills = $('#hasAllReqSkills')[0];
+            var grid = $("#candidatesGrid").data("kendoGrid");
+            if (all.checked) {
+                grid.dataSource.read();
+            } else if (hasAllReqSkillsAndNotLowerOption.checked) {
+                var reqNotLow = { field: 'ReqNotLow', operator: 'eq', value: true };
+                grid.dataSource.filter().filters.push(reqNotLow);
+                grid.dataSource.read();
+                grid.dataSource.filter().filters = _.without(grid.dataSource.filter().filters, reqNotLow);
+            } else if (hasAllReqSkills.checked) {
+                var req = { field: 'Req', operator: 'eq', value: true };
+                grid.dataSource.filter().filters.push(req);
+                grid.dataSource.read();
+                grid.dataSource.filter().filters = _.without(grid.dataSource.filter().filters, req);
+            }
+        }
+
         // JobProfileGrid detail init
+
         function detailInit(e) {
             var detailRow = e.detailRow;
 
@@ -426,15 +480,21 @@
              <fieldset class="thumbnail">
                  <legend>Selection Params</legend>
                  <label class="radio">
-                    <input type="radio" name="optionsRadios" checked>
-                    All candidates
-                </label>
-                 <label class="radio">
-                     <input type="radio" name="optionsRadios">
-                     Not lower than required skills
+                     <input id="allOption" type="radio" name="optionsRadios" checked>
+                     All candidates
                  </label>
                  
-                 <button class="btn btn-primary">Show</button>
+                 <label class="radio">
+                     <input id="hasAllReqSkills" type="radio" name="optionsRadios">
+                     Has All Required Skills
+                 </label>
+
+                 <label class="radio">
+                     <input id="hasAllReqSkillsAndNotLowerOption" type="radio" name="optionsRadios">
+                     Has All Required Skills and Not Lower
+                 </label>
+                 
+                 <button class="btn btn-primary" onclick="showCandidates()">Show</button>
              </fieldset>
              
              <fieldset class="thumbnail">

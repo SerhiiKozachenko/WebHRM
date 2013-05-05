@@ -400,6 +400,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\underscore-min.js" />
     <Content Include="Scripts\helpers\boostrap-form-validation.js">
       <DependentUpon>boostrap-form-validation.coffee</DependentUpon>
     </Content>

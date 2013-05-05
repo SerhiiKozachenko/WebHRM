@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Hrm.Data.EF;
 using Hrm.Data.EF.Models;
 using Hrm.Data.EF.Repositories.Contracts;
 using Hrm.Data.EF.Specifications.Implementations.Common;
@@ -12,15 +13,18 @@ namespace Hrm.Web.Controllers
     {
         private readonly IRepository<Job> jobsRepo;
 
+        private readonly IRepository<User> usersRepo; 
+
         private long CurrentJobId
         {
             get { return long.Parse(Session["JobId"].ToString()); }
             set { Session["JobId"] = value; }
-        } 
+        }
 
-        public SelectionController(IRepository<Job> jobsRepo)
+        public SelectionController(IRepository<Job> jobsRepo, IRepository<User> usersRepo)
         {
             this.jobsRepo = jobsRepo;
+            this.usersRepo = usersRepo;
         }
 
         public ActionResult Index(int id)
@@ -80,6 +84,26 @@ namespace Hrm.Web.Controllers
                 });
 
             return this.Json(new { SkillNames = skillNames, SkillsData = skillsData }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public void SaveSelectedCandidates(IList<long> selected)
+        {
+            using (var ctx = new HrmContext())
+            {
+                var curJob = ctx.Jobs.Single(x => x.Id == this.CurrentJobId);
+                foreach (var userId in selected)
+                {
+                    curJob.SelectedCandidates.Add(ctx.Users.Single(x=>x.Id == userId));
+                }
+
+                ctx.SaveChanges();
+            }
+        }
+
+        public ActionResult TestAssigning()
+        {
+            return null;
         }
     }
 }
