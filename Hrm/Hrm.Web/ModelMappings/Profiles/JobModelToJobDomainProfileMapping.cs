@@ -10,7 +10,7 @@ namespace Hrm.Web.ModelMappings.Profiles
 {
     public class JobModelToJobDomainProfileMapping : Profile
     {
-        private IRepository<Department> depRepo;
+        //private IRepository<Department> depRepo;
 
         protected override void Configure()
         {

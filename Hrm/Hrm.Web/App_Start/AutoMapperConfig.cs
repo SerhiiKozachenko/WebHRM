@@ -24,6 +24,7 @@ namespace Hrm.Web.App_Start
                 x.AddProfile<AssignedTestModelProfile>();
                 x.AddProfile<SearchJobModelProfile>();
                 x.AddProfile<ApplyJobModelProfile>();
+                x.AddProfile<CandidateModelProfile>();
             });
         }
     }

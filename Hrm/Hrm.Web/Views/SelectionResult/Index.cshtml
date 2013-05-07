@@ -1,0 +1,306 @@
+﻿@using Hrm.Web.Models.Menu
+@{
+    ViewBag.Title = "Selection Result";
+}
+@section links
+{
+    <link href="../../Content/kendo-ui/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/kendo-ui/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+}
+
+@section scripts
+{
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="../../Scripts/kendo-ui/kendo.web.min.js" type="text/javascript"></script>
+    
+    <script type="text/x-kendo-template" id="toolbar">
+        <div class="toolbar">
+            <label class="byJobs-label" for="jobs">Show candidates by jobs: </label>
+            <input type="search" id="jobs" style="width: 150px"/>
+        </div>
+    </script>
+    
+    <script type="text/x-kendo-template" id="detail-row">
+        <div class="tabstrip">
+            <ul>
+                <li class="k-state-active">
+                    Details
+                </li>
+                <li>
+                    Test Results
+                </li>
+            </ul>
+            <div>
+                <div class="details">
+                    <dl class="dl-horizontal">
+                     
+                         <dt>Phone number:</dt>
+                         <dd>#= PhoneNumber #</dd>
+
+                         <dt>Skype:</dt>
+                         <dd>#= Skype #</dd>
+                     
+                         <dt>Date of birth:</dt>
+                         <dd>#= DateOfBirth #</dd>
+        
+                         <dt>Last job title:</dt>
+                         <dd>#= LastJobTitle #</dd>
+        
+                         <dt>Total work exp:</dt>
+                         <dd>#= TotalWorkExperience #</dd>
+                
+                         <dt>Resume:</dt>
+                         <dd><a href='../../Content/Resumes/#= ResumePath #'>Resume</a></dd>
+
+                     </dl>
+                </div>
+            </div>
+            <div>
+                <div class='test-results'></div>
+            </div>
+        </div>
+    </script>
+
+    <script>
+        
+        function detailInit(e) {
+            var detailRow = e.detailRow;
+            detailRow.find(".tabstrip").kendoTabStrip({
+                animation: {
+                    open: { effects: "fadeIn" }
+                }
+            });
+
+            detailRow.find(".test-results").kendoGrid({
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: { url: "../../SelectionResult/GetTestResultsForCandidate/" + e.data.Id, dataType: "json", type: 'GET' }
+                    },
+                    schema: {
+                        model: {
+                            fields: {
+                                Name: { type: 'string'},
+                                Category: { type: 'string'},
+                                PercentCorrectAnswers: { type: 'string' },
+                                Result: { type: "string" }
+                            }
+                        },
+                        data: "Data",
+                        total: "TotalCount"
+                    },
+                    serverPaging: false,
+                    serverSorting: false,
+                    serverFiltering: false,
+                    pageSize: 5
+                },
+                scrollable: false,
+                sortable: true,
+                pageable: true,
+                columns: [
+                    { field: "Name", title: "Test" },
+                    { field: "Category", title: "Category" },
+                    { field: "PercentCorrectAnswers", title: "Correct Answers (%)" },
+                    { field: "Result", title: "Correct Answers" }
+                ]
+            });
+        }
+        // Init skills chart
+        function showSkillChart(jobId, candidateId) {
+            $.ajax({
+                url: '../../SelectionResult/GetJobProfileSkillsChartData',
+                data: {
+                    jobId: jobId,
+                    candidateId: candidateId
+                },
+                success: function(bySkillChartData) {
+
+                    var series = [];
+                    $.each(bySkillChartData.SkillsData, function(index, item) {
+                        series.push({ name: item.Name, data: item.Data });
+                    });
+
+                    $('#skillsChart').highcharts({
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Job Profile Required Skills'
+                        },
+                        subtitle: {
+                            text: 'List of required skills'
+                        },
+                        xAxis: {
+                            categories: bySkillChartData.SkillNames
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Estimation (points)'
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                            footerFormat: '</table>',
+                            shared: true,
+                            useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                                pointPadding: 0.2,
+                                borderWidth: 0
+                            }
+                        },
+                        series: series
+                    });
+                }
+            });
+        }
+
+        $(function() {
+            $.ajax({
+                url: '../../SelectionResult/GetCurrentProjectJobsDropDownModel',
+                success: function(jobs) {
+                    // Init candidates table
+                    var candidatesGrid = $('#candidatesGrid').kendoGrid({
+                        dataSource: {
+                            type: "json",
+                            serverPaging: true,
+                            serverSorting: false,
+                            serverFiltering: false,
+                            pageSize: 10,
+                            transport: {
+                                read: { url: "../../SelectionResult/GetGridData", dataType: "json", type: 'GET' }
+                            },
+                            schema: {
+                                model: {
+                                    id: "Id",
+                                    fields: {
+                                        Id: { editable: false },
+                                        LastName: { type: 'string' },
+                                        FirstName: { type: 'string' },
+                                        MiddleName: { type: 'string' },
+                                        HasSelected: { type: 'boolean' },
+                                        HasTested: { type: 'boolean' },
+                                        PercentMatchJobProfile: { type: 'number' },
+                                        TestsCompleted: { type: 'string' },
+                                        JobId: { field: 'JobId', type: 'number' }
+                                    }
+                                },
+                                data: "Data",
+                                total: "TotalCount"
+                            }
+                        },
+
+                        pageable: {
+                            refresh: true,
+                            pageSizes: true
+                        },
+                        sortable: true,
+                        filterable: true,
+                        selectable: true,
+                        change: function(e) {
+                            var sel = this.dataItem(this.select());
+                            if (sel != undefined) {
+                                var candidateId = sel.Id;
+                                var selJobId = jobsDropDown.data("kendoDropDownList").value();
+                                if (selJobId != undefined) {
+                                    showSkillChart(selJobId, candidateId);
+                                } else {
+                                    showSkillChart(null, candidateId);
+                                }
+                            }
+                        },
+                        detailTemplate: kendo.template($("#detail-row").html()),
+                        detailInit: detailInit,
+                        toolbar: [
+                            { template: $("#toolbar").html() }
+                        ],
+
+                        columns: [
+                            { field: "LastName", title: "Last Name" },
+                            { field: "FirstName", title: "First Name" },
+                            { field: "MiddleName", title: "Middle Name" },
+                            { field: "HasSelected", title: "Has Selected", template: "<input type='checkbox' name='HasSelected' #= HasSelected? 'checked' : '' # disabled='disabled' />", },
+                            { field: "HasTested", title: "Has Tested", template: "<input type='checkbox' name='HasTested' #= HasTested? 'checked' : '' # disabled='disabled' />", },
+                            { field: "PercentMatchJobProfile", title: "Percent of Match Job Profile" },
+                            { field: "TestsCompleted", title: "Test Completed" },
+                            { field: "JobId", title: "Job", values: jobs }
+                        ]
+                    });
+
+                    var jobsDropDown = candidatesGrid.find("#jobs").kendoDropDownList({
+                        dataTextField: "text",
+                        dataValueField: "value",
+                        autoBind: false,
+                        optionLabel: "Choose...",
+                        dataSource: {
+                            type: "json",
+                            severFiltering: true,
+                            transport: {
+                                read: "../../SelectionResult/GetCurrentProjectJobsDropDownModel"
+                            }
+                        },
+                        change: function() {
+                            var value = this.value();
+                            if (value) {
+                                candidatesGrid.data("kendoGrid").dataSource.filter({ field: "JobId", operator: "eq", value: parseInt(value) });
+                                showSkillChart(value, null);
+                            } else {
+                                candidatesGrid.data("kendoGrid").dataSource.filter({});
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
+
+@section menu
+{
+    @Html.Partial("_ManagerTopMenu", ManagerTopMenuItems.MyProfile)
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        @{
+            Html.RenderPartial("_ManagerLeftMenu", ManagerLeftMenuItems.Projects);
+        }
+        
+         <div class="span9 thumbnail well">
+             <!--Body content-->
+            
+             <fieldset class="thumbnail">
+                 <legend>Project Information</legend>
+                 <dl class="dl-horizontal" style="margin-left: -60px;">
+                     
+                     <dt>Project Title:</dt>
+                     <dd>Web Site with Charts</dd>
+
+                     <dt>Description:</dt>
+                     <dd>Web Site on .net Technoly with DataBase on MS Sql</dd>
+                     
+                     <dt>Command:</dt>
+                     <dd>4 people</dd>
+
+                 </dl>
+             </fieldset>
+             
+             <fieldset class="thumbnail">
+                 <legend>Candidates for the Project Jobs</legend>
+                 <div id="candidatesGrid"></div>
+             </fieldset>
+             
+             
+             <fieldset class="thumbnail">
+                 <legend>Selected Job Profile</legend>
+                 <div id="skillsChart" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+             </fieldset>
+
+         </div>
+    </div>
+</div>

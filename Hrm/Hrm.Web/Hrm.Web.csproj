@@ -230,6 +230,7 @@
     <Compile Include="Controllers\ProjectFormalizeNameController.cs" />
     <Compile Include="Controllers\SearchJobController.cs" />
     <Compile Include="Controllers\SelectionController.cs" />
+    <Compile Include="Controllers\SelectionResultController.cs" />
     <Compile Include="Controllers\SkillCategoryController.cs" />
     <Compile Include="Controllers\SkillController.cs" />
     <Compile Include="Controllers\TestCategoryController.cs" />
@@ -245,6 +246,7 @@
     <Compile Include="Infrastructure\Plumbing\WindsorServiceLocator.cs" />
     <Compile Include="ModelMappings\Profiles\ApplyJobModelProfile.cs" />
     <Compile Include="ModelMappings\Profiles\AssignedTestModelProfile.cs" />
+    <Compile Include="ModelMappings\Profiles\CandidateModelProfile.cs" />
     <Compile Include="ModelMappings\Profiles\DepartmentModelToDepartmentDomainProfileMapping.cs" />
     <Compile Include="ModelMappings\Profiles\JobApplicationModelToJobApplicationDomainProfileMapping.cs" />
     <Compile Include="ModelMappings\Profiles\JobModelToJobDomainProfileMapping.cs" />
@@ -279,6 +281,8 @@
     <Compile Include="Models\Project\ProjectModel.cs" />
     <Compile Include="Models\SearchJob\ApplyJobModel.cs" />
     <Compile Include="Models\SearchJob\SearchJobModel.cs" />
+    <Compile Include="Models\SelectionResult\CandidateModel.cs" />
+    <Compile Include="Models\SelectionResult\TestResultModel.cs" />
     <Compile Include="Models\Selection\AssignedTestModel.cs" />
     <Compile Include="Models\Selection\ChartSeriesModel.cs" />
     <Compile Include="Models\Selection\SelectedCandidateModel.cs" />
@@ -859,6 +863,7 @@
     <Content Include="Views\AssignedTest\Index.cshtml" />
     <Content Include="Views\AssignedTest\Pass.cshtml" />
     <Content Include="Views\AssignedTest\PassResult.cshtml" />
+    <Content Include="Views\SelectionResult\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

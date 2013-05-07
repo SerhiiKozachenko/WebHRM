@@ -10,10 +10,25 @@
 @section scripts
 {
     <script src="../../Scripts/kendo-ui/kendo.web.min.js" type="text/javascript"></script>
+
+    <script type="text/x-kendo-template" id="toolbar-dropdown">
+        <div class="toolbar pull-right">
+            <button onclick='viewSelectionResults()' class='btn btn-primary'>Selection Results</button>
+        </div>
+    </script>
+
     <script>
+        function viewSelectionResults() {
+            var grid = $("#grid").data("kendoGrid");
+            var sel = grid.dataItem(grid.select());
+            if (sel != undefined) {
+                window.location = 'SelectionResult/Index/' + sel.Id;
+            }
+        }
+
         function descriptionEditor(container, options) {
             $('<textarea data-bind="value: ' + options.field + '" cols="20" rows="4" required></textarea>')
-            .appendTo(container);
+                .appendTo(container);
         }
 
         function edit() {
@@ -76,7 +91,8 @@
                         toolbar: [
                             { text: 'Add', template: '<button class="btn" onclick="add()"><i class="icon-file"></i> Add</button>' },
                             { text: 'Edit', template: '<button class="btn" onclick="edit()"><i class="icon-edit"></i> Edit</button>' },
-                            { text: 'Remove', template: '<button class="btn" onclick="rem()"><i class="icon-trash"></i> Delete</button>' }
+                            { text: 'Remove', template: '<button class="btn" onclick="rem()"><i class="icon-trash"></i> Delete</button>' },
+                            { template: $("#toolbar-dropdown").html() }
 
                         ],
                         selectable: true,
@@ -87,27 +103,6 @@
                             { field: "ProjectFormalizeNameId", sortable: false, title: "Formalize Name", values: formalizeNames, width: 110 }
                         ]
                     });
-                    //var dropDown = grid.find("#formalizeNames").kendoDropDownList({
-                    //    dataTextField: "text",
-                    //    dataValueField: "value",
-                    //    autoBind: false,
-                    //    optionLabel: "All",
-                    //    dataSource: {
-                    //        type: "json",
-                    //        severFiltering: true,
-                    //        transport: {
-                    //            read: 'ProjectFormalizeName/GetAllProjectFormalizeNamesFKDropDownModel',
-                    //        }
-                    //    },
-                    //    change: function () {
-                    //        var value = this.value();
-                    //        if (value) {
-                    //            grid.data("kendoGrid").dataSource.filter({ field: "ProjectFormalizeNameId", operator: "eq", value: parseInt(value) });
-                    //        } else {
-                    //            grid.data("kendoGrid").dataSource.filter({});
-                    //        }
-                    //    }
-                    //});
                 }
             });
         });
