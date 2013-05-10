@@ -64,6 +64,10 @@
 
     <script>
         
+        function makeReport() {
+            window.location = '../../SelectionResult/Report';
+        }
+
         function detailInit(e) {
             var detailRow = e.detailRow;
             detailRow.find(".tabstrip").kendoTabStrip({
@@ -288,6 +292,8 @@
                      <dd>4 people</dd>
 
                  </dl>
+                 
+                 <button onclick="makeReport()" class="btn btn-primary pull-right"><i class="icon-file"></i> Make report</button>
              </fieldset>
              
              <fieldset class="thumbnail">

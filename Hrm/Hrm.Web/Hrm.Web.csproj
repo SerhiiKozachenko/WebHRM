@@ -78,6 +78,9 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\packages\iTextSharp.4.1.2\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Jurassic">
       <HintPath>..\packages\CoffeeSharp.0.5\lib\Jurassic.dll</HintPath>
     </Reference>
@@ -87,6 +90,9 @@
     </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorPDF">
+      <HintPath>..\packages\RazorPDF.1.0.0\lib\net45\RazorPDF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -249,6 +255,7 @@
     <Compile Include="ModelMappings\Profiles\CandidateModelProfile.cs" />
     <Compile Include="ModelMappings\Profiles\DepartmentModelToDepartmentDomainProfileMapping.cs" />
     <Compile Include="ModelMappings\Profiles\JobApplicationModelToJobApplicationDomainProfileMapping.cs" />
+    <Compile Include="ModelMappings\Profiles\JobApplicationToCandidateModelProfile.cs" />
     <Compile Include="ModelMappings\Profiles\JobModelToJobDomainProfileMapping.cs" />
     <Compile Include="ModelMappings\Profiles\JobSkillModelProfile.cs" />
     <Compile Include="ModelMappings\Profiles\MySkillModelToUserSkillsDomainMappingProfile.cs" />
@@ -282,8 +289,10 @@
     <Compile Include="Models\SearchJob\ApplyJobModel.cs" />
     <Compile Include="Models\SearchJob\SearchJobModel.cs" />
     <Compile Include="Models\SelectionResult\CandidateModel.cs" />
+    <Compile Include="Models\SelectionResult\ReportModel.cs" />
     <Compile Include="Models\SelectionResult\TestResultModel.cs" />
     <Compile Include="Models\Selection\AssignedTestModel.cs" />
+    <Compile Include="Models\Selection\CandidateModel.cs" />
     <Compile Include="Models\Selection\ChartSeriesModel.cs" />
     <Compile Include="Models\Selection\SelectedCandidateModel.cs" />
     <Compile Include="Models\SkillCategory\SkillCategoryModel.cs" />
@@ -864,6 +873,7 @@
     <Content Include="Views\AssignedTest\Pass.cshtml" />
     <Content Include="Views\AssignedTest\PassResult.cshtml" />
     <Content Include="Views\SelectionResult\Index.cshtml" />
+    <Content Include="Views\SelectionResult\Pdf.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

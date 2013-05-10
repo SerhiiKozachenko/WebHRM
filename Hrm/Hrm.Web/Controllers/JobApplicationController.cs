@@ -37,26 +37,26 @@ namespace Hrm.Web.Controllers
 
         public JsonResult GetGridData(GridContext ctx)
         {
-            IQueryable<JobApplication> query;
+            IQueryable<JobApplication> query = this.jobAppRepo.OrderBy(x => x.Id);
 
-            if (ctx.Filters.Any(f => f.Filter1.Field.Equals("ReqNotLow")))
-            {
-                var jobId = ctx.Filters.Select(x => x.Filter1).Single(x => x.Field.Equals("JobId")).Value;
-                query = this.SelectHasAllRequiredSkillsAndNotLower(long.Parse(jobId));
-                var filter = ctx.Filters.Single(f => f.Filter1.Field.Equals("ReqNotLow"));
-                ctx.Filters.Remove(filter);
-            }
-            else if (ctx.Filters.Any(f => f.Filter1.Field.Equals("Req")))
-            {
-                var jobId = ctx.Filters.Select(x => x.Filter1).Single(x => x.Field.Equals("JobId")).Value;
-                query = this.SelectHasAllRequiredSkills(long.Parse(jobId));
-                var filter = ctx.Filters.Single(f => f.Filter1.Field.Equals("Req"));
-                ctx.Filters.Remove(filter);
-            }
-            else
-            {
-                query = this.jobAppRepo.OrderBy(x => x.Id);
-            }
+            //if (ctx.Filters.Any(f => f.Filter1.Field.Equals("ReqNotLow")))
+            //{
+            //    var jobId = ctx.Filters.Select(x => x.Filter1).Single(x => x.Field.Equals("JobId")).Value;
+            //    query = this.SelectHasAllRequiredSkillsAndNotLower(long.Parse(jobId));
+            //    var filter = ctx.Filters.Single(f => f.Filter1.Field.Equals("ReqNotLow"));
+            //    ctx.Filters.Remove(filter);
+            //}
+            //else if (ctx.Filters.Any(f => f.Filter1.Field.Equals("Req")))
+            //{
+            //    var jobId = ctx.Filters.Select(x => x.Filter1).Single(x => x.Field.Equals("JobId")).Value;
+            //    query = this.SelectHasAllRequiredSkills(long.Parse(jobId));
+            //    var filter = ctx.Filters.Single(f => f.Filter1.Field.Equals("Req"));
+            //    ctx.Filters.Remove(filter);
+            //}
+            //else
+            //{
+            //    query = this.jobAppRepo.OrderBy(x => x.Id);
+            //}
 
             var totalCount = query.Count();
 
@@ -85,64 +85,64 @@ namespace Hrm.Web.Controllers
             return Json(new { JobApplications = jobApplications, TotalCount = totalCount }, JsonRequestBehavior.AllowGet);
         }
 
-        private IQueryable<JobApplication> SelectHasAllRequiredSkillsAndNotLower(long jobId)
-        {
-            var jobApplications = this.jobAppRepo.Where(x => x.JobId == jobId).ToList();
-            var requiredSkills = this.jobSkillsRepo.Where(c => c.JobId == jobId);
+        //private IQueryable<JobApplication> SelectHasAllRequiredSkillsAndNotLower(long jobId)
+        //{
+        //    var jobApplications = this.jobAppRepo.Where(x => x.JobId == jobId).ToList();
+        //    var requiredSkills = this.jobSkillsRepo.Where(c => c.JobId == jobId);
 
-            var selectedJobApplications = new List<JobApplication>();
+        //    var selectedJobApplications = new List<JobApplication>();
 
-            foreach (var jobApp in jobApplications)
-            {
-                var userSkills = jobApp.User.UsersSkills;
+        //    foreach (var jobApp in jobApplications)
+        //    {
+        //        var userSkills = jobApp.User.UsersSkills;
 
-                foreach (var jobSkill in requiredSkills)
-                {
-                    if (userSkills.All(x => x.SkillId != jobSkill.SkillId))
-                    {
-                        goto nextWithoutSaving;
-                    }
-                    else if (userSkills.Single(x => x.SkillId == jobSkill.SkillId).Estimate < jobSkill.Estimate)
-                    {
-                        goto nextWithoutSaving;
-                    }
-                }
+        //        foreach (var jobSkill in requiredSkills)
+        //        {
+        //            if (userSkills.All(x => x.SkillId != jobSkill.SkillId))
+        //            {
+        //                goto nextWithoutSaving;
+        //            }
+        //            else if (userSkills.Single(x => x.SkillId == jobSkill.SkillId).Estimate < jobSkill.Estimate)
+        //            {
+        //                goto nextWithoutSaving;
+        //            }
+        //        }
 
-                selectedJobApplications.Add(jobApp);
+        //        selectedJobApplications.Add(jobApp);
 
-            nextWithoutSaving:
-                ;
-            }
+        //    nextWithoutSaving:
+        //        ;
+        //    }
 
-            return selectedJobApplications.AsQueryable();
-        }
+        //    return selectedJobApplications.AsQueryable();
+        //}
 
-        private IQueryable<JobApplication> SelectHasAllRequiredSkills(long jobId)
-        {
-            var jobApplications = this.jobAppRepo.Where(x => x.JobId == jobId).ToList();
-            var requiredSkills = this.jobSkillsRepo.Where(c => c.JobId == jobId);
+        //private IQueryable<JobApplication> SelectHasAllRequiredSkills(long jobId)
+        //{
+        //    var jobApplications = this.jobAppRepo.Where(x => x.JobId == jobId).ToList();
+        //    var requiredSkills = this.jobSkillsRepo.Where(c => c.JobId == jobId);
 
-            var selectedJobApplications = new List<JobApplication>();
+        //    var selectedJobApplications = new List<JobApplication>();
 
-            foreach (var jobApp in jobApplications)
-            {
-                var userSkills = jobApp.User.UsersSkills;
+        //    foreach (var jobApp in jobApplications)
+        //    {
+        //        var userSkills = jobApp.User.UsersSkills;
 
-                foreach (var jobSkill in requiredSkills)
-                {
-                    if (userSkills.All(x => x.SkillId != jobSkill.SkillId))
-                    {
-                        goto nextWithoutSaving;
-                    }
-                }
+        //        foreach (var jobSkill in requiredSkills)
+        //        {
+        //            if (userSkills.All(x => x.SkillId != jobSkill.SkillId))
+        //            {
+        //                goto nextWithoutSaving;
+        //            }
+        //        }
 
-                selectedJobApplications.Add(jobApp);
+        //        selectedJobApplications.Add(jobApp);
 
-            nextWithoutSaving:
-                ;
-            }
+        //    nextWithoutSaving:
+        //        ;
+        //    }
 
-            return selectedJobApplications.AsQueryable();
-        }
+        //    return selectedJobApplications.AsQueryable();
+        //}
     }
 }

@@ -11,6 +11,8 @@ using Hrm.Web.Models.Selection;
 using Hrm.Web.Models.SelectionResult;
 using KendoWrapper.Grid;
 using KendoWrapper.Grid.Context;
+using RazorPDF;
+using CandidateModel = Hrm.Web.Models.SelectionResult.CandidateModel;
 
 namespace Hrm.Web.Controllers
 {
@@ -18,13 +20,17 @@ namespace Hrm.Web.Controllers
     {
         private readonly IRepository<JobApplication> jobAppRepo;
 
-        private readonly IRepository<Job> jobsRepo; 
+        private readonly IRepository<Job> jobsRepo;
 
-        public SelectionResultController(IRepository<User> usersRepo, IRepository<JobApplication> jobAppRepo, IRepository<Job> jobsRepo) 
+        private readonly IRepository<Project> projRepo;
+
+        public SelectionResultController(IRepository<User> usersRepo, IRepository<JobApplication> jobAppRepo, 
+            IRepository<Job> jobsRepo, IRepository<Project> projRepo) 
             : base(usersRepo)
         {
             this.jobAppRepo = jobAppRepo;
             this.jobsRepo = jobsRepo;
+            this.projRepo = projRepo;
         }
 
         private long CurrentProjectId
@@ -118,7 +124,7 @@ namespace Hrm.Web.Controllers
                 data.Add(candidate);
             }
 
-            return Json(new { Data = data, TotalCount = totalCount }, JsonRequestBehavior.AllowGet);
+            return Json(new { Data = data.OrderByDescending(x=>x.PercentMatchJobProfile), TotalCount = totalCount }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetCurrentProjectJobsDropDownModel()
@@ -198,6 +204,85 @@ namespace Hrm.Web.Controllers
             }
             
             return Json(new {Data = model, TotalCount = model.Count}, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Report()
+        {
+            var model = new ReportModel();
+            var curProj = this.projRepo.FindOne(new ByIdSpecify<Project>(this.CurrentProjectId));
+            model.Title = curProj.Title;
+            model.Description = curProj.Description;
+            model.CommandAmount = curProj.Jobs.Count;
+            foreach (var job in curProj.Jobs)
+            {
+                var jobRepModel = new JobReportModel
+                    {
+                        Title = job.Title,
+                        Description = job.Description,
+                        Salary = job.Salary,
+                        Department = job.Department.Title
+                    };
+
+                foreach (var jobApp in job.JobApplications)
+                {
+                    var canRepModel = new CandidateReportModel
+                        {
+                            LastName = jobApp.User.LastName,
+                            FirstName = jobApp.User.FirstName,
+                            MiddleName = jobApp.User.MiddleName,
+                            HasSelected = jobApp.User.Jobs.Any(x => x.ProjectId == this.CurrentProjectId),
+                            HasTested = jobApp.User.TestResults.Any(x=>jobApp.User.AssignedTests.Any(a=>a.Id == x.TestId))
+                        };
+                           
+                    // Calculate PERCENT MATCH JOB PROFILE SKILLS
+                    
+                    var jobSkills = job.JobSkills;
+                    var userSkills = jobApp.User.UsersSkills;
+                    foreach (var jobSkill in jobSkills)
+                    {
+                        int userEsitmate = 0;
+                        if (userSkills.Any(x => x.SkillId == jobSkill.SkillId))
+                        {
+                            userEsitmate = userSkills.Single(x => x.SkillId == jobSkill.SkillId).Estimate;
+                        }
+
+                        canRepModel.PercentMatchJobProfile += (userEsitmate - jobSkill.Estimate);
+                    }
+
+                    var totalJobSkillEst = jobSkills.Sum(x => x.Estimate);
+                    var candPercentage = canRepModel.PercentMatchJobProfile * 100 / totalJobSkillEst;
+                    canRepModel.PercentMatchJobProfile = (candPercentage < 0) ? 100 - Math.Abs(candPercentage) : candPercentage;
+
+                    // Calculate TESTS RESULTS
+                    var assignedTests = jobApp.User.AssignedTests;
+                    var testCompleted = assignedTests.Count(assignedTest => jobApp.User.TestResults.Any(x => x.TestId == assignedTest.Id));
+                    canRepModel.TestsCompleted = string.Format("{0} of {1}", testCompleted, assignedTests.Count);
+
+                    // Test Results Details
+                    var passedTestsResults = jobApp.User.TestResults.Where(x => assignedTests.Any(a => a.Id == x.TestId));
+
+                    foreach (var testRes in passedTestsResults)
+                    {
+                        var totalQuestions = testRes.Test.Questions.Count;
+                        var correctAnswers = testRes.ResultQuestions.Count(x => x.ResultAnswers.Any(a => a.IsCorrect && a.IsChoisen));
+                        var res = new TestResultModel
+                        {
+                            Name = testRes.Test.Name,
+                            Category = testRes.Test.Category.Name,
+                            PercentCorrectAnswers = (Math.Round((double)correctAnswers / totalQuestions * 100, 2)).ToString(),
+                            Result = string.Format("{0} of {1}", correctAnswers, totalQuestions)
+                        };
+
+                        canRepModel.TestResults.Add(res);
+                    }
+
+                    jobRepModel.Candidates.Add(canRepModel);    
+                }
+
+                model.Jobs.Add(jobRepModel);
+             }
+
+            return new PdfResult(model);
         }
     }
 }

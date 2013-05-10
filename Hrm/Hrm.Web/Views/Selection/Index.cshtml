@@ -193,7 +193,8 @@
 
                     $('#bySkill').highcharts({
                         chart: {
-                            type: 'column'
+                            type: 'column',
+                            width: 820
                         },
                         title: {
                             text: 'Job Profile Required Skills'
@@ -306,7 +307,7 @@
                 dataSource: {
                     type: "json",
                     transport: {
-                        read: { url: "../../JobApplication/GetGridData", dataType: "json", type: 'GET' }
+                        read: { url: "../GetCandidatesGridData", dataType: "json", type: 'GET' }
                     },
                     schema: {
                         model: {
@@ -317,7 +318,9 @@
                                 FirstName: { type: 'string', validation: { required: true } },
                                 MiddleName: { type: 'string', validation: { required: true } },
                                 FilingDate: { type: "date", format: "{0:dd/MM/yyyy}", validation: { required: true } },
-                                DesiredSalary: { type: 'number', validation: { min: 0 } }
+                                DesiredSalary: { type: 'number', validation: { min: 0 } },
+                                Status: { type: 'string' },
+                                PercentMatchJobProfile: { type: 'number' }
                             }
                         },
                         data: "JobApplications",
@@ -341,7 +344,9 @@
                     { field: "FilingDate", title: "Filing date", width: "110px", template: '#= kendo.toString(FilingDate, "dd/MM/yyyy" ) #' },
                     { field: "DesiredSalary", title: "Desired salary" },
                     { field: "Status", title: "Status" },
-                    { command: ["destroy"], title: "&nbsp;" }
+                    { field: "PercentMatchJobProfile", title: "Percent Match Job Profile" },
+                    //{ command: ["destroy"], title: "&nbsp;" },
+                    { template: "<button class='btn' onclick='showUserSkillsOnChart()'><i class='icon-tasks'></i></button>" }
                 ],
                 toolbar: [
                     { template: $("#candidatesToolbar").html() }
@@ -350,7 +355,7 @@
         });
 
         function showCandidates() {
-            debugger
+            //debugger
             var all = $('#allOption')[0];
             var hasAllReqSkillsAndNotLowerOption = $('#hasAllReqSkillsAndNotLowerOption')[0];
             var hasAllReqSkills = $('#hasAllReqSkills')[0];
@@ -413,6 +418,65 @@
                 ]
             });
         }
+        
+        function showUserSkillsOnChart() {
+            var grid = $("#candidatesGrid").data("kendoGrid");
+            var sel = grid.dataItem(grid.select());
+            if (sel != undefined) {
+                var candidateId = sel.UserId;
+                $.ajax({
+                    url: '../../SelectionResult/GetJobProfileSkillsChartData',
+                    data: {
+                        jobId: '@Session["JobId"]',
+                        candidateId: candidateId
+                    },
+                    success: function (bySkillChartData) {
+
+                        var series = [];
+                        $.each(bySkillChartData.SkillsData, function (index, item) {
+                            series.push({ name: item.Name, data: item.Data });
+                        });
+                        $('a[href="#bySkill"]').tab('show');
+                        $('#bySkill').highcharts({
+                            chart: {
+                                type: 'column',
+                                width: 820
+                            },
+                            title: {
+                                text: 'Job Profile Required Skills'
+                            },
+                            subtitle: {
+                                text: 'List of required skills'
+                            },
+                            xAxis: {
+                                categories: bySkillChartData.SkillNames
+                            },
+                            yAxis: {
+                                min: 0,
+                                title: {
+                                    text: 'Estimation (points)'
+                                }
+                            },
+                            tooltip: {
+                                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                    '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                                footerFormat: '</table>',
+                                shared: true,
+                                useHTML: true
+                            },
+                            plotOptions: {
+                                column: {
+                                    pointPadding: 0.2,
+                                    borderWidth: 0
+                                }
+                            },
+                            series: series
+                        });
+                    }
+                });
+            }
+        }
     </script>
 
 }
@@ -465,10 +529,10 @@
                  
                  <div class="tab-content">
                      <div class="tab-pane fade active in" id="byCat">
-                         <div id="byCatChart" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+                         <div id="byCatChart"></div>
                      </div>
                      <div class="tab-pane fade" id="bySkill">
-                         <div id="bySkillChart" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+                         <div id="bySkillChart" style= "width: 100%"></div>
                      </div>
                      <div class="tab-pane fade" id="table">
                          <div id="jobProfileGrid"></div>

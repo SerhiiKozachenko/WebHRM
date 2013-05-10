@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
@@ -6,6 +7,7 @@ using Hrm.Data.EF;
 using Hrm.Data.EF.Models;
 using Hrm.Data.EF.Repositories.Contracts;
 using Hrm.Data.EF.Specifications.Implementations.Common;
+using Hrm.Web.Models.JobApplication;
 using Hrm.Web.Models.Selection;
 using KendoWrapper.Grid.Context;
 
@@ -15,7 +17,11 @@ namespace Hrm.Web.Controllers
     {
         private readonly IRepository<Job> jobsRepo;
 
-        private readonly IRepository<User> usersRepo; 
+        private readonly IRepository<User> usersRepo;
+
+        private readonly IRepository<JobApplication> jobAppRepo;
+
+        private readonly IRepository<JobSkill> jobSkillsRepo; 
 
         private long CurrentJobId
         {
@@ -29,10 +35,12 @@ namespace Hrm.Web.Controllers
             set { Session["SelectedCandidatesIds"] = value; }
         } 
 
-        public SelectionController(IRepository<Job> jobsRepo, IRepository<User> usersRepo)
+        public SelectionController(IRepository<Job> jobsRepo, IRepository<User> usersRepo, IRepository<JobApplication> jobAppRepo, IRepository<JobSkill> jobSkillsRepo)
         {
             this.jobsRepo = jobsRepo;
             this.usersRepo = usersRepo;
+            this.jobAppRepo = jobAppRepo;
+            this.jobSkillsRepo = jobSkillsRepo;
         }
 
         public ActionResult Index(int id)
@@ -40,6 +48,142 @@ namespace Hrm.Web.Controllers
             this.CurrentJobId = id;
 
             return View();
+        }
+
+        public JsonResult GetCandidatesGridData(GridContext ctx)
+        {
+            IQueryable<JobApplication> query;
+
+            if (ctx.Filters.Any(f => f.Filter1.Field.Equals("ReqNotLow")))
+            {
+                var jobId = ctx.Filters.Select(x => x.Filter1).Single(x => x.Field.Equals("JobId")).Value;
+                query = this.SelectHasAllRequiredSkillsAndNotLower(long.Parse(jobId));
+                var filter = ctx.Filters.Single(f => f.Filter1.Field.Equals("ReqNotLow"));
+                ctx.Filters.Remove(filter);
+            }
+            else if (ctx.Filters.Any(f => f.Filter1.Field.Equals("Req")))
+            {
+                var jobId = ctx.Filters.Select(x => x.Filter1).Single(x => x.Field.Equals("JobId")).Value;
+                query = this.SelectHasAllRequiredSkills(long.Parse(jobId));
+                var filter = ctx.Filters.Single(f => f.Filter1.Field.Equals("Req"));
+                ctx.Filters.Remove(filter);
+            }
+            else
+            {
+                query = this.jobAppRepo.OrderBy(x => x.Id);
+            }
+
+            var totalCount = query.Count();
+
+            if (ctx.HasFilters)
+            {
+                query = ctx.ApplyFilters(query);
+                totalCount = query.Count();
+            }
+
+            if (ctx.HasSorting)
+            {
+                switch (ctx.SortOrder)
+                {
+                    case SortOrder.Asc:
+                        query = this.jobAppRepo.SortByAsc(ctx.SortColumn, query);
+                        break;
+
+                    case SortOrder.Desc:
+                        query = this.jobAppRepo.SortByDesc(ctx.SortColumn, query);
+                        break;
+                }
+            }
+
+            var jobApplications = query.Skip(ctx.Skip).Take(ctx.Take).ToList().Select(Mapper.Map<CandidateModel>).ToList();
+
+            foreach (var jobApp in jobApplications)
+            {
+                // Calculate PERCENT MATCH JOB PROFILE SKILLS
+                var job = this.jobsRepo.FindOne(new ByIdSpecify<Job>(this.CurrentJobId));
+                
+                var jobSkills = job.JobSkills;
+                var userSkills = this.usersRepo.FindOne(new ByIdSpecify<User>(jobApp.UserId)).UsersSkills;
+                foreach (var jobSkill in jobSkills)
+                {
+                    int userEsitmate = 0;
+                    if (userSkills.Any(x => x.SkillId == jobSkill.SkillId))
+                    {
+                        userEsitmate = userSkills.Single(x => x.SkillId == jobSkill.SkillId).Estimate;
+                    }
+
+                    jobApp.PercentMatchJobProfile += (userEsitmate - jobSkill.Estimate);
+                }
+
+                var totalJobSkillEst = jobSkills.Sum(x => x.Estimate);
+                var candPercentage = jobApp.PercentMatchJobProfile * 100 / totalJobSkillEst;
+                jobApp.PercentMatchJobProfile = (candPercentage < 0) ? 100 - Math.Abs(candPercentage) : candPercentage;
+
+            }
+
+            return Json(new { JobApplications = jobApplications.OrderByDescending(x=>x.PercentMatchJobProfile), TotalCount = totalCount }, JsonRequestBehavior.AllowGet);
+        }
+
+        [NonAction]
+        private IQueryable<JobApplication> SelectHasAllRequiredSkillsAndNotLower(long jobId)
+        {
+            var jobApplications = this.jobAppRepo.Where(x => x.JobId == jobId).ToList();
+            var requiredSkills = this.jobSkillsRepo.Where(c => c.JobId == jobId);
+
+            var selectedJobApplications = new List<JobApplication>();
+
+            foreach (var jobApp in jobApplications)
+            {
+                var userSkills = jobApp.User.UsersSkills;
+
+                foreach (var jobSkill in requiredSkills)
+                {
+                    if (userSkills.All(x => x.SkillId != jobSkill.SkillId))
+                    {
+                        goto nextWithoutSaving;
+                    }
+                    else if (userSkills.Single(x => x.SkillId == jobSkill.SkillId).Estimate < jobSkill.Estimate)
+                    {
+                        goto nextWithoutSaving;
+                    }
+                }
+
+                selectedJobApplications.Add(jobApp);
+
+            nextWithoutSaving:
+                ;
+            }
+
+            return selectedJobApplications.AsQueryable();
+        }
+
+        [NonAction]
+        private IQueryable<JobApplication> SelectHasAllRequiredSkills(long jobId)
+        {
+            var jobApplications = this.jobAppRepo.Where(x => x.JobId == jobId).ToList();
+            var requiredSkills = this.jobSkillsRepo.Where(c => c.JobId == jobId);
+
+            var selectedJobApplications = new List<JobApplication>();
+
+            foreach (var jobApp in jobApplications)
+            {
+                var userSkills = jobApp.User.UsersSkills;
+
+                foreach (var jobSkill in requiredSkills)
+                {
+                    if (userSkills.All(x => x.SkillId != jobSkill.SkillId))
+                    {
+                        goto nextWithoutSaving;
+                    }
+                }
+
+                selectedJobApplications.Add(jobApp);
+
+            nextWithoutSaving:
+                ;
+            }
+
+            return selectedJobApplications.AsQueryable();
         }
 
         public JsonResult GetJobProfileByCategoriesChartData()
