@@ -1,4 +1,5 @@
-﻿using Hrm.Data.EF.Models.Enums;
+﻿using System;
+using Hrm.Data.EF.Models.Enums;
 using Hrm.Web.Models.Base;
 
 namespace Hrm.Web.Models.Project
@@ -12,5 +13,9 @@ namespace Hrm.Web.Models.Project
         public ProjectStatuses Status { get; set; }
 
         public long ProjectFormalizeNameId { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
     }
 }

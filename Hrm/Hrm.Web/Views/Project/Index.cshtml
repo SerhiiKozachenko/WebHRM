@@ -70,6 +70,8 @@
                                         Id: { editable: false },
                                         Title: { type: 'string', validation: { required: true } },
                                         Description: { type: 'string', validation: { required: true } },
+                                        StartDate: { type: 'date', validation: { required: true } },
+                                        EndDate: { type: 'date', validation: { required: true } },
                                         Status: { type: 'number', validation: { min: 0 } },
                                         ProjectFormalizeNameId: { field: 'ProjectFormalizeNameId', type: 'number', validation: { required: true } }
                                     }
@@ -99,7 +101,9 @@
                         columns: [
                             { field: "Title", title: "Title", width: 150 },
                             { field: "Description", title: "Description", width: 200, editor: descriptionEditor },
-                            { field: "Status", title: "Status", width: 100, format: "{0:c}" },
+                            { field: "StartDate", title: "Start Date",format: "{0:MM/dd/yyyy}"},
+                            { field: "EndDate", title: "End Date", format: "{0:MM/dd/yyyy}" },
+                            //{ field: "Status", title: "Status", width: 100, format: "{0:c}" },
                             { field: "ProjectFormalizeNameId", sortable: false, title: "Formalize Name", values: formalizeNames, width: 110 }
                         ]
                     });

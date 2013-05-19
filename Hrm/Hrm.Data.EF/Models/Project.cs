@@ -1,4 +1,5 @@
-﻿using Hrm.Data.EF.Models.Base;
+﻿using System;
+using Hrm.Data.EF.Models.Base;
 using Hrm.Data.EF.Models.Enums;
 using System.Collections.Generic;
 
@@ -9,6 +10,10 @@ namespace Hrm.Data.EF.Models
         public virtual string Title { get; set; }
 
         public virtual string Description { get; set; }
+
+        public virtual DateTime StartDate { get; set; }
+
+        public virtual DateTime EndDate { get; set; }
 
         public virtual ProjectStatuses Status { get; set; }
 
