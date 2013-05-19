@@ -9,5 +9,7 @@ namespace Hrm.Web.Models.Test
         public string Description { get; set; }
 
         public long CategoryId { get; set; }
+
+        public long SkillId { get; set; }
     }
 }

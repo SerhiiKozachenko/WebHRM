@@ -125,7 +125,14 @@
                             text: 'Click the columns to view skills. Click again to view categories.'
                         },
                         xAxis: {
-                            categories: categories
+                            categories: categories,
+                            labels: {
+                                rotation: -45,
+                                align: 'right',
+                                style: {
+                                    fontSize: '12px'
+                                }
+                            }
                         },
                         yAxis: {
                             title: {
@@ -203,7 +210,14 @@
                             text: 'List of required skills'
                         },
                         xAxis: {
-                            categories: bySkillChartData.SkillNames
+                            categories: bySkillChartData.SkillNames,
+                            labels: {
+                                rotation: -45,
+                                align: 'right',
+                                style: {
+                                    fontSize: '12px'
+                                }
+                            }
                         },
                         yAxis: {
                             min: 0,
@@ -320,7 +334,8 @@
                                 FilingDate: { type: "date", format: "{0:dd/MM/yyyy}", validation: { required: true } },
                                 DesiredSalary: { type: 'number', validation: { min: 0 } },
                                 Status: { type: 'string' },
-                                PercentMatchJobProfile: { type: 'number' }
+                                PercentMatchJobProfile: { type: 'number' },
+                                Variance: { type: 'number' }
                             }
                         },
                         data: "JobApplications",
@@ -344,7 +359,8 @@
                     { field: "FilingDate", title: "Filing date", width: "110px", template: '#= kendo.toString(FilingDate, "dd/MM/yyyy" ) #' },
                     { field: "DesiredSalary", title: "Desired salary" },
                     { field: "Status", title: "Status" },
-                    { field: "PercentMatchJobProfile", title: "Percent Match Job Profile" },
+                    { field: "PercentMatchJobProfile", title: "Integrated indicator" },
+                    { field: "Variance", title: "Variance" },
                     //{ command: ["destroy"], title: "&nbsp;" },
                     { template: "<button class='btn' onclick='showUserSkillsOnChart()'><i class='icon-tasks'></i></button>" }
                 ],
@@ -449,7 +465,14 @@
                                 text: 'List of required skills'
                             },
                             xAxis: {
-                                categories: bySkillChartData.SkillNames
+                                categories: bySkillChartData.SkillNames,
+                                labels: {
+                                    rotation: -45,
+                                    align: 'right',
+                                    style: {
+                                        fontSize: '12px'
+                                    }
+                                }
                             },
                             yAxis: {
                                 min: 0,

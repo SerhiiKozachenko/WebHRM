@@ -840,6 +840,7 @@
     <Content Include="Views\Shared\_TopMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Scripts\helpers\boostrap-form-validation.coffee" />
     <None Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Account\RegisterSuccess.cshtml" />

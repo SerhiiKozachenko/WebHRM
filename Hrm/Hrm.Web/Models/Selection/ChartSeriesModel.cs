@@ -10,7 +10,9 @@ namespace Hrm.Web.Models.Selection
 
         public IList<string> Categories { get; set; }
 
-        public IList<double> Data { get; set; } 
+        public IList<double> Data { get; set; }
+
+        public int YAxis { get; set; }
 
         public ChartSeriesModel()
         {

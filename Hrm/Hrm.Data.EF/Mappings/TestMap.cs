@@ -11,10 +11,15 @@ namespace Hrm.Data.EF.Mappings
              this.Property(p => p.Name).HasMaxLength(int.MaxValue).IsRequired();
              this.Property(p => p.Description).HasMaxLength(int.MaxValue).IsRequired();
              this.Property(p => p.CategoryId).HasColumnName("Category_id");
+             this.Property(p => p.SkillId).HasColumnName("Skill_id");
 
              this.HasRequired(r => r.Category)
                  .WithMany(m => m.Tests)
                  .HasForeignKey(f => f.CategoryId);
+
+             this.HasRequired(r => r.Skill)
+                 .WithMany(m => m.Tests)
+                 .HasForeignKey(f => f.SkillId);
          }
     }
 }

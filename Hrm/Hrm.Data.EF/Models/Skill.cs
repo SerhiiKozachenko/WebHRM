@@ -14,5 +14,7 @@ namespace Hrm.Data.EF.Models
         public virtual long SkillCategoryId { get; set; }
 
         public virtual ICollection<UserSkill> UsersSkills { get; set; }
+
+        public virtual ICollection<Test> Tests { get; set; } 
     }
 }

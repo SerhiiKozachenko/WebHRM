@@ -112,12 +112,13 @@ namespace Hrm.Web.Controllers
                         userEsitmate = userSkills.Single(x => x.SkillId == jobSkill.SkillId).Estimate;
                     }
 
-                    jobApp.PercentMatchJobProfile += (userEsitmate - jobSkill.Estimate);
+                    jobApp.PercentMatchJobProfile += (userEsitmate - jobSkill.Estimate) * jobSkill.Estimate;
+                    jobApp.Variance += Convert.ToInt32(Math.Pow(userEsitmate, 2) - Math.Pow(jobSkill.Estimate, 2));
                 }
 
-                var totalJobSkillEst = jobSkills.Sum(x => x.Estimate);
-                var candPercentage = jobApp.PercentMatchJobProfile * 100 / totalJobSkillEst;
-                jobApp.PercentMatchJobProfile = (candPercentage < 0) ? 100 - Math.Abs(candPercentage) : candPercentage;
+                //var totalJobSkillEst = jobSkills.Sum(x => x.Estimate);
+                //var candPercentage = jobApp.PercentMatchJobProfile * 100 / totalJobSkillEst;
+                //jobApp.PercentMatchJobProfile = (candPercentage < 0) ? 100 - Math.Abs(candPercentage) : candPercentage;
 
             }
 

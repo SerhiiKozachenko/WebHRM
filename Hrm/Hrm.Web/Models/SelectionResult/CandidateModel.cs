@@ -1,4 +1,5 @@
 ﻿using System;
+using Hrm.Data.EF.Models.Enums;
 using Hrm.Web.Models.Base;
 
 namespace Hrm.Web.Models.SelectionResult
@@ -15,7 +16,15 @@ namespace Hrm.Web.Models.SelectionResult
 
         public bool HasTested { get; set; }
 
+        public bool HasInterviewed { get; set; }
+
+        public InterviewResults? InterviewResult { get; set; }
+
+        public string InterviewComment { get; set; }
+
         public int PercentMatchJobProfile { get; set; }
+
+        public int Variance { get; set; }
 
         public string TestsCompleted { get; set; }
 

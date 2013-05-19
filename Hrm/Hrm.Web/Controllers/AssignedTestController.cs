@@ -41,7 +41,9 @@ namespace Hrm.Web.Controllers
 
         public virtual JsonResult GetGridData(GridContext ctx)
         {
-            IQueryable<Test> query = this.testsRepo;
+            var curUser = this.usersRepo.FindOne(new UserByLoginSpecify(User.Identity.Name));
+
+            IQueryable<Test> query = curUser.AssignedTests.AsQueryable();
             var totalCount = query.Count();
 
             if (ctx.HasFilters)

@@ -24,13 +24,16 @@ namespace Hrm.Web.Controllers
 
         private readonly IRepository<Project> projRepo;
 
+        private readonly IRepository<TestResult> testResRepo;
+
         public SelectionResultController(IRepository<User> usersRepo, IRepository<JobApplication> jobAppRepo, 
-            IRepository<Job> jobsRepo, IRepository<Project> projRepo) 
+            IRepository<Job> jobsRepo, IRepository<Project> projRepo, IRepository<TestResult> testResRepo) 
             : base(usersRepo)
         {
             this.jobAppRepo = jobAppRepo;
             this.jobsRepo = jobsRepo;
             this.projRepo = projRepo;
+            this.testResRepo = testResRepo;
         }
 
         private long CurrentProjectId
@@ -96,8 +99,13 @@ namespace Hrm.Web.Controllers
                     candidate.HasTested = false;
                 }
 
+                // Interview INFO
+                var jobApp = user.JobApplications.First(x => x.Job.ProjectId == this.CurrentProjectId);
+                candidate.HasInterviewed = jobApp.HasInterviewed;
+                candidate.InterviewResult = jobApp.InterviewResult;
+                candidate.InterviewComment = jobApp.InterviewComment;
                 // Calculate PERCENT MATCH JOB PROFILE SKILLS
-                var job = user.JobApplications.First(x => x.Job.ProjectId == this.CurrentProjectId).Job;
+                var job = jobApp.Job;
                 candidate.JobId = job.Id;
                 var jobSkills = job.JobSkills;
                 var userSkills = user.UsersSkills;
@@ -109,12 +117,13 @@ namespace Hrm.Web.Controllers
                         userEsitmate = userSkills.Single(x => x.SkillId == jobSkill.SkillId).Estimate;
                     }
 
-                    candidate.PercentMatchJobProfile += (userEsitmate - jobSkill.Estimate);
+                    candidate.PercentMatchJobProfile += (userEsitmate - jobSkill.Estimate) * jobSkill.Estimate;
+                    candidate.Variance += Convert.ToInt32(Math.Pow(userEsitmate, 2) - Math.Pow(jobSkill.Estimate, 2));
                 }
 
-                var totalJobSkillEst = jobSkills.Sum(x => x.Estimate);
-                var candPercentage = candidate.PercentMatchJobProfile * 100 / totalJobSkillEst;
-                candidate.PercentMatchJobProfile = (candPercentage<0) ? 100 -  Math.Abs(candPercentage) : candPercentage;
+                //var totalJobSkillEst = jobSkills.Sum(x => x.Estimate);
+                //var candPercentage = candidate.PercentMatchJobProfile * 100 / totalJobSkillEst;
+                //candidate.PercentMatchJobProfile = (candPercentage<0) ? 100 -  Math.Abs(candPercentage) : candPercentage;
 
                 // Calculate TESTS RESULTS
                 var assignedTests = user.AssignedTests;
@@ -125,6 +134,17 @@ namespace Hrm.Web.Controllers
             }
 
             return Json(new { Data = data.OrderByDescending(x=>x.PercentMatchJobProfile), TotalCount = totalCount }, JsonRequestBehavior.AllowGet);
+        }
+
+        public void UpdateGridData(CandidateModel model)
+        {
+            var user = this.usersRepo.FindOne(new ByIdSpecify<User>(model.Id));
+            var jobAppId = user.JobApplications.First(x => x.Job.ProjectId == this.CurrentProjectId).Id;
+            var jobApp = this.jobAppRepo.FindOne(new ByIdSpecify<JobApplication>(jobAppId));
+            jobApp.HasInterviewed = model.HasInterviewed;
+            jobApp.InterviewResult = model.InterviewResult;
+            jobApp.InterviewComment = model.InterviewComment;
+            this.jobAppRepo.SaveOrUpdate(jobApp);
         }
 
         public JsonResult GetCurrentProjectJobsDropDownModel()
@@ -149,7 +169,8 @@ namespace Hrm.Web.Controllers
                 skillsData.Add(new ChartSeriesModel
                     {
                         Name = "Job Profile",
-                        Data = curJob.JobSkills.Select(x => double.Parse(x.Estimate.ToString())).ToList()
+                        Data = curJob.JobSkills.Select(x => double.Parse(x.Estimate.ToString())).ToList(),
+                        YAxis = 0
                     });
             }
 
@@ -173,8 +194,35 @@ namespace Hrm.Web.Controllers
                 skillsData.Add(new ChartSeriesModel
                 {
                     Name = seriesName,
-                    Data = userSkills.Select(x => double.Parse(x.Estimate.ToString())).ToList()
+                    Data = userSkills.Select(x => double.Parse(x.Estimate.ToString())).ToList(),
+                    YAxis = 0
                 });
+
+                // Select TestResults for candidate skills
+                var testResults = candidate.TestResults.Where(x => userSkills.Any(s => s.SkillId == x.Test.SkillId)).ToList();
+
+                var skillTestRes = new ChartSeriesModel
+                    {
+                        Name = "Test Results",
+                        YAxis = 1
+                    };
+                foreach (var skill in userSkills)
+                {
+                    var testRes = testResults.FirstOrDefault(x => x.Test.SkillId == skill.SkillId);
+                    if (testRes != null)
+                    {
+                        // Percent correct answers
+                        var totalQuestions = testRes.Test.Questions.Count;
+                        var correctAnswers = testRes.ResultQuestions.Count(x => x.ResultAnswers.Any(a => a.IsCorrect && a.IsChoisen));
+                        skillTestRes.Data.Add(Math.Round((double)correctAnswers/totalQuestions*100, 2));
+                    }
+                    else
+                    {
+                        skillTestRes.Data.Add(0);
+                    }
+                }
+
+                skillsData.Add(skillTestRes);
             }
 
             return this.Json(new { SkillNames = skillNames, SkillsData = skillsData }, JsonRequestBehavior.AllowGet);

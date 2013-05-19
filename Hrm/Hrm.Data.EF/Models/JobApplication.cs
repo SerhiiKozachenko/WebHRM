@@ -19,5 +19,11 @@ namespace Hrm.Data.EF.Models
         public virtual int DesiredSalary { get; set; }
 
         public virtual JobApplicationStatuses Status { get; set; }
+
+        public virtual bool HasInterviewed { get; set; }
+
+        public virtual InterviewResults? InterviewResult { get; set; }
+
+        public virtual string InterviewComment { get; set; }
     }
 }

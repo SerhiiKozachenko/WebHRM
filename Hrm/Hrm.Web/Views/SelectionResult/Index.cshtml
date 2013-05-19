@@ -63,7 +63,7 @@
     </script>
 
     <script>
-        
+
         function makeReport() {
             window.location = '../../SelectionResult/Report';
         }
@@ -85,8 +85,8 @@
                     schema: {
                         model: {
                             fields: {
-                                Name: { type: 'string'},
-                                Category: { type: 'string'},
+                                Name: { type: 'string' },
+                                Category: { type: 'string' },
                                 PercentCorrectAnswers: { type: 'string' },
                                 Result: { type: "string" }
                             }
@@ -110,7 +110,9 @@
                 ]
             });
         }
-        // Init skills chart
+
+// Init skills chart
+
         function showSkillChart(jobId, candidateId) {
             $.ajax({
                 url: '../../SelectionResult/GetJobProfileSkillsChartData',
@@ -122,7 +124,7 @@
 
                     var series = [];
                     $.each(bySkillChartData.SkillsData, function(index, item) {
-                        series.push({ name: item.Name, data: item.Data });
+                        series.push({ name: item.Name, data: item.Data, yAxis: item.YAxis });
                     });
 
                     $('#skillsChart').highcharts({
@@ -136,18 +138,43 @@
                             text: 'List of required skills'
                         },
                         xAxis: {
-                            categories: bySkillChartData.SkillNames
-                        },
-                        yAxis: {
-                            min: 0,
-                            title: {
-                                text: 'Estimation (points)'
+                            categories: bySkillChartData.SkillNames,
+                            labels: {
+                                rotation: -45,
+                                align: 'right',
+                                style: {
+                                    fontSize: '12px'
+                                }
                             }
                         },
+                        yAxis: [{
+                                min: 0,
+                                title: {
+                                    text: 'Estimation (points)'
+                                }
+                            },
+                            {
+// Secondary yAxis
+                                gridLineWidth: 0,
+                                title: {
+                                    text: '% Correct Answers',
+                                    style: {
+                                        color: '#4572A7'
+                                    }
+                                },
+                                labels: {
+                                    formatter: function() {
+                                        return this.value + ' %';
+                                    },
+                                    style: {
+                                        color: '#4572A7'
+                                    }
+                                }
+                            }],
                         tooltip: {
                             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                                '<td style="padding:0"><b>{point.y:.1f}: {series.name == "Test Results" ? "%" : "mm"}</b></td></tr>',
                             footerFormat: '</table>',
                             shared: true,
                             useHTML: true
@@ -164,7 +191,42 @@
             });
         }
 
+        function edit() {
+            var grid = $("#candidatesGrid").data("kendoGrid");
+            grid.editRow(grid.select());
+        }
+
+        function textAreaEditor(container, options) {
+            $('<textarea data-bind="value: ' + options.field + '" cols="20" rows="4" required></textarea>')
+                .appendTo(container);
+        }
+
         $(function() {
+            var interviewResults = [
+                {
+                    'value': 0,
+                    'text': 'Under Consideration'
+                },
+                {
+                    'value': 1,
+                    'text': 'Adopted'
+                },
+                {
+                    'value': 2,
+                    'text': 'Refused'
+                },
+                {
+                    'value': 3,
+                    'text': 'Not Suitable'
+                },
+                {
+                    'value': 4,
+                    'text': 'Not Accepted'
+                },
+                {
+                    'value': 5,
+                    'text': 'Not Selected'
+                }];
             $.ajax({
                 url: '../../SelectionResult/GetCurrentProjectJobsDropDownModel',
                 success: function(jobs) {
@@ -177,21 +239,26 @@
                             serverFiltering: false,
                             pageSize: 10,
                             transport: {
-                                read: { url: "../../SelectionResult/GetGridData", dataType: "json", type: 'GET' }
+                                read: { url: "../../SelectionResult/GetGridData", dataType: "json", type: 'GET' },
+                                update: { url: "../../SelectionResult/UpdateGridData", dataType: "json", type: 'POST' },
                             },
                             schema: {
                                 model: {
                                     id: "Id",
                                     fields: {
                                         Id: { editable: false },
-                                        LastName: { type: 'string' },
-                                        FirstName: { type: 'string' },
-                                        MiddleName: { type: 'string' },
-                                        HasSelected: { type: 'boolean' },
-                                        HasTested: { type: 'boolean' },
-                                        PercentMatchJobProfile: { type: 'number' },
-                                        TestsCompleted: { type: 'string' },
-                                        JobId: { field: 'JobId', type: 'number' }
+                                        LastName: { type: 'string', editable: false },
+                                        FirstName: { type: 'string', editable: false },
+                                        MiddleName: { type: 'string', editable: false },
+                                        HasSelected: { type: 'boolean', editable: false },
+                                        HasTested: { type: 'boolean', editable: false },
+                                        HasInterviewed: { type: 'boolean', editable: true },
+                                        InterviewResult: { type: 'number', editable: true },
+                                        InterviewComment: { type: 'string', editable: true },
+                                        PercentMatchJobProfile: { type: 'number', editable: false },
+                                        Variance: { type: 'number', editable: false },
+                                        TestsCompleted: { type: 'string', editable: false },
+                                        JobId: { field: 'JobId', type: 'number', editable: false }
                                     }
                                 },
                                 data: "Data",
@@ -203,6 +270,7 @@
                             refresh: true,
                             pageSizes: true
                         },
+                        editable: 'popup',
                         sortable: true,
                         filterable: true,
                         selectable: true,
@@ -221,6 +289,7 @@
                         detailTemplate: kendo.template($("#detail-row").html()),
                         detailInit: detailInit,
                         toolbar: [
+                            { text: 'Edit', template: '<button class="btn" onclick="edit()"><i class="icon-edit"></i> Edit</button>' },
                             { template: $("#toolbar").html() }
                         ],
 
@@ -230,11 +299,16 @@
                             { field: "MiddleName", title: "Middle Name" },
                             { field: "HasSelected", title: "Has Selected", template: "<input type='checkbox' name='HasSelected' #= HasSelected? 'checked' : '' # disabled='disabled' />", },
                             { field: "HasTested", title: "Has Tested", template: "<input type='checkbox' name='HasTested' #= HasTested? 'checked' : '' # disabled='disabled' />", },
-                            { field: "PercentMatchJobProfile", title: "Percent of Match Job Profile" },
+                            { field: "HasInterviewed", title: "Has Interviewed", template: "<input type='checkbox' name='HasInterviewed' #= HasInterviewed? 'checked' : '' # disabled='disabled' />", },
+                            { field: "PercentMatchJobProfile", title: "Integrated indicator" },
+                            { field: "InterviewResult", title: "Interview Result", values: interviewResults, hidden: true },
+                            { field: "InterviewComment", title: "Interview Comment", editor: textAreaEditor, hidden: true },
+                            { field: "Variance", title: "Variance" },
                             { field: "TestsCompleted", title: "Test Completed" },
                             { field: "JobId", title: "Job", values: jobs }
                         ]
-                    });
+                    });                    
+                    
 
                     var jobsDropDown = candidatesGrid.find("#jobs").kendoDropDownList({
                         dataTextField: "text",

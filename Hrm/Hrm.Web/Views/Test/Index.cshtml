@@ -50,86 +50,95 @@
                 .appendTo(container);
         }
 
-        $(function () {
+        $(function() {
             $.ajax({
-                url: 'TestCategory/GetAllTestCategories',
-                success: function(categories) {
-                    var grid = $('#grid').kendoGrid({
-                        dataSource: {
-                            type: "json",
-                            serverPaging: true,
-                            serverSorting: true,
-                            serverFiltering: true,
-                            pageSize: 10,
-                            transport: {
-                                read: { url: "Test/GetGridData", dataType: "json", type: 'GET' },
-                                update: { url: "Test/UpdateGridData", dataType: "json", type: 'POST' },
-                                destroy: { url: "Test/DeleteGridData", dataType: "json", type: 'DELETE' },
-                                create: { url: "Test/CreateGridData", dataType: "json", type: 'PUT', complete: function (e) { $("#grid").data("kendoGrid").dataSource.read(); } }
-                            },
-                            schema: {
-                                model: {
-                                    id: "Id",
-                                    fields: {
-                                        Id: { editable: false },
-                                        Name: { type: 'string', validation: { required: true} },
-                                        Description: { type: 'string', validation: { required: true} },
-                                        CategoryId: { field: 'CategoryId', type: 'number', validation: { required: true} }
-                                    }
+                url: 'Skill/GetAllSkills'
+            }).success(function (skills) {
+                $.ajax({
+                    url: 'TestCategory/GetAllTestCategories',
+                    success: function (categories) {
+                        var grid = $('#grid').kendoGrid({
+                            dataSource: {
+                                type: "json",
+                                serverPaging: true,
+                                serverSorting: true,
+                                serverFiltering: true,
+                                pageSize: 10,
+                                transport: {
+                                    read: { url: "Test/GetGridData", dataType: "json", type: 'GET' },
+                                    update: { url: "Test/UpdateGridData", dataType: "json", type: 'POST' },
+                                    destroy: { url: "Test/DeleteGridData", dataType: "json", type: 'DELETE' },
+                                    create: { url: "Test/CreateGridData", dataType: "json", type: 'PUT', complete: function (e) { $("#grid").data("kendoGrid").dataSource.read(); } }
                                 },
-                                data: "Data",
-                                total: "TotalCount"
+                                schema: {
+                                    model: {
+                                        id: "Id",
+                                        fields: {
+                                            Id: { editable: false },
+                                            Name: { type: 'string', validation: { required: true } },
+                                            Description: { type: 'string', validation: { required: true } },
+                                            CategoryId: { field: 'CategoryId', type: 'number', validation: { required: true } },
+                                            SkillId: { field: 'SkillId', type: 'number', validation: { required: true } }
+                                        }
+                                    },
+                                    data: "Data",
+                                    total: "TotalCount"
+                                }
+                            },
+                            height: '500',
+
+                            pageable: {
+                                refresh: true,
+                                pageSizes: true
+                            },
+                            sortable: true,
+                            filterable: true,
+
+                            editable: 'popup',
+                            toolbar: [
+                                { text: 'Add', template: '<button class="btn" onclick="add()"><i class="icon-file"></i> Add</button>' },
+                                { text: 'Edit', template: '<button class="btn" onclick="edit()"><i class="icon-edit"></i> Edit</button>' },
+                                { text: 'Remove', template: '<button class="btn" onclick="rem()"><i class="icon-trash"></i> Delete</button>' },
+                                { template: $("#toolbar-dropdown").html() }
+                            ],
+                            selectable: true,
+
+                            columns: [
+                                { field: "Name", title: "Name", width: 150 },
+                                { field: "Description", title: "Description", width: 200, editor: descriptionEditor },
+                                { field: "CategoryId", sortable: false, title: "Category", values: categories, width: 110 },
+                                { field: "SkillId", sortable: false, title: "Skill", values: skills, width: 110 }
+                            ]
+                        });
+                        var dropDown = grid.find("#categories").kendoDropDownList({
+                            dataTextField: "text",
+                            dataValueField: "value",
+                            autoBind: false,
+                            optionLabel: "All",
+                            dataSource: {
+                                type: "json",
+                                severFiltering: true,
+                                transport: {
+                                    read: "TestCategory/GetAllTestCategories"
+                                }
+                            },
+                            change: function () {
+                                var value = this.value();
+                                if (value) {
+                                    grid.data("kendoGrid").dataSource.filter({ field: "CategoryId", operator: "eq", value: parseInt(value) });
+                                } else {
+                                    grid.data("kendoGrid").dataSource.filter({});
+                                }
                             }
-                        },
-                        height: '500',
+                        });
+                        
 
-                        pageable: {
-                            refresh: true,
-                            pageSizes: true
-                        },
-                        sortable: true,
-                        filterable: true,
-
-                        editable: 'popup',
-                        toolbar: [
-                            { text: 'Add', template: '<button class="btn" onclick="add()"><i class="icon-file"></i> Add</button>' },
-                            { text: 'Edit', template: '<button class="btn" onclick="edit()"><i class="icon-edit"></i> Edit</button>' },
-                            { text: 'Remove', template: '<button class="btn" onclick="rem()"><i class="icon-trash"></i> Delete</button>' },
-                            { template: $("#toolbar-dropdown").html() }
-
-                        ],
-                        selectable: true,
-
-                        columns: [
-                            { field: "Name", title: "Name", width: 150 },
-                            { field: "Description", title: "Description", width: 200, editor: descriptionEditor },
-                            { field: "CategoryId", sortable: false, title: "Category", values: categories, width: 110 }
-                        ]
-                    });
-                    var dropDown = grid.find("#categories").kendoDropDownList({
-                        dataTextField: "text",
-                        dataValueField: "value",
-                        autoBind: false,
-                        optionLabel: "All",
-                        dataSource: {
-                            type: "json",
-                            severFiltering: true,
-                            transport: {
-                                read: "TestCategory/GetAllTestCategories"
-                            }
-                        },
-                        change: function () {
-                            var value = this.value();
-                            if (value) {
-                                grid.data("kendoGrid").dataSource.filter({ field: "CategoryId", operator: "eq", value: parseInt(value) });
-                            } else {
-                                grid.data("kendoGrid").dataSource.filter({});
-                            }
-                        }
-                    });
-                }
+                    }
+                });
             });
-            
+
+           
+
         });
     </script>
 }

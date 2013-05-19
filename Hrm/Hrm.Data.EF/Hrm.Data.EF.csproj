@@ -85,6 +85,7 @@
     <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Enums\InterviewResults.cs" />
     <Compile Include="Models\Enums\JobApplicationStatuses.cs" />
     <Compile Include="Models\Enums\ProjectStatuses.cs" />
     <Compile Include="Models\Enums\Roles.cs" />

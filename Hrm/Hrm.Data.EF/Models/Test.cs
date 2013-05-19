@@ -13,6 +13,10 @@ namespace Hrm.Data.EF.Models
 
         public virtual long CategoryId { get; set; }
 
+        public virtual long SkillId { get; set; }
+
+        public virtual Skill Skill { get; set; }
+
         public virtual ICollection<Question> Questions { get; set; }
 
         public virtual ICollection<TestResult> TestResults { get; set; }
