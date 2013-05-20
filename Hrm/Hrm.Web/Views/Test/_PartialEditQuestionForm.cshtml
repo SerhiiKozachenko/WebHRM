@@ -8,7 +8,7 @@
 {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Редактирование вопроса</legend>
+        <legend>Edit Question</legend>
         <div class="control-group">
             <div class="control-label">
                 @Html.LabelFor(model => model.Question)
@@ -31,7 +31,7 @@
 
         @Html.HiddenFor(model => model.QuestionId)
         @Html.HiddenFor(model=>model.TestId)
-        <legend>Варианты ответов:</legend>
+        <legend>Answers:</legend>
         <div id="Answers">
             
             @{
@@ -41,7 +41,7 @@
                     <div id="AnswerContainer[@index]">
                         <div class="control-group">
                             <div class="control-label">
-                                Вариант @index :
+                                Option @index :
                             </div>
                             <div class="controls">
                                 @if (index == 0)
@@ -56,7 +56,7 @@
                                     <span>&nbsp;</span>
                                     @Html.CheckBoxFor(model => model.Answers[index].IsCorrect, new { onclick = "checkChange(this)" })
                                     <br/>
-                                    <div name="removeAns" onclick="remAns(this)" id='@index' class="btn btn-mini">Удалить</div>
+                                    <div name="removeAns" onclick="remAns(this)" id='@index' class="btn btn-mini">Delete</div>
                                 }
                                 
                                 
@@ -75,8 +75,8 @@
         </div>
 
         <div class="form-actions">
-            <input type="submit" value="Сохранить" class="btn btn-primary" />
-            <div class="btn" onclick='AddAnswer()'>Добавить вариант ответа</div>
+            <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="btn" onclick='AddAnswer()'>Add Answer</div>
         </div>
     </fieldset>
 }
@@ -95,7 +95,7 @@
     function checkBoxIsChecked() {
         var count = $(':checkbox:checked').length;
         if (count < 1 || count > 1) {
-            alert('Выберите правильный ответ!');
+            alert('Choose correct answer!');
             return false;
         } else {
             return true;
@@ -116,7 +116,7 @@
 
         $('#' + number).attr('id', prevNumber);
 
-        $('#AnswerContainer\\[' + prevNumber + '\\] > .control-group').find('.control-label')[0].textContent = 'Вариант ' + prevNumber + ':';
+        $('#AnswerContainer\\[' + prevNumber + '\\] > .control-group').find('.control-label')[0].textContent = 'Option ' + prevNumber + ':';
 
 
         //Removing hidden checkbox - only on this page, because his maybe not exist!
@@ -132,7 +132,7 @@
     //Success event on ChangeQuestion Ajax.BeginForm
     function ChangeQuestionSuccess(result) {
         if(result.isValid==false) {
-            alert('Ошибка!');
+            alert('Error!');
             return false;
         }
         
@@ -171,7 +171,7 @@
         //Div class=control-label
         var controlLabel = document.createElement('div');
         $(controlLabel).attr('class', 'control-label');
-        controlLabel.textContent = 'Вариант ' + AnswersCount + ':';
+        controlLabel.textContent = 'Option ' + AnswersCount + ':';
 
         //Div class=controls
         var controlsDiv = document.createElement('div');
@@ -225,7 +225,7 @@
         $(remBtn).attr('class', 'btn btn-mini');
         $(remBtn).attr('name', 'removeAns');
         $(remBtn).attr('id', AnswersCount);
-        remBtn.textContent = 'Удалить';
+        remBtn.textContent = 'Delete';
 
         //Adding created elements to the DOM
         editorField.appendChild(nbsp);

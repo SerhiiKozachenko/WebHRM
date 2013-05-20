@@ -63,8 +63,8 @@ function detailInit(e) {
                             { field: "FirstName", title: "First name", width: "110px" },
                             { field: "MiddleName", title: "Middle name", width: "110px" },
                             { field: "FilingDate", title: "Filing date", width: "110px", template: '#= kendo.toString(FilingDate, "dd/MM/yyyy" ) #' },
-                            { field: "DesiredSalary", title: "Desired salary" },
-                            { field: "Status", title: "Status" },
+                            { field: "DesiredSalary", title: "Desired salary", attributes: { style: "text-align:right;" }, format: "{0:c}" },
+                            //{ field: "Status", title: "Status" },
                             { command: ["destroy"], title: "&nbsp;" }
                         ]
     });
@@ -132,8 +132,8 @@ $.ajax({
                     columns: [
                         { field: "Title", title: "Title", width: 150 },
                         { field: "Description", title: "Description", width: 200, editor: descriptionEditor },
-                        { field: "Salary", title: "Salary", width: 100, format: "{0:c}" },
-                        { field: "Status", title: "Status", width: 100 },
+                        { field: "Salary", title: "Salary", width: 100, format: "{0:c}", attributes: { style: "text-align:right;" } },
+                        //{ field: "Status", title: "Status", width: 100 },
                         { field: "DepartmentId", sortable: false, title: "Department", values: departments, width: 110 },
                         { field: "ProjectId", sortable: false, title: "Project", values: projects, width: 110 }
                     ]

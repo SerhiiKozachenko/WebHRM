@@ -22,9 +22,9 @@ namespace Hrm.Web.Models.SelectionResult
 
         public string InterviewComment { get; set; }
 
-        public int PercentMatchJobProfile { get; set; }
+        public double PercentMatchJobProfile { get; set; }
 
-        public int Variance { get; set; }
+        public double Variance { get; set; }
 
         public string TestsCompleted { get; set; }
 

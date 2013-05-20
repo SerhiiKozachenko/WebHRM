@@ -83,7 +83,6 @@
             $.ajax({
                 url: '../GetJobProfileByCategoriesChartData',
                 success: function(byCatChartData) {
-
                     var colors = Highcharts.getOptions().colors;
                     var chartData = [];
                     $.each(byCatChartData.SkillsData, function(index, item) {
@@ -91,7 +90,7 @@
                             y: item.CategoryAvgEstimate,
                             color: colors[index],
                             drilldown: {
-                                name: item.name,
+                                name: item.Name,
                                 categories: item.Categories,
                                 data: item.Data,
                                 color: colors[index]
@@ -356,11 +355,11 @@
                     { field: "LastName", title: "Last name", width: "110px" },
                     { field: "FirstName", title: "First name", width: "110px" },
                     { field: "MiddleName", title: "Middle name", width: "110px" },
-                    { field: "FilingDate", title: "Filing date", width: "110px", template: '#= kendo.toString(FilingDate, "dd/MM/yyyy" ) #' },
-                    { field: "DesiredSalary", title: "Desired salary" },
-                    { field: "Status", title: "Status" },
-                    { field: "PercentMatchJobProfile", title: "Integrated indicator" },
-                    { field: "Variance", title: "Variance" },
+                    { field: "FilingDate", title: "Filing date", width: "110px", template: '#= kendo.toString(FilingDate, "dd/MM/yyyy" ) #', attributes: { style: "text-align:right;" } },
+                    { field: "DesiredSalary", title: "Desired salary", attributes: { style: "text-align:right;" }, format: "{0:c}" },
+                    //{ field: "Status", title: "Status" },
+                    { field: "PercentMatchJobProfile", title: "Integrated indicator", attributes: { style: "text-align:right;" } },
+                    { field: "Variance", title: "Variance", attributes: { style: "text-align:right;" } },
                     //{ command: ["destroy"], title: "&nbsp;" },
                     { template: "<button class='btn' onclick='showUserSkillsOnChart()'><i class='icon-tasks'></i></button>" }
                 ],
@@ -429,7 +428,7 @@
                 columns: [
                     { field: "Name", title: "Skill", width: "200px" },
                     { field: "Description", title: "Description" },
-                    { field: "Estimate", title: "Estimate", width: "110px" },
+                    { field: "Estimate", title: "Estimate", width: "110px", attributes: { style: "text-align:right;" } },
                     { command: ["edit"], title: "&nbsp;" }
                 ]
             });
@@ -450,7 +449,7 @@
 
                         var series = [];
                         $.each(bySkillChartData.SkillsData, function (index, item) {
-                            series.push({ name: item.Name, data: item.Data });
+                            series.push({ name: item.Name, data: item.Data, yAxis: item.YAxis });
                         });
                         $('a[href="#bySkill"]').tab('show');
                         $('#bySkill').highcharts({
@@ -474,12 +473,30 @@
                                     }
                                 }
                             },
-                            yAxis: {
+                            yAxis: [{
                                 min: 0,
                                 title: {
                                     text: 'Estimation (points)'
                                 }
                             },
+                            {
+                                // Secondary yAxis
+                                gridLineWidth: 0,
+                                title: {
+                                    text: '% Correct Answers',
+                                    style: {
+                                        color: '#4572A7'
+                                    }
+                                },
+                                labels: {
+                                    formatter: function () {
+                                        return this.value + ' %';
+                                    },
+                                    style: {
+                                        color: '#4572A7'
+                                    }
+                                }
+                            }],
                             tooltip: {
                                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
@@ -522,16 +539,16 @@
                  <legend>Job Information</legend>
                  <dl class="dl-horizontal" style="margin-left: -60px;">
                      <dt>Job Name:</dt>
-                     <dd>.Net Senior</dd>
+                     <dd>@ViewBag.JobName</dd>
 
                      <dt>Department:</dt>
-                     <dd>.Net</dd>
+                     <dd>@ViewBag.Department</dd>
 
                      <dt>Project:</dt>
-                     <dd>Web Player</dd>
+                     <dd>@ViewBag.ProjectName</dd>
 
                      <dt>Salary:</dt>
-                     <dd>1000$</dd>
+                     <dd>@string.Format("{0} $", ViewBag.Salary)</dd>
                  </dl>
              </fieldset>
              

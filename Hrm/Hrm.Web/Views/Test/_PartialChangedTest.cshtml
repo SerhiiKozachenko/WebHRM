@@ -2,26 +2,26 @@
 
 
 
-<span id="testId" name='@Model.Id' class="label label-success">Тест №@Model.Id</span>
+<span id="testId" name='@Model.Id' class="label label-success">Test №@Model.Id</span>
 <!-- Here's started editing -->
 <div id="NameDescDivShow" class="alert alert-info">
-    <strong>Название: </strong><span id="NameSpan">@Model.Name</span>
+    <strong>Title: </strong><span id="NameSpan">@Model.Name</span>
     <br />
-    <strong>Описание: </strong><span id="DescSpan">@Model.Description</span>
+    <strong>Description: </strong><span id="DescSpan">@Model.Description</span>
     <br />
     <br />
     <div class="btn btn-mini" onclick="NameDescEdit()">
-        Редактировать</div>
+        Edit</div>
 </div>
 <div id="NameDescDivEdit" class="alert alert-info hide">
-    <strong>Название: </strong>@Html.TextBoxFor(model => model.Name)<span id="NameValidError"
+    <strong>Title: </strong>@Html.TextBoxFor(model => model.Name)<span id="NameValidError"
         class="validation-star hide">*</span>
     <br />
-    <strong>Описание: </strong>@Html.TextBoxFor(model => model.Description)<span id="DescValidError"
+    <strong>Description: </strong>@Html.TextBoxFor(model => model.Description)<span id="DescValidError"
         class="validation-star hide">*</span>
     <br />
     <div class="btn btn-mini" onclick="NameDescSave()">
-        Сохранить</div>
+        Save</div>
 </div>
 <br />
 
@@ -39,7 +39,7 @@
                     <div class="accordion-heading">
                         <a class="accordion-toggle" href='#collapse-@question.Id' data-parent="#accordion" data-toggle="collapse">
                             
-                            <strong>Вопрос @qindex : </strong><span>@question.QuestionText</span>
+                            <strong>Question @qindex : </strong><span>@question.QuestionText</span>
                             <br />
 
                         </a>
@@ -49,21 +49,21 @@
                     <div id='collapse-@question.Id' class="accordion-body collapse">
                         <div class="accordion-inner">
                             
-                            <strong>Варианты ответов:</strong>
+                            <strong>Answers:</strong>
                             <ol>
                                 @foreach (var answer in question.Answers)
                                 {
                                     <li>@answer.AnswerText @if (@answer.IsCorrect)
                                                             {
-                                                                <span>(Правильный)</span>
+                                                                <span>(Correct)</span>
                                                             }</li>
                 
                                 }
                             </ol>
                             <div class="btn btn-mini" name="editBtn" onclick='QuestionEdit("@question.Id")'>
-                                Редактировать</div>
+                                Edit</div>
                             <div class="btn btn-mini inline" name="delBtn" onclick='QuestionRemove("@question.Id")'>
-                                Удалить</div>
+                                Delete</div>
 
                         </div>
                     </div>

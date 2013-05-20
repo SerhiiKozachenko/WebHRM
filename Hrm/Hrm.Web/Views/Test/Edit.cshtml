@@ -2,7 +2,7 @@
 @model Hrm.Data.EF.Models.Test
 
 @{
-    ViewBag.Title = "Редактирование теста";
+    ViewBag.Title = "Edit Test";
 }
 @section scripts
 {
@@ -30,7 +30,7 @@
     
     <div class="span6">
         
-        @Ajax.ActionLink("+ Добавить вопрос", "AddQuestionEdit", null, new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, OnBegin = "ClickAddQuestionBtn", OnSuccess = "LoadedAddQuestionForm" }, new { id = "ShowAddQuestionForm" })
+        @Ajax.ActionLink("+ Add Question", "AddQuestionEdit", null, new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, OnBegin = "ClickAddQuestionBtn", OnSuccess = "LoadedAddQuestionForm" }, new { id = "ShowAddQuestionForm" })
         <div id="AddQuestionForm" class="hide">
             <!-- Here will be partialView with add question Form -->
         </div>
@@ -104,7 +104,7 @@
             data: 'id=' + id,
             success: function (result) {
                 if (result.isValid == false) {
-                    alert('Ошибка!');
+                    alert('Error!');
                 } else {
                     $('#' + id).slideUp('middle', function () {
                         $('#EditQuestionForm').empty();
@@ -195,7 +195,7 @@
                         });
                        
                     } else {
-                        alert('Ошибка!');
+                        alert('Error!');
                     }
                 }
             });

@@ -5,14 +5,14 @@ namespace Hrm.Web.Models.Test
 {
     public class CreateQuestionsModel
     {
-        [Required(ErrorMessage = "Обязательное поле!")]
-        [Display(Name = "Вопрос")]
+        [Required(ErrorMessage = "Required!")]
+        [Display(Name = "Question")]
         public string Question { get; set; }
 
-        [Required(ErrorMessage = "Обязательное поле!")]
-        [Display(Name = "Время на ответ (мин.)")]
-        [Range(1, 9, ErrorMessage = "Время от 1 до 9 мин.")]
-        [RegularExpression(@"\d{1,1}", ErrorMessage = "Ошибка ввода!")]
+        [Required(ErrorMessage = "Required!")]
+        [Display(Name = "Time to answer (min)")]
+        [Range(1, 9, ErrorMessage = "Between 1 and 9 minutes")]
+        [RegularExpression(@"\d{1,1}", ErrorMessage = "Input error!")]
         public byte TimeToAnswer { get; set; }
 
         [Required]
@@ -26,7 +26,7 @@ namespace Hrm.Web.Models.Test
         public string Answer { get; set; }
 
         [Required(ErrorMessage = "*")]
-        [Display(Name = "Правильный")]
+        [Display(Name = "Correct")]
         public bool IsCorrect { get; set; }
     }
 }

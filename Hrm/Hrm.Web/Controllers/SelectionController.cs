@@ -46,6 +46,11 @@ namespace Hrm.Web.Controllers
         public ActionResult Index(int id)
         {
             this.CurrentJobId = id;
+            var curJob = this.jobsRepo.FindOne(new ByIdSpecify<Job>(id));
+            ViewBag.JobName = curJob.Title;
+            ViewBag.Department = curJob.Department.Title;
+            ViewBag.ProjectName = curJob.Project.Title;
+            ViewBag.Salary = curJob.Salary;
 
             return View();
         }
@@ -112,10 +117,11 @@ namespace Hrm.Web.Controllers
                         userEsitmate = userSkills.Single(x => x.SkillId == jobSkill.SkillId).Estimate;
                     }
 
-                    jobApp.PercentMatchJobProfile += (userEsitmate - jobSkill.Estimate) * jobSkill.Estimate;
-                    jobApp.Variance += Convert.ToInt32(Math.Pow(userEsitmate, 2) - Math.Pow(jobSkill.Estimate, 2));
+                    jobApp.PercentMatchJobProfile += ((double)userEsitmate / 10 - (double)jobSkill.Estimate / 10) * (double)jobSkill.Estimate / 10;
+                    jobApp.Variance += Math.Pow((double)userEsitmate / 10, 2) - Math.Pow((double)jobSkill.Estimate / 10, 2);
                 }
 
+                jobApp.Variance = Math.Round(jobApp.Variance, 2);
                 //var totalJobSkillEst = jobSkills.Sum(x => x.Estimate);
                 //var candPercentage = jobApp.PercentMatchJobProfile * 100 / totalJobSkillEst;
                 //jobApp.PercentMatchJobProfile = (candPercentage < 0) ? 100 - Math.Abs(candPercentage) : candPercentage;
@@ -204,7 +210,7 @@ namespace Hrm.Web.Controllers
                     var skillData = new ChartSeriesModel
                         {
                             Name = skillCat.First().SkillCategory.Name,
-                            CategoryAvgEstimate = (double)skillCat.Sum(x => x.Estimate) / skillCat.Count()
+                            CategoryAvgEstimate = Math.Round((double)skillCat.Sum(x => x.Estimate) / skillCat.Count(), 2)
                         };
 
                     foreach (var jobSkill in skillCat)

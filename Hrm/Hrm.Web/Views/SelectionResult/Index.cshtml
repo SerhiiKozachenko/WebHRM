@@ -10,6 +10,20 @@
 
 @section scripts
 {
+    <style>
+        .k-grid  .k-grid-header  .k-header  .k-link {
+            height: auto;
+        }
+  
+        .k-grid  .k-grid-header  .k-header {
+            white-space: normal;
+        }
+        .container-fluid {
+            width: 1400px !important;
+            margin-left: -150px !important;
+        }
+    </style>
+
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
     <script src="../../Scripts/kendo-ui/kendo.web.min.js" type="text/javascript"></script>
@@ -34,7 +48,16 @@
             <div>
                 <div class="details">
                     <dl class="dl-horizontal">
-                     
+                         <dt>First Name:</dt>
+                         <dd>#= FirstName #</dd>
+        
+                         <dt>Middle Name:</dt>
+                         <dd>#= MiddleName #</dd>
+        
+                         <dt>Last Name:</dt>
+                         <dd>#= LastName #</dd>             
+        
+
                          <dt>Phone number:</dt>
                          <dd>#= PhoneNumber #</dd>
 
@@ -289,7 +312,7 @@
                         detailTemplate: kendo.template($("#detail-row").html()),
                         detailInit: detailInit,
                         toolbar: [
-                            { text: 'Edit', template: '<button class="btn" onclick="edit()"><i class="icon-edit"></i> Edit</button>' },
+                            { text: 'Enter interview result', template: '<button class="btn btn-primary pull-right" onclick="edit()"><i class="icon-edit"></i> Enter interview result</button>' },
                             { template: $("#toolbar").html() }
                         ],
 
@@ -297,14 +320,14 @@
                             { field: "LastName", title: "Last Name" },
                             { field: "FirstName", title: "First Name" },
                             { field: "MiddleName", title: "Middle Name" },
-                            { field: "HasSelected", title: "Has Selected", template: "<input type='checkbox' name='HasSelected' #= HasSelected? 'checked' : '' # disabled='disabled' />", },
-                            { field: "HasTested", title: "Has Tested", template: "<input type='checkbox' name='HasTested' #= HasTested? 'checked' : '' # disabled='disabled' />", },
-                            { field: "HasInterviewed", title: "Has Interviewed", template: "<input type='checkbox' name='HasInterviewed' #= HasInterviewed? 'checked' : '' # disabled='disabled' />", },
-                            { field: "PercentMatchJobProfile", title: "Integrated indicator" },
+                            { field: "HasSelected", title: "Has Selected",attributes:{style:"text-align:right;"}, template: "<input type='checkbox' name='HasSelected' #= HasSelected? 'checked' : '' # disabled='disabled' />", },
+                            { field: "HasTested", title: "Has Tested",attributes:{style:"text-align:right;"}, template: "<input type='checkbox' name='HasTested' #= HasTested? 'checked' : '' # disabled='disabled' />", },
+                            { field: "HasInterviewed", title: "Has Interviewed",attributes:{style:"text-align:right;"}, template: "<input type='checkbox' name='HasInterviewed' #= HasInterviewed? 'checked' : '' # disabled='disabled' />", },
+                            { field: "PercentMatchJobProfile", title: "Integrated indicator", attributes: { style: "text-align:right;" } },
                             { field: "InterviewResult", title: "Interview Result", values: interviewResults, hidden: true },
                             { field: "InterviewComment", title: "Interview Comment", editor: textAreaEditor, hidden: true },
-                            { field: "Variance", title: "Variance" },
-                            { field: "TestsCompleted", title: "Test Completed" },
+                            { field: "Variance", title: "Variance", attributes: { style: "text-align:right;" } },
+                            { field: "TestsCompleted", title: "Test Completed", attributes: { style: "text-align:right;" } },
                             { field: "JobId", title: "Job", values: jobs }
                         ]
                     });                    
@@ -357,13 +380,19 @@
                  <dl class="dl-horizontal" style="margin-left: -60px;">
                      
                      <dt>Project Title:</dt>
-                     <dd>Web Site with Charts</dd>
+                     <dd>@ViewBag.ProjectTitle</dd>
 
                      <dt>Description:</dt>
-                     <dd>Web Site on .net Technoly with DataBase on MS Sql</dd>
+                     <dd>@ViewBag.ProjectDesc</dd>
                      
-                     <dt>Command:</dt>
-                     <dd>4 people</dd>
+                     <dt>Start Date:</dt>
+                     <dd>@ViewBag.ProjectStartDate</dd>
+                     
+                     <dt>End Date:</dt>
+                     <dd>@ViewBag.ProjectEndDate</dd>
+                     
+                     <dt>Team count:</dt>
+                     <dd>@ViewBag.ProjectTeamCount</dd>
 
                  </dl>
                  

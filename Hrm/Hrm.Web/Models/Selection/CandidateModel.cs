@@ -20,8 +20,8 @@ namespace Hrm.Web.Models.Selection
 
         public JobApplicationStatuses Status { get; set; }
 
-        public int PercentMatchJobProfile { get; set; }
+        public double PercentMatchJobProfile { get; set; }
 
-        public int Variance { get; set; }
+        public double Variance { get; set; }
     }
 }

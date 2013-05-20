@@ -127,7 +127,7 @@ namespace Hrm.Web.Controllers
         [HttpPost]
         public ActionResult AddQuestionEdit()
         {
-            var model = new CreateQuestionsModel { Answers = new List<AnswerModel> { new AnswerModel { Answer = "Незнаю" } } };
+            var model = new CreateQuestionsModel { Answers = new List<AnswerModel> { new AnswerModel { Answer = "I don't know" } } };
 
             return PartialView("_PartialAddQuestionEditForm", model);
         }

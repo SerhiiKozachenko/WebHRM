@@ -9,6 +9,17 @@
 }
 @section scripts
 {
+    <style>
+        .k-grid  .k-grid-header  .k-header  .k-link {
+            height: auto;
+        }
+  
+        .k-grid  .k-grid-header  .k-header {
+            white-space: normal;
+        }
+       
+    </style>
+
     <script src="../../Scripts/kendo-ui/kendo.web.min.js" type="text/javascript"></script>
 
     <script type="text/x-kendo-template" id="toolbar-dropdown">
@@ -101,8 +112,8 @@
                         columns: [
                             { field: "Title", title: "Title", width: 150 },
                             { field: "Description", title: "Description", width: 200, editor: descriptionEditor },
-                            { field: "StartDate", title: "Start Date",format: "{0:MM/dd/yyyy}"},
-                            { field: "EndDate", title: "End Date", format: "{0:MM/dd/yyyy}" },
+                            { field: "StartDate", title: "Start Date", format: "{0:MM/dd/yyyy}", attributes: { style: "text-align:right;" } },
+                            { field: "EndDate", title: "End Date", format: "{0:MM/dd/yyyy}", attributes: { style: "text-align:right;" } },
                             //{ field: "Status", title: "Status", width: 100, format: "{0:c}" },
                             { field: "ProjectFormalizeNameId", sortable: false, title: "Formalize Name", values: formalizeNames, width: 110 }
                         ]

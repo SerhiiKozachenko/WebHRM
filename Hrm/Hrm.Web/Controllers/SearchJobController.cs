@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Hrm.Data.EF.Models;
+using Hrm.Data.EF.Models.Enums;
 using Hrm.Data.EF.Repositories.Contracts;
 using Hrm.Data.EF.Specifications.Implementations.Common;
 using Hrm.Data.EF.Specifications.Implementations.Users;
@@ -96,6 +97,7 @@ namespace Hrm.Web.Controllers
         {
             var jobApplication = Mapper.Map<JobApplication>(model);
             jobApplication.FilingDate = DateTime.Now;
+            jobApplication.InterviewResult = InterviewResults.UnderConsideration;
             this.jobsAppRepo.SaveOrUpdate(jobApplication);
 
             return RedirectToAction("Index");

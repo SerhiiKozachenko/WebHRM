@@ -15,18 +15,18 @@
 @if(ViewBag.correctAnswers>ViewBag.totalQuestios/2)
 {
     <div class="alert alert-success">
-        <h2>Ваш результат :</h2>
+        <h2>Your result :</h2>
         <p>
-            Количество правильных ответов @ViewBag.correctAnswers из @ViewBag.totalQuestios
+            Count of the correct answers @ViewBag.correctAnswers из @ViewBag.totalQuestios
         </p>
     </div>
 }
 else
 {
      <div class="alert alert-error">
-        <h2>Ваш результат :</h2>
+        <h2>Your result :</h2>
          <p>
-             Количество правильных ответов @ViewBag.correctAnswers из @ViewBag.totalQuestios
+             Count of the correct answers @ViewBag.correctAnswers из @ViewBag.totalQuestios
          </p>
          
          @Html.ActionLink("Go to Assigned Tests list", "Index", "AssignedTest")

@@ -46,6 +46,12 @@ namespace Hrm.Web.Controllers
         public ActionResult Index(long id)
         {
             this.CurrentProjectId = id;
+            var curProj = this.projRepo.FindOne(new ByIdSpecify<Project>(id));
+            ViewBag.ProjectTitle = curProj.Title;
+            ViewBag.ProjectDesc = curProj.Description;
+            ViewBag.ProjectStartDate = curProj.StartDate.ToShortDateString();
+            ViewBag.ProjectEndDate = curProj.EndDate.ToShortDateString();
+            ViewBag.ProjectTeamCount = 8;
             return View();
         }
 
@@ -117,10 +123,11 @@ namespace Hrm.Web.Controllers
                         userEsitmate = userSkills.Single(x => x.SkillId == jobSkill.SkillId).Estimate;
                     }
 
-                    candidate.PercentMatchJobProfile += (userEsitmate - jobSkill.Estimate) * jobSkill.Estimate;
-                    candidate.Variance += Convert.ToInt32(Math.Pow(userEsitmate, 2) - Math.Pow(jobSkill.Estimate, 2));
+                    candidate.PercentMatchJobProfile += ((double)userEsitmate / 10 - (double)jobSkill.Estimate / 10) * (double)jobSkill.Estimate / 10;
+                    candidate.Variance += Math.Pow((double)userEsitmate / 10, 2) - Math.Pow((double)jobSkill.Estimate / 10, 2);
                 }
 
+                candidate.Variance = Math.Round(candidate.Variance, 2);
                 //var totalJobSkillEst = jobSkills.Sum(x => x.Estimate);
                 //var candPercentage = candidate.PercentMatchJobProfile * 100 / totalJobSkillEst;
                 //candidate.PercentMatchJobProfile = (candPercentage<0) ? 100 -  Math.Abs(candPercentage) : candPercentage;
@@ -164,12 +171,12 @@ namespace Hrm.Web.Controllers
             {
                 curJob = this.jobsRepo.FindOne(new ByIdSpecify<Job>(jobId.Value));
 
-                skillNames.AddRange(curJob.JobSkills.Select(x => x.Skill).Select(x => x.Name));
+                skillNames.AddRange(curJob.JobSkills.Where(x=>x.Estimate > 0).Select(x => x.Skill).Select(x => x.Name));
 
                 skillsData.Add(new ChartSeriesModel
                     {
                         Name = "Job Profile",
-                        Data = curJob.JobSkills.Select(x => double.Parse(x.Estimate.ToString())).ToList(),
+                        Data = curJob.JobSkills.Where(x=>x.Estimate > 0).Select(x => double.Parse(x.Estimate.ToString())).ToList(),
                         YAxis = 0
                     });
             }
@@ -183,7 +190,7 @@ namespace Hrm.Web.Controllers
                 var userSkills = new List<UserSkill>();
                 if (curJob != null)
                 {
-                    userSkills = candidate.UsersSkills.Where(x => curJob.JobSkills.Any(a => a.SkillId == x.SkillId)).ToList();
+                    userSkills = candidate.UsersSkills.Where(x => curJob.JobSkills.Any(a => a.SkillId == x.SkillId && a.Estimate > 0)).ToList();
                 }
                 else
                 {

@@ -20,23 +20,23 @@
 {
     @Html.ValidationSummary(true)
     <fieldset class="thumbnail">
-        <legend>Прохождение теста №@Model.Id</legend>
+        <legend>Passing Test №@Model.Id</legend>
         <br />
         
         <!-- Timer -->
         <div id="timer">
-            <h4>Время на ответ :</h4>
+            <h4>Time to answer :</h4>
             <br/>
             <div id="counter"></div>
             <div class="desc">
-                <div>Минуты</div>
-                <div>Секунды</div>
+                <div>Minutes</div>
+                <div>Seconds</div>
             </div>
         </div>
         <!-- End Timer -->
         
         
-        <div id="finishLabel" class="alert alert-info hide"> Для завершения нажмите кнопку "Готово".</div>
+        <div id="finishLabel" class="alert alert-info hide"> Preess "Finish" to finish the test passing.</div>
         <br/>
         <br/>
         @Html.HiddenFor(model => model.Id)
@@ -55,7 +55,7 @@
                                 <div class="control-group">
                                     
                                         <h3 class="pull-left">
-                                            Вопрос @index : @question.QuestionValue</h3>
+                                            Question @index : @question.QuestionValue</h3>
                                   
                                     <div class="controls">
                                         @Html.HiddenFor(model => model.Questions[index-1].Id)
@@ -74,7 +74,7 @@
                                         <div id="AnswerContainer[@aindex]">
                                             <div class="control-group">
                                                 <div class="control-label">
-                                                    <span>Вариант @aindex :</span>
+                                                    <span>Option @aindex :</span>
                                                 </div>
                                                 <div class="controls">
                                                     @Html.CheckBoxFor(model => model.Questions[index-1].Answers[aindex-1].IsChoisen,new {onclick="Choice("+index+",this)"})
@@ -99,7 +99,7 @@
                         <!--Question -->
                         <div class="control-group">
                             <h3 class="pull-left">
-                                            Вопрос @index : @question.QuestionValue</h3>
+                                            Question @index : @question.QuestionValue</h3>
                             <div class="controls">
                                 @Html.HiddenFor(model => model.Questions[index-1].Id)
                                 @Html.HiddenFor(model => model.Questions[index-1].QuestionValue)
@@ -118,7 +118,7 @@
                                                 <div id="AnswerContainer[@aindex]">
                                                     <div class="control-group">
                                                         <div class="control-label">
-                                                            <span>Вариант @aindex :</span>
+                                                            <span>Option @aindex :</span>
                                                         </div>
                                                         <div class="controls">
                                                             @Html.CheckBoxFor(model => model.Questions[index-1].Answers[aindex-1].IsChoisen,new {onclick="Choice("+index+",this)"})
@@ -141,8 +141,8 @@
             }
         }
         <div class="form-actions">
-            <input type="submit" value="Готово" class="btn btn-primary hide pull-right" id="finishBtn"/>
-            <input class="btn hide pull-right" id="nextBtn" value="Далее" type="button" onclick="Next()"/>
+            <input type="submit" value="Finish" class="btn btn-primary hide pull-right" id="finishBtn"/>
+            <input class="btn hide pull-right" id="nextBtn" value="Next" type="button" onclick="Next()"/>
         </div>
     </fieldset>
 }
