@@ -115,6 +115,8 @@ namespace Hrm.Web.Controllers
                 candidate.JobId = job.Id;
                 var jobSkills = job.JobSkills;
                 var userSkills = user.UsersSkills;
+                int usersSkillSum = 0;
+                var jobSkillSum = 0;
                 foreach (var jobSkill in jobSkills)
                 {
                     int userEsitmate = 0;
@@ -124,10 +126,14 @@ namespace Hrm.Web.Controllers
                     }
 
                     candidate.PercentMatchJobProfile += ((double)userEsitmate / 10 - (double)jobSkill.Estimate / 10) * (double)jobSkill.Estimate / 10;
-                    candidate.Variance += Math.Pow((double)userEsitmate / 10, 2) - Math.Pow((double)jobSkill.Estimate / 10, 2);
+                    //candidate.Variance += Math.Pow((double)userEsitmate / 10, 2) - Math.Pow((double)jobSkill.Estimate / 10, 2);
+                    candidate.Variance += Math.Pow((double)userEsitmate / 10 - (double)jobSkill.Estimate / 10, 2);
+                    usersSkillSum += userEsitmate;
+                    jobSkillSum += jobSkill.Estimate;
                 }
 
-                candidate.Variance = Math.Round(candidate.Variance, 2);
+                candidate.PercentMatchJobProfile = 1 + candidate.PercentMatchJobProfile;
+                candidate.Variance = Math.Round(candidate.Variance / (jobSkillSum), 2);
                 //var totalJobSkillEst = jobSkills.Sum(x => x.Estimate);
                 //var candPercentage = candidate.PercentMatchJobProfile * 100 / totalJobSkillEst;
                 //candidate.PercentMatchJobProfile = (candPercentage<0) ? 100 -  Math.Abs(candPercentage) : candPercentage;

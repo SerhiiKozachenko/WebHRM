@@ -109,6 +109,8 @@ namespace Hrm.Web.Controllers
                 
                 var jobSkills = job.JobSkills;
                 var userSkills = this.usersRepo.FindOne(new ByIdSpecify<User>(jobApp.UserId)).UsersSkills;
+                int usersSkillSum = 0;
+                var jobSkillSum = 0;
                 foreach (var jobSkill in jobSkills)
                 {
                     int userEsitmate = 0;
@@ -118,10 +120,15 @@ namespace Hrm.Web.Controllers
                     }
 
                     jobApp.PercentMatchJobProfile += ((double)userEsitmate / 10 - (double)jobSkill.Estimate / 10) * (double)jobSkill.Estimate / 10;
-                    jobApp.Variance += Math.Pow((double)userEsitmate / 10, 2) - Math.Pow((double)jobSkill.Estimate / 10, 2);
+                    //jobApp.Variance += Math.Pow((double)userEsitmate / 10, 2) - Math.Pow((double)jobSkill.Estimate / 10, 2);
+                    jobApp.Variance += Math.Pow((double)userEsitmate / 10 - (double)jobSkill.Estimate / 10, 2);
+                    usersSkillSum += userEsitmate;
+                    jobSkillSum += jobSkill.Estimate;
                 }
 
-                jobApp.Variance = Math.Round(jobApp.Variance, 2);
+
+                jobApp.PercentMatchJobProfile = 1 + jobApp.PercentMatchJobProfile;
+                jobApp.Variance = Math.Round(jobApp.Variance / (jobSkillSum), 2);
                 //var totalJobSkillEst = jobSkills.Sum(x => x.Estimate);
                 //var candPercentage = jobApp.PercentMatchJobProfile * 100 / totalJobSkillEst;
                 //jobApp.PercentMatchJobProfile = (candPercentage < 0) ? 100 - Math.Abs(candPercentage) : candPercentage;
