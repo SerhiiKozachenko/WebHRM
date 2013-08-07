@@ -184,3 +184,5 @@ D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\obj\Debug\Hrm.Web.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\obj\Debug\Hrm.Web.pdb
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\Hrm.Data.EF.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\Hrm.Data.EF.pdb
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\itextsharp.dll
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Web\bin\RazorPDF.dll

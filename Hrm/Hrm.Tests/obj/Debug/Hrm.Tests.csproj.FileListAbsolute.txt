@@ -93,7 +93,6 @@ D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\System.Web.WebPages.Depl
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\System.Web.WebPages.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\System.Web.WebPages.Razor.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\System.Web.Optimization.dll
-D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Hrm.Core.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Castle.Windsor.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Microsoft.Practices.ServiceLocation.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\AutoMapper.dll
@@ -103,14 +102,12 @@ D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\NHibernate.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\WebActivator.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\DataAnnotationsExtensions.ClientValidation.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\CoffeeSharp.dll
-D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Hrm.Data.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Iesi.Collections.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\FluentValidation.Mvc.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\DataAnnotationsExtensions.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\WebGrease.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Castle.Core.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Jurassic.dll
-D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\FluentNHibernate.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Antlr3.Runtime.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Hrm.Web.pdb
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Newtonsoft.Json.xml
@@ -125,7 +122,6 @@ D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\System.Web.Razor.xml
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\System.Web.WebPages.xml
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\System.Web.WebPages.Deployment.xml
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\System.Web.WebPages.Razor.xml
-D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Hrm.Core.pdb
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Castle.Windsor.xml
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Microsoft.Practices.ServiceLocation.xml
@@ -134,11 +130,9 @@ D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\FluentValidation.pdb
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\FluentValidation.xml
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\KendoWrapper.pdb
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\NHibernate.xml
-D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Hrm.Data.pdb
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Iesi.Collections.xml
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\FluentValidation.Mvc.pdb
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Castle.Core.xml
-D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\FluentNHibernate.xml
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\de\FluentValidation.resources.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\es\FluentValidation.resources.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\fr\FluentValidation.resources.dll
@@ -152,3 +146,9 @@ D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\tr\FluentValidation.reso
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\obj\Debug\Hrm.Tests.csprojResolveAssemblyReference.cache
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\obj\Debug\Hrm.Tests.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\obj\Debug\Hrm.Tests.pdb
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Hrm.Data.EF.dll
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\EntityFramework.dll
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\Hrm.Data.EF.pdb
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\EntityFramework.xml
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\RazorPDF.dll
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Tests\bin\Debug\itextsharp.dll

@@ -5,9 +5,9 @@ D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Data.EF\bin\Debug\EntityFramework.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Data.EF\bin\Debug\EntityFramework.xml
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Data.EF\obj\Debug\Hrm.Data.EF.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Data.EF\obj\Debug\Hrm.Data.EF.pdb
-D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Data.EF\obj\Debug\Hrm.Data.EF.Migrations.Test.resources
-D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Data.EF\obj\Debug\Hrm.Data.EF.csproj.GenerateResource.Cache
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Data.EF\obj\Debug\Hrm.Data.EF.csprojResolveAssemblyReference.cache
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Data.EF\bin\Debug\Microsoft.Practices.ServiceLocation.dll
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Data.EF\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
 D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Data.EF\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Data.EF\obj\Debug\Hrm.Data.EF.Migrations.Initial.resources
+D:\Diplom\Project\WebHRM\WebHRM\Hrm\Hrm.Data.EF\obj\Debug\Hrm.Data.EF.csproj.GenerateResource.Cache
